@@ -1,0 +1,355 @@
+PODS:
+  - AFNetworking (2.6.0):
+    - AFNetworking/NSURLConnection (= 2.6.0)
+    - AFNetworking/NSURLSession (= 2.6.0)
+    - AFNetworking/Reachability (= 2.6.0)
+    - AFNetworking/Security (= 2.6.0)
+    - AFNetworking/Serialization (= 2.6.0)
+    - AFNetworking/UIKit (= 2.6.0)
+  - AFNetworking/NSURLConnection (2.6.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.0)
+  - AFNetworking/Security (2.6.0)
+  - AFNetworking/Serialization (2.6.0)
+  - AFNetworking/UIKit (2.6.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - AFOAuth2Client (0.1.2):
+    - AFNetworking (~> 2.0)
+  - Appirater (2.0.5)
+  - BBlock (1.2.1):
+    - BBlock/AppKit (= 1.2.1)
+    - BBlock/Foundation (= 1.2.1)
+    - BBlock/StoreKit (= 1.2.1)
+    - BBlock/UIKit (= 1.2.1)
+  - BBlock/Foundation (1.2.1)
+  - BBlock/StoreKit (1.2.1)
+  - BBlock/UIKit (1.2.1)
+  - BButton (4.0.2)
+  - Bolts (1.3.0):
+    - Bolts/AppLinks (= 1.3.0)
+    - Bolts/Tasks (= 1.3.0)
+  - Bolts/AppLinks (1.3.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.3.0)
+  - CocoaAsyncSocket (7.4.1)
+  - CocoaLumberjack (1.9.2):
+    - CocoaLumberjack/Extensions (= 1.9.2)
+  - CocoaLumberjack/Core (1.9.2)
+  - CocoaLumberjack/Extensions (1.9.2):
+    - CocoaLumberjack/Core
+  - CPAProxy (1.0.0)
+  - EGOCache (2.1.3)
+  - Facebook-iOS-SDK (3.19.0):
+    - Bolts (~> 1.0)
+  - FSImageViewer (3.4):
+    - AFNetworking (~> 2.5)
+    - EGOCache (~> 2.1)
+    - UAProgressView (~> 0.1)
+  - gtm-oauth2 (0.1.0):
+    - GTMHTTPFetcher
+  - GTMHTTPFetcher (1.141)
+  - HockeySDK (3.8.2):
+    - HockeySDK/AllFeaturesLib (= 3.8.2)
+  - HockeySDK/AllFeaturesLib (3.8.2)
+  - JSQMessagesViewController (7.2.0):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
+  - JTTargetActionBlock (1.0.0)
+  - JVFloatLabeledTextField (0.0.9)
+  - MagicalRecord (2.3.0)
+  - Mantle (1.5.5):
+    - Mantle/extobjc (= 1.5.5)
+  - Mantle/extobjc (1.5.5)
+  - MBProgressHUD (0.9.1)
+  - MWFeedParser (1.0.1):
+    - MWFeedParser/FeedParser (= 1.0.1)
+    - MWFeedParser/NSDate+InternetDateTime (= 1.0.1)
+    - MWFeedParser/NSString+HTML (= 1.0.1)
+  - MWFeedParser/FeedParser (1.0.1):
+    - MWFeedParser/NSDate+InternetDateTime
+    - MWFeedParser/NSString+HTML
+  - MWFeedParser/NSDate+InternetDateTime (1.0.1)
+  - MWFeedParser/NSString+HTML (1.0.1)
+  - Navajo (0.0.1)
+  - OpenInChrome (0.0.1)
+  - OTRKit (1.0.0)
+  - ProxyKit/Client (1.0.2):
+    - ProxyKit/common
+  - ProxyKit/common (1.0.2):
+    - CocoaAsyncSocket (~> 7.3)
+    - CocoaLumberjack (~> 1.9)
+  - PureLayout (2.0.6)
+  - RMStepsController (1.0.2)
+  - SIAlertView (1.3)
+  - SQLCipher/common (3.1.0)
+  - SQLCipher/fts (3.1.0):
+    - SQLCipher/common
+  - SSKeychain (1.2.3)
+  - TTTAttributedLabel (1.13.4)
+  - UAProgressView (0.1.2)
+  - UIAlertView-Blocks (1.0)
+  - uservoice-iphone-sdk (3.2.3)
+  - VTAcknowledgementsViewController (0.15)
+  - XMPPFramework (3.6.4):
+    - XMPPFramework/All (= 3.6.4)
+  - XMPPFramework/All (3.6.4):
+    - XMPPFramework/Authentication
+    - XMPPFramework/BandwidthMonitor
+    - XMPPFramework/Categories
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/GoogleSharedStatus
+    - XMPPFramework/ProcessOne
+    - XMPPFramework/Reconnect
+    - XMPPFramework/Roster
+    - XMPPFramework/SystemInputActivityMonitor
+    - XMPPFramework/Utilities
+    - XMPPFramework/XEP-0009
+    - XMPPFramework/XEP-0012
+    - XMPPFramework/XEP-0016
+    - XMPPFramework/XEP-0045
+    - XMPPFramework/XEP-0054
+    - XMPPFramework/XEP-0059
+    - XMPPFramework/XEP-0060
+    - XMPPFramework/XEP-0065
+    - XMPPFramework/XEP-0066
+    - XMPPFramework/XEP-0082
+    - XMPPFramework/XEP-0085
+    - XMPPFramework/XEP-0092
+    - XMPPFramework/XEP-0100
+    - XMPPFramework/XEP-0106
+    - XMPPFramework/XEP-0115
+    - XMPPFramework/XEP-0136
+    - XMPPFramework/XEP-0153
+    - XMPPFramework/XEP-0172
+    - XMPPFramework/XEP-0184
+    - XMPPFramework/XEP-0191
+    - XMPPFramework/XEP-0198
+    - XMPPFramework/XEP-0199
+    - XMPPFramework/XEP-0202
+    - XMPPFramework/XEP-0203
+    - XMPPFramework/XEP-0223
+    - XMPPFramework/XEP-0224
+    - XMPPFramework/XEP-0280
+    - XMPPFramework/XEP-0297
+    - XMPPFramework/XEP-0308
+    - XMPPFramework/XEP-0333
+    - XMPPFramework/XEP-0335
+  - XMPPFramework/Authentication (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/BandwidthMonitor (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Categories (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Core (3.6.4):
+    - CocoaAsyncSocket (~> 7.4)
+    - CocoaLumberjack (~> 1.9)
+    - XMPPFramework/KissXML
+  - XMPPFramework/CoreDataStorage (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/GoogleSharedStatus (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/KissXML (3.6.4)
+  - XMPPFramework/ProcessOne (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Reconnect (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Roster (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/Utilities (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0009 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0012 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0016 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0045 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0054 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/Roster
+  - XMPPFramework/XEP-0059 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0060 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0065 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0066 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0082 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0085 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0092 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0100 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0106 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0115 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+  - XMPPFramework/XEP-0136 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0085
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0153 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0054
+  - XMPPFramework/XEP-0172 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0184 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0191 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0198 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0199 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0202 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0082
+  - XMPPFramework/XEP-0203 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0082
+  - XMPPFramework/XEP-0223 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0224 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0280 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0297 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0308 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0333 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0335 (3.6.4):
+    - XMPPFramework/Core
+  - YapDatabase/SQLCipher (2.6.5):
+    - CocoaLumberjack (~> 1)
+    - SQLCipher/fts
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.5)
+  - AFOAuth2Client (from `https://github.com/ChatSecure/AFOAuth2Client.git`, branch
+    `release`)
+  - Appirater (~> 2.0)
+  - BBlock (~> 1.2)
+  - BButton (~> 4.0)
+  - CocoaAsyncSocket (from `https://github.com/robbiehanson/CocoaAsyncSocket.git`,
+    commit `c0bbcbcc5e039ca5d732f9844bf95c3d8ee31a5b`)
+  - CocoaLumberjack (~> 1.9)
+  - CPAProxy (from `Submodules/CPAProxy/CPAProxy.podspec`)
+  - Facebook-iOS-SDK (= 3.19.0)
+  - FSImageViewer (~> 3.2)
+  - gtm-oauth2 (~> 0.1.0)
+  - HockeySDK (~> 3.6)
+  - JSQMessagesViewController (~> 7.1)
+  - JSQSystemSoundPlayer (~> 2.0.1)
+  - JTTargetActionBlock (~> 1.0)
+  - JVFloatLabeledTextField (~> 0.0)
+  - MagicalRecord (~> 2.2)
+  - Mantle (~> 1.4)
+  - MBProgressHUD (~> 0.9)
+  - MWFeedParser (~> 1.0)
+  - Navajo (~> 0.0)
+  - OpenInChrome (~> 0.0)
+  - OTRKit (from `Submodules/OTRKit/OTRKit.podspec`)
+  - ProxyKit/Client (from `Submodules/ProxyKit/ProxyKit.podspec`)
+  - PureLayout (~> 2.0)
+  - RMStepsController (~> 1.0)
+  - SIAlertView (from `https://github.com/ChatSecure/SIAlertView.git`, branch `attributedText`)
+  - SSKeychain (~> 1.2)
+  - TTTAttributedLabel (~> 1.10)
+  - UIAlertView-Blocks (~> 1.0)
+  - uservoice-iphone-sdk (~> 3.2)
+  - VTAcknowledgementsViewController (~> 0.12)
+  - XMPPFramework (from `Submodules/XMPPFramework/XMPPFramework.podspec`)
+  - YapDatabase/SQLCipher (~> 2.6.0)
+
+EXTERNAL SOURCES:
+  AFOAuth2Client:
+    :branch: release
+    :git: https://github.com/ChatSecure/AFOAuth2Client.git
+  CocoaAsyncSocket:
+    :commit: c0bbcbcc5e039ca5d732f9844bf95c3d8ee31a5b
+    :git: https://github.com/robbiehanson/CocoaAsyncSocket.git
+  CPAProxy:
+    :path: Submodules/CPAProxy/CPAProxy.podspec
+  OTRKit:
+    :path: Submodules/OTRKit/OTRKit.podspec
+  ProxyKit:
+    :path: Submodules/ProxyKit/ProxyKit.podspec
+  SIAlertView:
+    :branch: attributedText
+    :git: https://github.com/ChatSecure/SIAlertView.git
+  XMPPFramework:
+    :path: Submodules/XMPPFramework/XMPPFramework.podspec
+
+CHECKOUT OPTIONS:
+  AFOAuth2Client:
+    :commit: 6e4705c08346c3e77d9522a6d4a1876a3477f01d
+    :git: https://github.com/ChatSecure/AFOAuth2Client.git
+  CocoaAsyncSocket:
+    :commit: c0bbcbcc5e039ca5d732f9844bf95c3d8ee31a5b
+    :git: https://github.com/robbiehanson/CocoaAsyncSocket.git
+  SIAlertView:
+    :commit: e9a1a7d7d5a2a4ef5ff2e2e548644222b14edb27
+    :git: https://github.com/ChatSecure/SIAlertView.git
+
+SPEC CHECKSUMS:
+  AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
+  AFOAuth2Client: 80b745ea8b16da62d769935656631f8329fdd2a2
+  Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
+  BBlock: c56d7f72597ffe1634fcdc73836c5c0fed3271be
+  BButton: ab0f2ed3b998ae73c5188b57d270d81e4a1eeb27
+  Bolts: 805a4a87413e49d4a0c2b7d469084cbc46b09342
+  CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
+  CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
+  CPAProxy: d03f17b7945af3230ee259c65663e649cf603ad5
+  EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
+  Facebook-iOS-SDK: 2a2f22be64360c46eb76002654aba69c0ea06f5a
+  FSImageViewer: 0dea92069cce74a800b75cb8777c923f2be59124
+  gtm-oauth2: 77f49d717a973a4f324db20f1a93004fa5a3e65e
+  GTMHTTPFetcher: b73a94e2fe250f6d4e1d8d01172d961cda401520
+  HockeySDK: 9f4ac41263acf9d8a4d59491a7f17af16529b935
+  JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  JTTargetActionBlock: 6e9201e5fa88651deb354c91b7c9c6487a1abe55
+  JVFloatLabeledTextField: 46a6adc518b128ac59f77da5e855acb29902e22f
+  MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
+  Mantle: 1b29072a707453975b200a173cf77ec1e2810b75
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MWFeedParser: 2cf646014c1baf6ad1b08c480b40a08180079247
+  Navajo: 5fb68239b4e3af4610f31925bae1ca8e6bab8eaa
+  OpenInChrome: f1f3f9dec682216fe78a0d7fe0b5b263d6312c32
+  OTRKit: 696a3aac040620d39cd1cae4f5dd1fb80d7091af
+  ProxyKit: f7be31d07ed93444c433956d18e842ea9c709224
+  PureLayout: f25f0bb904d5ccfe6e31da3cb869185259f02e0d
+  RMStepsController: 195aa02c57ee5fea74483d0b9dcc30881ae7639d
+  SIAlertView: 20c794b55eaf44d888773ea51647cf8907723919
+  SQLCipher: c44fcca49c31483c2489cfb79aa7a69407f3794a
+  SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
+  TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
+  UAProgressView: 4ef6d60b4e060884cb0315e7628256f998744247
+  UIAlertView-Blocks: 7904744fca618afbd2ec646608924f5e69d5acd1
+  uservoice-iphone-sdk: 349d9ef36d3c43939d28390b9e86bb32b65fe983
+  VTAcknowledgementsViewController: 575f5841fb47b7d9c852ccb406104ea68de07b21
+  XMPPFramework: 239fe709baff208fff5970708469b939387105ee
+  YapDatabase: 814f9ff862a95c1e581d93335a4020482b69155b
+
+COCOAPODS: 0.38.2

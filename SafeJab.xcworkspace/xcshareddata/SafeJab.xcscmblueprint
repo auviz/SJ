@@ -1,0 +1,51 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "65A79C2919A5538250064F3C245A290D7BFC656E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "425D736B25093B4D45BF64638604863B9D31F2C1" : 0,
+    "98D05BCBC40AE5315578EEE7C186D3063CCA59C3" : 0,
+    "2D31E58E12E928BB18019A2FA755DD659EB4E709" : 0,
+    "B775552D1BBEEADC6A0BBB2FD048B6AA26CB309D" : 0,
+    "65A79C2919A5538250064F3C245A290D7BFC656E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5D924F0B-34F7-4B91-B0E3-82AAE188FF76",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "425D736B25093B4D45BF64638604863B9D31F2C1" : "ChatSecure-iOSSubmodules\/OTRKit",
+    "98D05BCBC40AE5315578EEE7C186D3063CCA59C3" : "ChatSecure-iOSSubmodules\/CPAProxy",
+    "2D31E58E12E928BB18019A2FA755DD659EB4E709" : "ChatSecure-iOSSubmodules\/ProxyKit",
+    "B775552D1BBEEADC6A0BBB2FD048B6AA26CB309D" : "ChatSecure-iOSSubmodules\/XMPPFramework",
+    "65A79C2919A5538250064F3C245A290D7BFC656E" : "ChatSecure-iOS"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SafeJab",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SafeJab.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:chrisballinger\/ProxyKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2D31E58E12E928BB18019A2FA755DD659EB4E709"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ChatSecure\/OTRKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "425D736B25093B4D45BF64638604863B9D31F2C1"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/chrisballinger\/ChatSecure-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "65A79C2919A5538250064F3C245A290D7BFC656E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ChatSecure\/CPAProxy.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "98D05BCBC40AE5315578EEE7C186D3063CCA59C3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ChatSecure\/XMPPFramework.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B775552D1BBEEADC6A0BBB2FD048B6AA26CB309D"
+    }
+  ]
+}
