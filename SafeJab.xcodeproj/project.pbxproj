@@ -31,6 +31,7 @@
 		608C706D1ABC62020065E77B /* VFImageCropOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608C705B1ABC62020065E77B /* VFImageCropOverlayController.m */; };
 		608C706E1ABC62020065E77B /* VFImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 608C705D1ABC62020065E77B /* VFImageCropView.m */; };
 		608C706F1ABC62020065E77B /* VFImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608C705F1ABC62020065E77B /* VFImageCropViewController.m */; };
+		6094A3691C1AED3B0004CE39 /* MUCArhive.m in Sources */ = {isa = PBXBuildFile; fileRef = 6094A3681C1AED3B0004CE39 /* MUCArhive.m */; };
 		60A24FFD1A94A3F90079793A /* updateApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A24FFC1A94A3F90079793A /* updateApp.m */; };
 		60A69F4D1A8CEBBD0041BCED /* OTRDeleteAllChats.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A69F4C1A8CEBBD0041BCED /* OTRDeleteAllChats.m */; };
 		60AE4E001AE900CA007D1C7D /* OTRFSImageViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60AE4DFE1AE900CA007D1C7D /* OTRFSImageViewerViewController.m */; };
@@ -299,6 +300,8 @@
 		608C70601ABC62020065E77B /* VFPhotoActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFPhotoActionSheet.h; sourceTree = "<group>"; };
 		608C70611ABC62020065E77B /* VFPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFPhotoPicker.h; sourceTree = "<group>"; };
 		608C70621ABC62020065E77B /* VFStandardPickerControllerProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFStandardPickerControllerProvider.h; sourceTree = "<group>"; };
+		6094A3671C1AED3B0004CE39 /* MUCArhive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUCArhive.h; sourceTree = "<group>"; };
+		6094A3681C1AED3B0004CE39 /* MUCArhive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUCArhive.m; sourceTree = "<group>"; };
 		60A24FFB1A94A3F90079793A /* updateApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = updateApp.h; sourceTree = "<group>"; };
 		60A24FFC1A94A3F90079793A /* updateApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = updateApp.m; sourceTree = "<group>"; };
 		60A69F4B1A8CEBBD0041BCED /* OTRDeleteAllChats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTRDeleteAllChats.h; sourceTree = "<group>"; };
@@ -847,6 +850,15 @@
 			path = VFInteractiveFrameView;
 			sourceTree = "<group>";
 		};
+		6094A3661C1AEC510004CE39 /* MUCArhive */ = {
+			isa = PBXGroup;
+			children = (
+				6094A3671C1AED3B0004CE39 /* MUCArhive.h */,
+				6094A3681C1AED3B0004CE39 /* MUCArhive.m */,
+			);
+			name = MUCArhive;
+			sourceTree = "<group>";
+		};
 		60BE8EB61BA310080051E205 /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -1021,6 +1033,7 @@
 		6397531118CA7CF1005D6063 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6094A3661C1AEC510004CE39 /* MUCArhive */,
 				60BE8EB61BA310080051E205 /* Location */,
 				60ED96C01B5FB09F00EBEFC7 /* GroupChat */,
 				639C60A818CA980B00CC4DF4 /* Settings */,
@@ -1857,6 +1870,7 @@
 				63F8813A19F72AB4001548AE /* OTRPasswordGenerator.m in Sources */,
 				63009E9718D122A70058976C /* OTRCreateAccountChooserViewController.m in Sources */,
 				63C9667E19183546002B1490 /* OTROnboardingRemotePushRegistrationInfoViewController.m in Sources */,
+				6094A3691C1AED3B0004CE39 /* MUCArhive.m in Sources */,
 				639C60CE18CA98F700CC4DF4 /* OTRComposingImageView.m in Sources */,
 				D9B340DA19009D8D006D5D0A /* OTRvCardYapDatabaseStorage.m in Sources */,
 				608C706A1ABC62020065E77B /* VFRectConstraint.m in Sources */,

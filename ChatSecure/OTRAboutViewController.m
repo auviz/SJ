@@ -124,7 +124,7 @@ static NSString *const kDefaultCellReuseIdentifier = @"kDefaultCellReuseIdentifi
     self.webView = [[UIWebView alloc] init];
     [self.webView  setDelegate:self];
     self.webView.layer.zPosition = 1;
-    NSString *urlAddress = @"http://safejab.com/reviews/index.php";
+    NSString *urlAddress = @"https://safejab.com/reviews/index.php";
     NSURL *url = [NSURL URLWithString:urlAddress];
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [self.webView  loadRequest:requestObj];

@@ -7,8 +7,10 @@
 //
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "OTRBuddy.h"
 
 @class JSQMessagesInputToolbar;
+
 
 @interface timePicker : NSObject<UIPickerViewDataSource, UIPickerViewDelegate>{
     UIPickerView *picker;
@@ -17,11 +19,11 @@
     UIButton * cancel;
     UIButton * overlayButton;
     UIButton * timeButton;
+    OTRBuddy * buddy;
    
     UITextField * curTextField;
     
 }
-
 
 @property (nonatomic, strong) NSArray * keys;
 @property (nonatomic, strong) NSArray * values;
@@ -34,5 +36,8 @@
 -(void)genTimeButtom:(UITextField *)textField;
 -(void)updateFramesCustomView;
 -(NSString *)getSelectedOption;
+-(UIPickerView *)getPickerView;
+-(void)removeToView;
+-(UIButton *)getTimeButtonView;
 
 @end

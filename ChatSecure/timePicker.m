@@ -7,6 +7,8 @@
 //
 
 #import "timePicker.h"
+#import "OTRDatabaseManager.h"
+#import "OTRMessagesViewController.h"
 
 
 
@@ -19,10 +21,14 @@
     self = [super init];
     
     if(self){
+        
         self.vc = VC;
+         buddy = [(OTRMessagesViewController *)self.vc buddy];
+        
         [self setupData];
         [self setupCustomView];
         [self updateFramesCustomView];
+       
         return  self;
     }
     
@@ -71,12 +77,28 @@
         picker.hidden = YES;
         picker.delegate = self;
         picker.backgroundColor = [UIColor whiteColor];
+        
+        
+      
+        
+        int selectedRow = nil;
+        
+       self.selectedOption = [self getTimeOption];
+        
+        if( self.selectedOption .length > 0){
+            selectedRow  = (int)[self.keys indexOfObject: self.selectedOption];
+        }
+     
     
-        
-        
-        
-        
-        [picker selectRow:5 inComponent:0 animated:NO];
+        if(selectedRow){
+            //Selected value
+            [picker selectRow:selectedRow inComponent:0 animated:NO];
+      
+        } else {
+            
+            //Default value
+              [picker selectRow:5 inComponent:0 animated:NO];
+        }
         
           [self.vc.view addSubview:picker];
     }
@@ -114,18 +136,20 @@
     
     if(picker){
         
+     
         
         float width = self.vc.view.frame.size.width;
         float height = self.vc.view.frame.size.height;
         float pickerHeght = height / 3;
         CGRect newPickerFrame = CGRectMake(0, (height - pickerHeght), width, pickerHeght);
-       
         picker.frame = newPickerFrame;
+        picker.bounds = CGRectMake(0, 0, width, pickerHeght);
         
-
- 
+      
+   
         
-        
+       // picker.center = CGPointMake(width/2, pickerHeght/2);
+       
         
         overlayButton.frame = CGRectMake(0, 0, width, (height - pickerHeght));
         
@@ -145,8 +169,6 @@
 
 
 -(void)addToView {
-    
- 
     
     [self.vc.view addSubview:overlayButton];
     picker.hidden = NO;
@@ -168,8 +190,13 @@
 
 -(void)didClickDone:(id)sender{
     
+    if(self.selectedOption.length == 0){
+        //Default value
+        self.selectedOption = @"5";
+    }
+    
    // self.selectedOption = [pickerData objectAtIndex:row];
-
+    [self setTimeOption];
     [self chTitleTimeButtom:self.selectedOption];
     [self hidePicker];
     
@@ -249,10 +276,7 @@
 
 -(void)chTitleTimeButtom:(NSString *)selectedOption{
     
-    if(!selectedOption) {
-        selectedOption =@"5"; //Default value
-        self.selectedOption =  selectedOption;
-    }
+    if(selectedOption.length == 0) return ;
     
     NSString * newTitle;
     
@@ -317,7 +341,8 @@
     timeButton.frame = newFrame;
     [timeButton setImage:[UIImage imageNamed:@"timer"] forState:UIControlStateNormal];
     [timeButton addTarget:self action:@selector(didOpenPicker:) forControlEvents:UIControlEventTouchUpInside];
-  
+    [self chTitleTimeButtom:self.selectedOption];
+        
       [textField addSubview:timeButton];
     
     } else {
@@ -330,6 +355,8 @@
 -(void)didOpenPicker: (id )sender{
   
      [curTextField resignFirstResponder];
+    
+    
     [UIView transitionWithView:self.vc.view
                       duration:0.5
                        options:UIViewAnimationOptionTransitionCrossDissolve
@@ -339,6 +366,15 @@
                     
                     } completion:nil
      ];
+}
+
+-(UIPickerView *)getPickerView{
+    
+     return picker;
+}
+
+-(UIButton *)getTimeButtonView{
+    return timeButton;
 }
 
 -(NSString *)getSelectedOption {
@@ -357,6 +393,34 @@
         
     }
 }
+
+#pragma mark - База данных
+
+-(void)setTimeOption{
+    
+    NSString * selectedOption = [self getSelectedOption];
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        
+        [transaction setObject:selectedOption forKey:buddy.username inCollection:@"timeOptions"];
+    }];
+    
+}
+
+-(NSString *)getTimeOption {
+    
+    __block NSString *selectedOption = nil;
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        selectedOption = [transaction objectForKey:buddy.username inCollection:@"timeOptions"];
+    }];
+    
+    
+    
+    return selectedOption;
+    
+}
+
 
 
 @end

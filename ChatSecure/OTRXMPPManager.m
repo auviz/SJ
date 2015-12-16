@@ -64,6 +64,7 @@
 
 
 #import "OTRComposeViewController.h"
+#import "MUCArhive.h"
 
 NSString *const OTRXMPPRegisterSucceededNotificationName = @"OTRXMPPRegisterSucceededNotificationName";
 NSString *const OTRXMPPRegisterFailedNotificationName    = @"OTRXMPPRegisterFailedNotificationName";
@@ -607,8 +608,12 @@ static int groupChatNotGoodAttempts_ = 0;
     
 
         [groupChatManager willJoinAllRooms];
+   
+    //Нужен для приема сообщений в групповом чате
+  
     
     dispatch_async(dispatch_get_main_queue(), ^{
+          [self setTimerMUCArchive];
         self.location = [[OTRLocation alloc] init];
         [self.location start]; //Отправляю координаты на сервер
     });
@@ -716,6 +721,8 @@ static int groupChatNotGoodAttempts_ = 0;
 {
     
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+    
+
     
     if([self isReceiveInvite:xmppMessage]) return ; //Если это просто приглашение нах оно нам в базе )
    if([self isReciveIOpenSecurMessage:xmppMessage]) return ; //Если это сообщение о прочтении секурного сообщения то нах оно нам в базе
@@ -1011,7 +1018,7 @@ static int groupChatNotGoodAttempts_ = 0;
         }];
     }
     self.isXmppConnected = NO;
-    
+    [self clearTimerMUCArchive];
      [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_XMPP_STREAM_DID_DISCONNECT object:self];
 }
 
@@ -1194,7 +1201,7 @@ static int groupChatNotGoodAttempts_ = 0;
     }
     
     
-    NSString *str = [NSString stringWithFormat:@"http://safejab.com/apns.php?task=msg&to=%@&from=%@&body=%@", roomID, from, @"Test"];
+    NSString *str = [NSString stringWithFormat:@"https://safejab.com/apns.php?task=msg&to=%@&from=%@&body=%@", roomID, from, @"Test"];
     
     
     NSURL *url = [NSURL URLWithString:str];
@@ -1238,12 +1245,12 @@ if(!isOTRMes)
     if ([text length])
     {
         NSString * messageID = message.messageId;
-        
+        NSString * roomID;
          //При отправке сообщения нас интересует тип сообщения (Групповое или Личное)
         NSString * messageType = @"";
         if(SafeJabTypeIsEqual(buddy.username, MUC_JABBER_HOST)){
             
-              NSString * roomID =  [ [XMPPJID jidWithString:buddy.username] user];
+              roomID =  [ [XMPPJID jidWithString:buddy.username] user];
             
             [self sendPushForRoomFrom:self.account.username roomID:roomID body:message.text];
             
@@ -1260,8 +1267,33 @@ if(!isOTRMes)
         [xmppMessage addBody:text];
 
         [xmppMessage addActiveChatState];
+        
+    
+    
+        
+        
+        if([messageType isEqualToString:@"groupchat"]){
+            
+            NSString *from = [NSString stringWithFormat:@"%@/%@", buddy.username, self.account.username];
+            [xmppMessage addAttributeWithName:@"from" stringValue:from];
+            
+            
+            NSXMLElement *delay = [NSXMLElement elementWithName:@"delay" stringValue:@"placeToInsertDelay"];
+          /*
+            [delay addAttributeWithName:@"xmlns" stringValue:@"urn:xmpp:delay"];
+            [delay addAttributeWithName:@"from" stringValue:MUC_JABBER_HOST];
+            [delay addAttributeWithName:@"stamp" stringValue:[MUCArhive timeStamp]];
+             */
+             [xmppMessage addChild:delay];
+         
+            
+        [MUCArhive saveRoomMessage:roomID message:(XMPPMessage *)xmppMessage from:self.account.username]; //Zig test
+       
+        } else {
+            [self.xmppStream sendElement:xmppMessage];
+        }
+        
 		
-		[self.xmppStream sendElement:xmppMessage];
     }
 }
 }
@@ -1313,6 +1345,11 @@ if(!isOTRMes)
         }
         else if (chatState == kOTRChatStateComposing)
         {
+              shouldSend = NO;
+            
+            /*
+             Запрещаю показывать статус печатаю (надо будет исправить zigzagpoint)
+             
             if(buddy.lastSentChatState !=kOTRChatStateComposing)
                 [xMessage addComposingChatState];
             else
@@ -1323,6 +1360,7 @@ if(!isOTRMes)
                 [self restartPausedChatStateTimerForBuddyObjectID:buddy.uniqueId];
                 [[self inactiveChatStateTimerForBuddyObjectID:buddy.uniqueId] invalidate];
             });
+             */
         }
         else if(chatState == kOTRChatStateInactive)
         {
@@ -1841,5 +1879,69 @@ managedBuddyObjectID
     }
     return NO;
 }
+
+#pragma mark - Прием групповых сообщений
+-(void)setTimerMUCArchive{
+    
+    if(!self.timerMUCArchive){
+        
+        self.timerMUCArchive = [NSTimer scheduledTimerWithTimeInterval: 1.0
+                                                         target: self
+                                                       selector: @selector(actionTimerMUCArchive)
+                                                       userInfo: nil
+                                                        repeats: YES];
+    }
+}
+
+-(void)clearTimerMUCArchive{
+    [self.timerMUCArchive invalidate];
+    self.timerMUCArchive = nil;
+}
+
+-(void)actionTimerMUCArchive{
+    
+    NSArray *rooms  =   [[groupChatManager sharedRoomsWithFriends] allKeys];
+    
+    
+    if(rooms.count >0){
+        
+        for(NSString *roomID in rooms){
+            
+            [self receiveAllMessagesByRoomId:roomID];
+            
+        }
+        
+    }
+
+}
+
+
+
+-(void)receiveAllMessagesByRoomId:(NSString *)roomID{
+    [MUCArhive getRoomMessages:(NSString *)roomID toAccount:self.account.username];
+    
+  //  [self xmppStream:self.xmppStream didReceiveMessage:(XMPPMessage *)xmppMessage];
+    
+}
+
+-(void)receiveMessageForRoom:(NSString *)strMessage{
+    
+    XMPPMessage * XMPPMes = [[XMPPMessage alloc] initWithXMLString:strMessage error:nil];
+    
+
+    
+  //NSLog(@"XMPPMesFrom %@", [XMPPMes type]) ;
+   //     NSString *body = [[XMPPMes elementForName:@"body"] stringValue];
+    
+  //  NSLog(@"BodyRecive %@", body);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+    [self xmppStream:self.xmppStream didReceiveMessage:XMPPMes];
+    });
+    
+    
+}
+
+
 
 @end

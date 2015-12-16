@@ -122,7 +122,7 @@ static BOOL isRequestError_ = YES;
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"http://safejab.com/groupChat/addFriend.php"]];
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/addFriend.php"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //application/x-www-form-urlencoded multipart/form-data
@@ -182,7 +182,7 @@ static BOOL isRequestError_ = YES;
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"http://safejab.com/groupChat/exitFromRoom.php"]];
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/exitFromRoom.php"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //application/x-www-form-urlencoded multipart/form-data
@@ -244,7 +244,7 @@ static BOOL isRequestError_ = YES;
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"http://safejab.com/groupChat/chRoomName.php"]];
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/chRoomName.php"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -339,7 +339,7 @@ static BOOL isRequestError_ = YES;
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"http://safejab.com/groupChat/createGC.php"]];
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/createGC.php"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //application/x-www-form-urlencoded multipart/form-data
@@ -366,7 +366,7 @@ static BOOL isRequestError_ = YES;
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"http://safejab.com/groupChat/exitFromRoom.php"]];
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/exitFromRoom.php"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //application/x-www-form-urlencoded multipart/form-data
@@ -388,7 +388,7 @@ static BOOL isRequestError_ = YES;
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"http://safejab.com/groupChat/getGC.php"]];
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/getGC.php"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //application/x-www-form-urlencoded multipart/form-data

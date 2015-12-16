@@ -47,6 +47,7 @@ extern NSString *const SECUR_HOST;
 extern NSString *const MARK_PHOTO;
 extern NSString *const MINI_PHOTO;
 extern NSString *const MARK_LOCATION;
+extern NSString *const MUC_MESSAGES_SEPARATOR;
 
 extern NSString *const XMLMS_PROTOCOL_MUC_USER;
 extern NSString *const NOTIFICATION_UPDATE_ROOM_LIST;

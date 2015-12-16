@@ -60,7 +60,7 @@
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"http://safejab.com/getPhoto.php"]];
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/getPhoto.php"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //application/x-www-form-urlencoded multipart/form-data

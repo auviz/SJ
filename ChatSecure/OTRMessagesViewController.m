@@ -623,7 +623,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 
 - (void)resetLayoutAndCaches {
-    
+
     
     //Если с рамерами коллекции фигня
     if(self.collectionView.frame.size.width > self.navigationController.toolbar.frame.size.width && self.collectionView.frame.size.width && self.navigationController.toolbar.frame.size.width){
@@ -636,8 +636,14 @@ typedef NS_ENUM(int, OTRDropDownType) {
         //Исправляет ошибку title после поворота
         self.titleView.frame = CGRectMake(0, 0, 200, 44);
         self.titleView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        
+        //Picker view
+      //  [self.TP updateFramesCustomView];
+       // [self.TP genTimeButtom:(UITextField *)self.inputToolbar.contentView.textView];
 
     }
+    
+    
 }
 
 
@@ -647,6 +653,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
 {
     
     [super viewWillAppear:animated];
+
+
     
     //Init to VC for DSM
     [destroySecureMessage setViewController:self];
@@ -733,8 +741,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
                                                object:nil];
     
     
-    
-    
+  
+    [self.collectionView reloadData];
 }
 
 -(void)updateRoomList{
@@ -819,16 +827,22 @@ typedef NS_ENUM(int, OTRDropDownType) {
         [self.inputToolbar.contentView.textView resignFirstResponder];
     }
     
+
+    
     
     //InitPicker
     if(!self.TP && !_isGroupChat){ //Отключаю пока для группового чата
+        
     self.TP = [[timePicker alloc] initWithParent:self];
     UIEdgeInsets edge = self.inputToolbar.contentView.textView.textContainerInset;
     self.inputToolbar.contentView.textView.textContainerInset = UIEdgeInsetsMake(edge.top, edge.left, edge.bottom, (20));
     [self.TP genTimeButtom:(UITextField *)self.inputToolbar.contentView.textView];
+        
+   // [self.TP getPickerView].delegate = self;
     }
     
     
+
     
 }
 
@@ -872,6 +886,19 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
     //Clear DSM
     [destroySecureMessage deleteAllSharedMessagesFromDic];
+    
+    //Cler Time Picker
+    
+    if(self.TP){
+        [self.TP removeToView];
+        [[self.TP getPickerView] removeFromSuperview];
+        [[self.TP getTimeButtonView] removeFromSuperview];
+        self.TP = nil;
+    }
+    
+
+
+   
 }
 
 - (YapDatabaseConnection *)uiDatabaseConnection
@@ -1327,7 +1354,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 - (void)encryptionButtonPressed:(id)sender
 {
-    
+ 
     
     //zigzagcorp point
     
@@ -1576,7 +1603,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
         
         
         /*
-         NSURL *photoURL = [NSURL URLWithString:@"http://safejab.com/showPhoto.php"];
+         NSURL *photoURL = [NSURL URLWithString:@"https://safejab.com/showPhoto.php"];
          NSData *data = [NSData dataWithContentsOfURL:photoURL];
          UIImage *photo = [UIImage imageWithData:data];
          */
@@ -1703,6 +1730,9 @@ typedef NS_ENUM(int, OTRDropDownType) {
     message.text = uid;
     message.read = YES;
     message.transportedSecurely = NO;
+    message.lifeTime = [self getTimeOption];
+  
+    
     
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         [message saveWithTransaction:transaction];
@@ -1768,7 +1798,25 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
     [self scrollToBottomAnimated:YES];
     
-    [self.xmppManager  sendMessage:(OTRMessage*)selfMessage];
+    
+    
+    NSString *timeOption = [self getTimeOption];
+    
+
+    
+    
+    
+    if(timeOption){
+        
+        //Отправка фотографии с временем жизни
+        [self.xmppManager sendTimeMessage:(OTRMessage*)selfMessage timeOption:timeOption];
+    } else {
+        //Обычная отправка
+        [self.xmppManager  sendMessage:(OTRMessage*)selfMessage];
+    }
+    
+    
+    //[self.xmppManager  sendMessage:(OTRMessage*)selfMessage];
     // [[OTRKit sharedInstance] encodeMessage:selfMessage.text tlvs:nil username:self.buddy.username accountName:self.account.username protocol:self.account.protocolTypeString tag:selfMessage];
     
     [self.collectionView reloadData];
@@ -1803,10 +1851,25 @@ typedef NS_ENUM(int, OTRDropDownType) {
     message.read = YES;
     message.transportedSecurely = NO;
     
+    NSString *timeOption = [self getTimeOption];
+    message.lifeTime =timeOption;
+    
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         [message saveWithTransaction:transaction];
     } completionBlock:^{
-        [self.xmppManager  sendMessage:message];
+        
+        
+      
+        
+        
+        if(timeOption){
+            //Отправка локации с временем жизни
+            [self.xmppManager sendTimeMessage:message timeOption:timeOption];
+        } else {
+            //Обычная отправка
+            [self.xmppManager  sendMessage:message];
+        
+        }
     }];
     
     
@@ -1816,6 +1879,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 - (void)didPressAccessoryButton:(UIButton *)sender
 {
+
+    
     DDLogInfo(@"GOOD");
     [self.inputToolbar.contentView.textView resignFirstResponder];
     
@@ -1861,6 +1926,9 @@ typedef NS_ENUM(int, OTRDropDownType) {
     message.text = text;
     message.read = YES;
     message.transportedSecurely = NO;
+   
+    NSString *timeOption = [self getTimeOption];
+    message.lifeTime = timeOption;
     
     
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
@@ -1868,13 +1936,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
     } completionBlock:^{
         
         
-        NSString *timeOption = nil;
-        
-        if(self.TP){
-       timeOption = [self.TP getSelectedOption];
-        } else {
-            timeOption = nil;
-        }
+   
         
         
         if(timeOption){
@@ -1915,17 +1977,58 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
         destroySecureMessage * DSM = [destroySecureMessage getDSMessageById:message.messageId];
         
-        if(DSM){
+        if(DSM.message.messageId.length > 0){
+           
+          
+    
+            
+            if([cell.cellBottomLabel subviews].count > 0){
+                [[[cell.cellBottomLabel subviews] objectAtIndex:0] removeFromSuperview];
+            }
             
             
+          
+                    // dispatch_async(dispatch_get_main_queue(), ^{
+            if([cell.cellBottomLabel subviews].count == 0){
+                
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   
+                   [UIView transitionWithView:cell.cellBottomLabel duration:0.3
+                                      options:UIViewAnimationOptionTransitionCrossDissolve //change to whatever animation you like
+                                   animations:^ {
+                   
+                   
+                [cell.cellBottomLabel insertSubview:DSM.timerLabelForMessage atIndex:0];
+                                       
+                                   }
+                                   completion:nil];
+               });
+            }
+          //  });
+            // if([cell.cellBottomLabel subviews].count == 0){
+                /*
             [UIView transitionWithView:cell.cellBottomLabel duration:0.3
                                options:UIViewAnimationOptionTransitionCrossDissolve //change to whatever animation you like
-                            animations:^ {  [cell.cellBottomLabel  addSubview:DSM.timerLabelForMessage]; }
+                            animations:^ {
+                                
+                               
+                                
+                                    [cell.cellBottomLabel  addSubview:DSM.timerLabelForMessage];
+                      
+                               
+                            }
                             completion:nil];
-            
-            
+                 */
+           // });
+                 
+               //   }
+          
             
            
+        } else if([cell.cellBottomLabel subviews].count > 0){
+          //   dispatch_async(dispatch_get_main_queue(), ^{
+            [[[cell.cellBottomLabel subviews] objectAtIndex:0] removeFromSuperview];
+           //  });
         }
     
     }
@@ -2329,9 +2432,21 @@ typedef NS_ENUM(int, OTRDropDownType) {
         NSMutableParagraphStyle *paragrapStyle = NSMutableParagraphStyle.new;
         paragrapStyle.alignment                = NSTextAlignmentRight;
         
+        NSDictionary *attributes;
+        
+        if(message.lifeTime.length >0){
+            attributes = @{NSParagraphStyleAttributeName:paragrapStyle,
+                           NSForegroundColorAttributeName:[UIColor orangeColor]};
+        } else {
+            attributes = @{NSParagraphStyleAttributeName:paragrapStyle};
+        }
+        
+        
+        
+        
         attributedString = [NSAttributedString.alloc initWithString:
                             [NSString stringWithFormat:@"%@ %@", DELIVERED_STRING, strTime]
-                                                         attributes: @{NSParagraphStyleAttributeName:paragrapStyle}];
+                                                         attributes:attributes];
         
         
         
@@ -2345,8 +2460,19 @@ typedef NS_ENUM(int, OTRDropDownType) {
             paragrapStyle.alignment = NSTextAlignmentRight;
         }
         
+        NSDictionary *attributes;
+        
+        if(message.lifeTime.length >0 && !message.incoming){
+            
+            attributes = @{NSParagraphStyleAttributeName:paragrapStyle,
+                           NSForegroundColorAttributeName:[UIColor orangeColor]};
+        } else {
+          attributes = @{NSParagraphStyleAttributeName:paragrapStyle};
+        }
+        
+        
         attributedString = [NSAttributedString.alloc initWithString:strTime
-                                                         attributes: @{NSParagraphStyleAttributeName:paragrapStyle}];
+                                                         attributes:attributes];
         
     }
     
@@ -2654,6 +2780,10 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
                     {
                         case YapDatabaseViewChangeDelete :
                         {
+                            //Чищу кеш фоток
+                            self.allMessagesCach = nil;
+                            self.isPhotosLoading = nil;
+                            
                             [self.collectionView deleteItemsAtIndexPaths:@[rowChange.indexPath]];
                             break;
                         }
@@ -2692,13 +2822,21 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 
 
 #pragma mark - Обновление при повороте экрана
--(void)viewWillLayoutSubviews {
 
-    [super viewWillLayoutSubviews];
+
+
+-(void) viewWillLayoutSubviews {
+
+    [super  viewWillLayoutSubviews];
     //UpdatePicker
     if(self.TP){
-    [self.TP updateFramesCustomView];
-    [self.TP genTimeButtom:(UITextField *)self.inputToolbar.contentView.textView];
+       
+        [self.TP updateFramesCustomView];
+        [self.TP genTimeButtom:(UITextField *)self.inputToolbar.contentView.textView];
+     
+  // [self.TP updateFramesCustomView];
+ 
+  //  [self.TP genTimeButtom:(UITextField *)self.inputToolbar.contentView.textView];
     
     }
     
@@ -2717,6 +2855,18 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
     [self.collectionView reloadData];
 }
 
+-(NSString *)getTimeOption{
+    NSString *timeOption = nil;
+    
+    if(self.TP){
+        timeOption = [self.TP getSelectedOption];
+        
+    } else {
+        timeOption = nil;
+    }
+    
+    return timeOption;
+}
 
 
 @end

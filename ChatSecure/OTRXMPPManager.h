@@ -107,6 +107,8 @@ extern NSString *const OTRXMPPRegisterFailedNotificationName;
 //Секурные
 - (void)sendTimeMessage:(OTRMessage*)message timeOption:(NSString *)option;
 -(void)sendIOpenSecurMessage:(OTRMessage *)mes buddyJID:(NSString *)JIDBuddy;
-
+//Групповые сообщения из моего архива
+@property (nonatomic, strong) NSTimer *timerMUCArchive;
+-(void)receiveMessageForRoom:(NSString *)xmppMessage;
 
 @end

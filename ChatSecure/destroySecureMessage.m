@@ -106,6 +106,12 @@ static OTRMessagesViewController *MVC_;
    
         
         [self actionsBeforeShow];
+        [self sendIReadSecurMessage];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            //Добавляем отображение таймера
+            [MVC_ reloadDataForCollectionView];
+        });
        
         
     }];
@@ -120,12 +126,9 @@ static OTRMessagesViewController *MVC_;
     [self setupSecondsBeforeDelMes];
     [self setTimerLifeTime];
     [self setupTimeLabelForMessage];
-    [self sendIReadSecurMessage];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //Добавляем отображение таймера
-        [MVC_ reloadDataForCollectionView];
-    });
+    
+
     
 }
 
@@ -179,16 +182,16 @@ static OTRMessagesViewController *MVC_;
     
     if (tempHour == 0) {
         
-        NSLog(@"Result of Time Conversion: %@:%@", minute, second);
+        //NSLog(@"Result of Time Conversion: %@:%@", minute, second);
         result = [NSString stringWithFormat:@"%@:%@", minute, second];
         
     } else if ( tempDay ==0 ){
         
-        NSLog(@"Result of Time Conversion: %@:%@:%@", hour, minute, second);
+        //NSLog(@"Result of Time Conversion: %@:%@:%@", hour, minute, second);
         result = [NSString stringWithFormat:@"%@:%@:%@",hour, minute, second];
         
     } else {
-        NSLog(@"Result of DAY Conversion: %@ %@:%@:%@", day, hour, minute, second);
+       // NSLog(@"Result of DAY Conversion: %@ %@:%@:%@", day, hour, minute, second);
         result = [NSString stringWithFormat:@"%@d %@:%@:%@",day, hour, minute, second];
     }
     
@@ -231,7 +234,7 @@ static OTRMessagesViewController *MVC_;
 -(void)actionTimerLifeTime{
    
     
-   // dispatch_async([self getMyQueue], ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
     
     
     if(self.secondsBeforeDelMes <= 0){
@@ -243,11 +246,11 @@ static OTRMessagesViewController *MVC_;
       
         self.secondsBeforeDelMes =  (self.secondsBeforeDelMes - 1) ;
         
-        NSLog(@"actionTimerLifeTime %d", (int)self.secondsBeforeDelMes);
+       // NSLog(@"actionTimerLifeTime %d", (int)self.secondsBeforeDelMes);
         
         self.timerLabelForMessage.text = [self convertTimeFromSeconds:self.secondsBeforeDelMes];
     }
-  //  });
+    });
 }
 
 
@@ -260,6 +263,9 @@ static OTRMessagesViewController *MVC_;
 +(destroySecureMessage *)addMessageToShared:(OTRMessage *)mes
 {
       destroySecureMessage *DSMes = nil;
+    
+    if(!mes.isIncoming) return nil; //Отключил добавление исходящих в словарь
+    
     
     if(!dicDSMessages_){
         
@@ -282,6 +288,7 @@ static OTRMessagesViewController *MVC_;
         }
         
         [DSMes actionsBeforeShow];
+      
         
         return DSMes;
   
@@ -319,7 +326,7 @@ static OTRMessagesViewController *MVC_;
 
 +(destroySecureMessage *)getDSMessageById:(NSString *)messageId{
     
-    if(!dicDSMessages_) return nil;
+    if(!dicDSMessages_ || messageId.length == 0) return nil;
     
     destroySecureMessage *DSM =  [dicDSMessages_ objectForKey:messageId];
 

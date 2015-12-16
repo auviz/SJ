@@ -16,6 +16,7 @@
 @interface OTRMessagesViewController : JSQMessagesViewController <UISplitViewControllerDelegate> {
     
     BOOL * _isGroupChat;
+    
 }
 
 @property (nonatomic, strong) OTRBuddy *buddy;

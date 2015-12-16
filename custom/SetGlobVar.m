@@ -54,6 +54,7 @@ NSString *const SECUR_HOST = @"jab4all.com"; //Мой джаббер серве�
 NSString *const MARK_PHOTO =@"pHoToZUM_"; //Отметка фотографии
 NSString *const MARK_LOCATION = @"zEfdaTov_"; //Отметка локации
 NSString *const MINI_PHOTO =@"_mini"; //Отметка фотографии
+NSString *const MUC_MESSAGES_SEPARATOR =@"<ZIG@MUC>"; //Для разделения групповых сообщений
 
 
 
