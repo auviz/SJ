@@ -99,6 +99,7 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
         [self.mappings updateWithTransaction:transaction];
     }];
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(yapDatabaseModified:)
                                                  name:OTRUIDatabaseConnectionDidUpdateNotification
@@ -222,8 +223,11 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:addAccountCellIdentifier];
                 cell.textLabel.text = NEW_ACCOUNT_STRING;
+                
+                
                 cell.imageView.image = [UIImage imageNamed:circleImageName];
                 cell.detailTextLabel.text = nil;
+               
             }
         }
         else {
@@ -288,7 +292,24 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) { // Accounts
+    
+        
         if (indexPath.row == [self.mappings numberOfItemsInSection:0]) {
+            
+         
+            
+            /*
+             //Запрет на добавление аккаута если он уже есть в списке
+            
+            if([self accountAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) {
+            
+                [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+                
+                return ; //Отработка запрета
+            };
+         */
+            
+            
             [self addAccount:[tableView cellForRowAtIndexPath:indexPath]];
         } else {
             OTRAccount *account = [self accountAtIndexPath:indexPath];
@@ -301,9 +322,11 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
                 RIButtonItem * logoutButtonItem = [RIButtonItem itemWithLabel:LOGOUT_STRING action:^{
                     id<OTRProtocol> protocol = [[OTRProtocolManager sharedInstance] protocolForAccount:account];
                     [protocol disconnect];
+                    //Удаляю аккаунт
+                     [OTRAccountsManager removeAccount:account];
                 }];
 
-                UIActionSheet * logoutActionSheet = [[UIActionSheet alloc] initWithTitle:LOGOUT_STRING cancelButtonItem:cancelButtonItem destructiveButtonItem:logoutButtonItem otherButtonItems:nil];
+                UIActionSheet * logoutActionSheet = [[UIActionSheet alloc] initWithTitle:nil cancelButtonItem:cancelButtonItem destructiveButtonItem:logoutButtonItem otherButtonItems:nil];
                 
                 [OTRAppDelegate presentActionSheet:logoutActionSheet inView:self.view];
             }
@@ -327,8 +350,8 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
     {
         OTRAccount *account = [self accountAtIndexPath:indexPath];
         
-        RIButtonItem * cancelButtonItem = [RIButtonItem itemWithLabel:CANCEL_STRING];
-        RIButtonItem * okButtonItem = [RIButtonItem itemWithLabel:OK_STRING action:^{
+      //  RIButtonItem * cancelButtonItem = [RIButtonItem itemWithLabel:CANCEL_STRING];
+      //  RIButtonItem * okButtonItem = [RIButtonItem itemWithLabel:OK_STRING action:^{
             
             if( [[OTRProtocolManager sharedInstance] isAccountConnected:account])
             {
@@ -336,12 +359,12 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
                 [protocol disconnect];
             }
             [OTRAccountsManager removeAccount:account];
-        }];
+      //  }];
         
-        NSString * message = [NSString stringWithFormat:@"%@ %@?", DELETE_ACCOUNT_MESSAGE_STRING, account.username];
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:DELETE_ACCOUNT_TITLE_STRING message:message cancelButtonItem:cancelButtonItem otherButtonItems:okButtonItem, nil];
+    //    NSString * message = [NSString stringWithFormat:@"%@ %@?", DELETE_ACCOUNT_MESSAGE_STRING, account.username];
+    //    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:DELETE_ACCOUNT_TITLE_STRING message:message cancelButtonItem:cancelButtonItem otherButtonItems:okButtonItem, nil];
         
-        [alertView show];
+     //   [alertView show];
     }
 }
 
@@ -362,7 +385,7 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 
 - (void) addAccount:(id)sender {
     RIButtonItem *cancelButton = [RIButtonItem itemWithLabel:CANCEL_STRING];
-    RIButtonItem *createAccountButton = [RIButtonItem itemWithLabel:CREATE_NEW_ACCOUNT_STRING action:^{
+    RIButtonItem *createAccountButton = [RIButtonItem itemWithLabel:SIGN_UP_STRING action:^{
         
         [[UIApplication sharedApplication] openURL:[NSURL otr_projectURL]]; //Это мое дерьмо
         
@@ -376,14 +399,60 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
         [self presentViewController:nav animated:YES completion:nil];
         */
     }];
-    RIButtonItem *loginAccountButton = [RIButtonItem itemWithLabel:CONNECT_EXISTING_STRING action:^{
-        OTRNewAccountViewController * newAccountView = [[OTRNewAccountViewController alloc] init];
+    
+    //Убрать кнопку если есть активный аккаунт
+    RIButtonItem *loginAccountButton = nil;
+    if(![self accountAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) {
+ 
+    
+    loginAccountButton = [RIButtonItem itemWithLabel:LOGIN_STRING action:^{
+      
         
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:newAccountView];
+        //Сразу перехожу в SafeJab не даю выбора
+     
+        
+        OTRAccount *account = [OTRAccount accountForAccountType:OTRAccountTypeJabber];
+        
+        
+        OTRLoginViewController *loginViewController = [OTRLoginViewController loginViewControllerWithAcccount:account];
+        loginViewController.isNewAccount = NO;
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+       
         nav.modalPresentationStyle = UIModalPresentationFormSheet;
         [self presentViewController:nav animated:YES completion:nil];
+     
+       // self.loginController = loginViewController;
+        
+        
+        
+       // OTRLoginViewController *loginViewController = [OTRLoginViewController loginViewControllerWithAcccount:account];
+       // loginViewController.isNewAccount = YES;
+       // [self.navigationController pushViewController:loginViewController animated:YES];
+        
+        
+        
+        //OTRNewAccountViewController * newAccountView = [[OTRNewAccountViewController alloc] init];
+        
+       // UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:newAccountView];
+       // nav.modalPresentationStyle = UIModalPresentationFormSheet;
+       // [self presentViewController:nav animated:YES completion:nil];
     }];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NEW_ACCOUNT_STRING cancelButtonItem:cancelButton destructiveButtonItem:nil otherButtonItems:createAccountButton,loginAccountButton, nil];
+        
+    }
+    
+    UIActionSheet *actionSheet;
+
+    if(loginAccountButton){
+        
+         actionSheet = [[UIActionSheet alloc] initWithTitle:nil cancelButtonItem:cancelButton destructiveButtonItem:nil otherButtonItems:loginAccountButton, createAccountButton, nil];
+   
+    } else {
+     
+          actionSheet = [[UIActionSheet alloc] initWithTitle:nil cancelButtonItem:cancelButton destructiveButtonItem:nil otherButtonItems:createAccountButton, nil];
+    }
+    
+   
     
     [actionSheet showInView:self.view];
 }

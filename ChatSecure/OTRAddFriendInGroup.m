@@ -54,13 +54,27 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(exitRoom)
                                                  name:NOTIFICATION_UPDATE_ROOM_LIST
-     
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(backToRoom)
+                                                 name:NOTIFICATION_ADD_MUC_FRIEND
+                                               object:nil];
+}
+
+-(void)backToRoom{
+    //Вернуться назад
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.navigationController popViewControllerAnimated:YES];
+    });
+    
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
      [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_UPDATE_ROOM_LIST object:nil];
+      [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_ADD_MUC_FRIEND object:nil];
 }
 
 -(void)exitRoom{
@@ -113,11 +127,13 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else {
-        
+        //Довляю друга в чат
         groupChatManager *GCM = [[groupChatManager alloc] init];
         [GCM addUserForRoomID:self.room.roomId accountUsername:buddy.username];
         
-        [self.navigationController popViewControllerAnimated:YES];
+      
+        
+       
     }
     
     

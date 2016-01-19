@@ -39,5 +39,5 @@
 -(UIPickerView *)getPickerView;
 -(void)removeToView;
 -(UIButton *)getTimeButtonView;
-
++(NSString *)getSyncTimeOption: (NSString *)buddyUsername;
 @end

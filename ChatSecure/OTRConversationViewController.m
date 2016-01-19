@@ -294,11 +294,40 @@ static CGFloat kOTRConversationCellHeight = 80.0;
       [self clearTimerWaitingConnection];
 }
 
+-(void)ifNotAccountGoToLogin{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
+        __block NSArray *accounts = nil;
+        [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+            accounts = [OTRAccount allAccountsWithTransaction:transaction];
+        }];
+        
+        if(accounts.count == 0){
+        
+        OTRAccount *account = [OTRAccount accountForAccountType:OTRAccountTypeJabber];
+        
+        
+        OTRLoginViewController *loginViewController = [OTRLoginViewController loginViewControllerWithAcccount:account];
+        loginViewController.isNewAccount = YES;
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+        
+        nav.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:nav animated:YES completion:nil];
+        }
+        
+    });
+    
+
+}
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [OTRNotificationPermissions checkPermissions];
-    
+    [self ifNotAccountGoToLogin];
     
     
     
@@ -515,7 +544,7 @@ static CGFloat kOTRConversationCellHeight = 80.0;
 
 -(void)deleteOldRooms:(OTRBuddy*)buddy{
     
-    
+  //  return; //NEED TO FIX IT
     
     if(!buddy) return ;
     
@@ -564,13 +593,13 @@ static CGFloat kOTRConversationCellHeight = 80.0;
     //Выхожу из комнаты
     [[[OTRProtocolManager sharedInstance] protocolForAccount:buddyAccount] removeBuddies:@[buddy]];
     
-    OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:SJAccount()];
+   // OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:SJAccount()];
     
-    XMPPRoom *xmppRoom = [xmppManager getSJRooms:roomId];
+  //  XMPPRoom *xmppRoom = [xmppManager getSJRooms:roomId];
     
-    [xmppRoom leaveRoom];
+  //  [xmppRoom leaveRoom];
     
-    [xmppManager deleteSJRoomFromDic:xmppRoom];
+ //   [xmppManager deleteSJRoomFromDic:xmppRoom];
          
      });
     

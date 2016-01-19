@@ -46,6 +46,7 @@ const float heightFirstSection = 75;
         
         self.buddy = buddy;
         self.room = [OTRRoom roomById:buddy.username];
+        self.isAdminRoom = [SJAccount().username isEqualToString:self.room.roomAdmin];
         
         return self;
     }
@@ -93,6 +94,8 @@ const float heightFirstSection = 75;
 
 -(void)refreshData
 {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
   
    // NSLog(@"ZiGrefreshData");
    //  [self.tableView reloadData];
@@ -139,7 +142,7 @@ const float heightFirstSection = 75;
    NSIndexSet *sections = [NSIndexSet indexSetWithIndexesInRange:range];
 
 [self.tableView reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+        
 
     
    // [self.tableView reloadData];
@@ -161,6 +164,7 @@ const float heightFirstSection = 75;
         self.navigationItem.rightBarButtonItem = nil;
     }
      */
+    });
 }
 
 - (void)toggleEditing:(id)sender {
@@ -294,7 +298,7 @@ const float heightFirstSection = 75;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString * tableViewCellIdentifier = [NSString stringWithFormat:@"cellId_%d_%d", (int)indexPath.section, (int)indexPath.row];
+    NSString * tableViewCellIdentifier = [NSString stringWithFormat:@"cellId_%d", (int)indexPath.section];
     
     
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:tableViewCellIdentifier];
@@ -561,13 +565,17 @@ const float heightFirstSection = 75;
         groupChatManager *GCM = [[groupChatManager alloc] init];
         [GCM deleteUserForRoomID:self.room.roomId accountUsername: [self.participants objectAtIndex:indexPath.row] ];
    
-        [self.participants removeObjectAtIndex:indexPath.row];
+   
+        
+    //    [self.participants removeObjectAtIndex:indexPath.row];
 
         
-        
-        [self.tableView beginUpdates];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
+     
+      //  [self.tableView beginUpdates];
+      //  [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+      //  [self.tableView endUpdates];
+                
+     
      
      
        

@@ -142,7 +142,12 @@
         [SavePhoto saveImage:cashePhoto unicName:_unicName];
        
         
-        [self.linkToMessagesViewController sendUidPhoto:_message];
+            
+         [self.linkToMessagesViewController sendUidPhoto:_message];
+            
+      
+        
+       
     
     
     }

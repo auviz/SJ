@@ -277,6 +277,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 -(BOOL)isConnected {
     
+    /*
     if(_isGroupChat){
         //В групповом чате проверяем присоденились ли мы к комнате
         
@@ -290,6 +291,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
         return [xmppManager getSJRooms:roomId].isJoined;
         
     }
+     */
     
     // self.account
     BOOL isConnected =  [[OTRProtocolManager sharedInstance] isAccountConnected:self.account] ;
@@ -751,6 +753,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
     // NSLog(@"updateRoomList 123");
     // if(self.buddy.username){
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //Это выход из комнаты если комнату уничтожили
     if(_isGroupChat){
         
         if(![OTRRoom isRoomInServer:self.buddy.username] || !self.buddy.username){
@@ -761,6 +765,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
             return;
         }
     }
+            });
     
     //}
     
@@ -831,7 +836,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
     
     //InitPicker
-    if(!self.TP && !_isGroupChat){ //Отключаю пока для группового чата
+    if(!self.TP){
         
     self.TP = [[timePicker alloc] initWithParent:self];
     UIEdgeInsets edge = self.inputToolbar.contentView.textView.textContainerInset;
@@ -1798,6 +1803,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
     [self scrollToBottomAnimated:YES];
     
+
     
     
     NSString *timeOption = [self getTimeOption];
@@ -1820,6 +1826,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
     // [[OTRKit sharedInstance] encodeMessage:selfMessage.text tlvs:nil username:self.buddy.username accountName:self.account.username protocol:self.account.protocolTypeString tag:selfMessage];
     
     [self.collectionView reloadData];
+   
     
 }
 
@@ -2858,12 +2865,12 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 -(NSString *)getTimeOption{
     NSString *timeOption = nil;
     
-    if(self.TP){
-        timeOption = [self.TP getSelectedOption];
-        
-    } else {
-        timeOption = nil;
-    }
+   // if(self.TP){
+    timeOption = [timePicker getSyncTimeOption:self.buddy.username];
+    
+   // } else {
+     //   timeOption = nil;
+  //  }
     
     return timeOption;
 }

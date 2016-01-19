@@ -11,6 +11,7 @@
 #import "OTRDatabaseManager.h"
 #import "OTRBuddy.h"
 #import "OTRXMPPManager.h"
+#import "SetGlobVar.h"
 
 @implementation destroySecureMessage
 
@@ -205,8 +206,13 @@ static OTRMessagesViewController *MVC_;
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction) {
         buddy = [self.message buddyWithTransaction:transaction];
     } completionBlock:^{
+        
+        if(!SafeJabTypeIsEqual(buddy.username, MUC_JABBER_HOST)){
+            //Отключаю сообщение о прочтении  для груп чата пока пока
+            [MVC_.xmppManager sendIOpenSecurMessage:self.message buddyJID:buddy.username];
+        }
       
-        [MVC_.xmppManager sendIOpenSecurMessage:self.message buddyJID:buddy.username];
+        
     }];
    
 }

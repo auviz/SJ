@@ -421,6 +421,17 @@
     
 }
 
++(NSString *)getSyncTimeOption: (NSString *)buddyUsername{
+    
+    __block NSString *selectedOption = nil;
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        selectedOption = [transaction objectForKey:buddyUsername inCollection:@"timeOptions"];
+    }];
+    
+    return selectedOption;
+}
+
 
 
 @end

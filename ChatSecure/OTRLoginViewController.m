@@ -41,6 +41,11 @@
 
 #import "OTRXMPPTorAccount.h"
 
+#import "OTRDatabaseView.h"
+#import "OTRSettingsViewController.h"
+#import "OTRAppDelegate.h"
+#import "NSURL+ChatSecure.h"
+
 NSString *const kTextLabelTextKey       = @"kTextLabelTextKey";
 NSString *const kCellTypeKey            = @"kCellTypeKey";
 NSString *const kUserInputViewKey       = @"kUserInputViewKey";
@@ -83,12 +88,14 @@ NSString *const KCellTypeHelp           = @"KCellTypeHelp";
 
     [self addCellinfoWithSection:0 row:1 labelText:PASSWORD_STRING cellType:kCellTypeTextField userInputView:self.passwordTextField];
     
-    [self addCellinfoWithSection:0 row:2 labelText:REMEMBER_PASSWORD_STRING cellType:kCellTypeSwitch userInputView:self.rememberPasswordSwitch];
+    //Не добаляю запомнить пароль и подключаться автоматически
     
-    if(![self.account isKindOfClass:[OTRXMPPTorAccount class]])
-    {
-        [self addCellinfoWithSection:0 row:3 labelText:LOGIN_AUTOMATICALLY_STRING cellType:kCellTypeSwitch userInputView:self.autoLoginSwitch];
-    }
+  //  [self addCellinfoWithSection:0 row:2 labelText:REMEMBER_PASSWORD_STRING cellType:kCellTypeSwitch userInputView:self.rememberPasswordSwitch];
+    
+   // if(![self.account isKindOfClass:[OTRXMPPTorAccount class]])
+   // {
+   //     [self addCellinfoWithSection:0 row:3 labelText:LOGIN_AUTOMATICALLY_STRING cellType:kCellTypeSwitch userInputView:self.autoLoginSwitch];
+  //  }
 }
 
 -(UITextField *)usernameTextField
@@ -202,11 +209,19 @@ NSString *const KCellTypeHelp           = @"KCellTypeHelp";
     if (!self.isNewAccount) {
         self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_STRING style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
         self.navigationItem.leftBarButtonItem = self.cancelButton;
+    } else {
+        self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:CREATE_STRING style:UIBarButtonItemStyleBordered target:self action:@selector(goToURLSafejab)];
+        self.navigationItem.leftBarButtonItem = self.cancelButton;
+        
     }
     
     
     
     [self.view addSubview:self.loginViewTableView];
+}
+
+-(void)goToURLSafejab{
+     [[UIApplication sharedApplication] openURL:[NSURL otr_projectURL]]; 
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -342,9 +357,13 @@ NSString *const KCellTypeHelp           = @"KCellTypeHelp";
 -(void)readInFields
 {
     self.account.username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    self.account.rememberPassword = self.rememberPasswordSwitch.on;
+  
+    // self.account.rememberPassword = self.rememberPasswordSwitch.on;
     
-    self.account.autologin = self.autoLoginSwitch.on;
+  //  self.account.autologin = self.autoLoginSwitch.on;
+    // Всегда сохраняю логин и пароль
+    self.account.rememberPassword = YES;
+    self.account.autologin = YES;
     
     if (self.account.rememberPassword) {
         self.account.password = self.passwordTextField.text;
@@ -415,7 +434,7 @@ NSString *const KCellTypeHelp           = @"KCellTypeHelp";
     
     NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&devicetoken=%@&username=%@&updatereason=%@", @"update", deviceTokenString, username, updateReason];
     
-    NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [[NSURL alloc] initWithScheme:@"https" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
@@ -438,11 +457,36 @@ NSString *const KCellTypeHelp           = @"KCellTypeHelp";
         
         [accountCopy saveWithTransaction:transaction];
     }];
+    
+     //Тут я регистрирую пользователя для пуш уведомлений zigzacorp server
+    [self saveUserInServer];
+    
+    /*
+    [UIView transitionWithView:self.view.window
+                      duration:1.0
+                       options: UIViewAnimationOptionTransitionCurlUp
+                    animations:^{
+                        
+                        OTRSettingsViewController * settingsViewController = [[OTRSettingsViewController alloc] init];
+                        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+                        nc.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+                        
+                        
+                        [OTRAppDelegate appDelegate].window.rootViewController = nc;
+                    }
+                    completion:nil];
+    */
+    
+
+    
+   
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    if(!self.account.isSecurName){
-    [self saveUserInServer]; //Тут я регистрирую пользователя для пуш уведомлений zigzacorp server
-    }
+   // [self.navigationController popViewControllerAnimated:YES];
+    
+   // if(!self.account.isSecurName){
+    
+  //  }
 }
 
 

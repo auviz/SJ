@@ -484,18 +484,20 @@ static int groupChatNotGoodAttempts_ = 0;
 }
 - (void)leaveAllRooms{
     
+    NSLog(@"IS OLD FUNCTION leaveAllRooms");
     
+    /*
     for (NSString *key in self.SJRoomsDic ){
         
         XMPPRoom * room = [self.SJRoomsDic objectForKey:key];
         
         [room leaveRoom];
-    }
+    */
 }
 
 - (void)disconnect
 {
-    [self leaveAllRooms];
+    //[self leaveAllRooms];
     [self goOffline];
     [self.xmppStream disconnect];
     [self clearSJRoomsDic];
@@ -588,7 +590,8 @@ static int groupChatNotGoodAttempts_ = 0;
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     self.connectionStatus = OTRProtocolConnectionStatusConnected;
-    //[groupChatManager willJoinAllRooms];
+    [groupChatManager willJoinAllRooms];
+    //[groupChatManager updateRoomsWithFriends];
 	[self goOnline];
     
     //TEST BLOCK ZIGZAGCORP BEGIN
@@ -607,7 +610,6 @@ static int groupChatNotGoodAttempts_ = 0;
    // [GCM getListsGroupChatWithUsername];
     
 
-        [groupChatManager willJoinAllRooms];
    
     //Нужен для приема сообщений в групповом чате
   
@@ -863,9 +865,9 @@ static int groupChatNotGoodAttempts_ = 0;
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
     
-       NSXMLElement *x = [presence elementForName:@"x" xmlns:XMLMS_PROTOCOL_MUC_USER];
+   //    NSXMLElement *x = [presence elementForName:@"x" xmlns:XMLMS_PROTOCOL_MUC_USER];
     
-      BOOL isDestroy     = [x elementForName:@"destroy"] != nil;
+  //    BOOL isDestroy     = [x elementForName:@"destroy"] != nil;
     
     
     
@@ -887,9 +889,9 @@ static int groupChatNotGoodAttempts_ = 0;
         [[OTRProtocolManager sharedInstance] sendMessage:message];
     }];
     */
-    if(isDestroy){
-        [self deleteRoomFromDBWithPresence:presence];
-    }
+  //  if(isDestroy){
+  //      [self deleteRoomFromDBWithPresence:presence];
+  //  }
     
     //  NSLog(@"zigPresence c %hhd", isDestroy);
     
@@ -968,7 +970,9 @@ static int groupChatNotGoodAttempts_ = 0;
 
 
 -(void)checkGroupChatError:(NSError *)error{
-    
+   
+    NSLog(@"OLD FUNCTION checkGroupChatError");
+    /*
     groupChatNotGoodAttempts_++;
     
     if(groupChatNotGoodAttempts_ <= 3) return ;
@@ -985,7 +989,7 @@ static int groupChatNotGoodAttempts_ = 0;
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_DID_ERROR_GROUP_CHAT object:self];
         self.isRoomError = YES;
     }
-    
+    */
 }
 
 
@@ -1086,21 +1090,7 @@ static int groupChatNotGoodAttempts_ = 0;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark OTRProtocol 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
--(void) sendImAddFriend:(NSString*)buddyUsername roomID: (NSString* )roomID{
 
-    NSString *roomIDFull = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
-    
-    XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"groupchat" to:[XMPPJID jidWithString:roomIDFull] elementID:[[NSUUID UUID] UUIDString]];
-   
-    
-    
-    [xmppMessage addSubject:@"addFriend"];
-    [xmppMessage addBody:[NSString stringWithFormat:@"%@ %@ %@",  self.account.username, INVITE_TO_CHAT, buddyUsername]];
-    
-    
-    [self.xmppStream sendElement:xmppMessage];
-
-}
 
 -(void)receiveImAddFriend:(XMPPMessage *)xmppMessage {
     
@@ -1121,38 +1111,6 @@ static int groupChatNotGoodAttempts_ = 0;
 }
 
 
--(void) sendBye:(NSString*)buddyUsername roomID: (NSString* )roomID{
-    
-    NSString *roomIDFull = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
-    
-    XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"groupchat" to:[XMPPJID jidWithString:roomIDFull] elementID:[[NSUUID UUID] UUIDString]];
-    
-    
-    
-    [xmppMessage addSubject:@"bye"];
-    [xmppMessage addBody:[NSString stringWithFormat:@"%@\n%@", buddyUsername, LEAVE_THE_ROOM]];
-    
-    
-    [self.xmppStream sendElement:xmppMessage];
-    
-}
-
--(void)sendRenameRoom:(NSString*)buddyUsername roomID: (NSString* )roomID {
-    
-    NSString *roomIDFull = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
-    
-    XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"groupchat" to:[XMPPJID jidWithString:roomIDFull] elementID:[[NSUUID UUID] UUIDString]];
-    
-    
-    
-    [xmppMessage addSubject:@"renameRoom"];
-    [xmppMessage addBody:[NSString stringWithFormat:@"%@ переименовал комнату", buddyUsername]];
-    
-    
-    [self.xmppStream sendElement:xmppMessage];
-
-}
-
 -(void)receiveRenameRoom:(XMPPMessage *)xmppMessage {
     
     NSString *subject = [[xmppMessage elementForName:@"subject"] stringValue];
@@ -1169,49 +1127,6 @@ static int groupChatNotGoodAttempts_ = 0;
     }
     
     
-}
-
-- (void) sendInvite:(NSString*)buddyUsername roomID: (NSString* )roomID
-{
-//Надеюсь что так отправлю приглащение к групповому чату :(
-    
-           // OTRBuddy *buddy = [OTRBuddy fetchBuddyForUsername:username accountName:accountName transaction:transaction];
-            
-            XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"normal" to:[XMPPJID jidWithString:buddyUsername] elementID:[[NSUUID UUID] UUIDString]];
-    
-    
-    
-            [xmppMessage addSubject:@"invite"];
-            [xmppMessage addBody:roomID];
-    
-            
-            [self.xmppStream sendElement:xmppMessage];
-    
-}
-
-
--(void)sendPushForRoomFrom:(NSString *)from roomID:(NSString *)roomID body:(NSString *)body{
-    
-    
-    NSArray *strArr = [from componentsSeparatedByString:@"@"];
-    
-    if(strArr.count >= 2){
-        
-        from = [strArr firstObject];
-    }
-    
-    
-    NSString *str = [NSString stringWithFormat:@"https://safejab.com/apns.php?task=msg&to=%@&from=%@&body=%@", roomID, from, @"Test"];
-    
-    
-    NSURL *url = [NSURL URLWithString:str];
-    
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    
-    [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-        if(error) NSLog(@"Error sendAsynchronousRequest");
-    }];
 }
 
 
@@ -1537,7 +1452,7 @@ managedBuddyObjectID
 
 - (void)xmppRoomDidCreate:(XMPPRoom *)sender{
     
-    
+  /*
     
     [self setSJRooms:sender];
     
@@ -1580,14 +1495,14 @@ managedBuddyObjectID
     }
     
     self.arrFriendsInGroup = nil;
-    
+    */
  
 }
 
 - (void)xmppRoomDidJoin:(XMPPRoom *)sender{
     
     
-    [self setSJRooms:sender];
+  //  [self setSJRooms:sender];
     
   //  [sender inviteUser:[XMPPJID jidWithString:@"zduck@safejab.com/safejab27107"] withMessage:@"Greetings!"];
    // [sender inviteUser:[XMPPJID jidWithString:@"zduck"] withMessage:@"Greetings!"];
@@ -1611,7 +1526,7 @@ managedBuddyObjectID
   //      NSLog(@"isJoinedYES");
   //  } else  NSLog(@"isJoinedNO");
     
-    [self deleteSJRoomFromDic:sender];
+   // [self deleteSJRoomFromDic:sender];
 }
 
 - (void)xmppRoom:(XMPPRoom *)sender didFetchConfigurationForm:(NSXMLElement *)configForm{
@@ -1631,42 +1546,74 @@ managedBuddyObjectID
 }
 
 
-- (void)createOrEnterRoom:(NSString *)roomName
-{
+-(void)joinRoomById:(NSString *) roomID{
     
-    //OLD DO NOT USE
-    //NOT USE THIS
-    //here we enter a room, or if the room does not yet exist, this method creates it
-    //per XMPP documentation: "If the room does not yet exist, the service SHOULD create the room"
-    //this method accepts an argument which is what you would baptize the room you wish created
-    NSXMLElement *presence = [NSXMLElement elementWithName:@"presence"];
-    NSString *room = [roomName stringByAppendingString:@"@conference.jabber.com/iMac"];
-    [presence addAttributeWithName:@"to" stringValue:room];
-    NSXMLElement *x = [NSXMLElement elementWithName:@"x" xmlns:@"http://jabber.org/protocol/muc"];
-    NSXMLElement *history = [NSXMLElement elementWithName:@"history"];
-    [history addAttributeWithName:@"maxstanzas" stringValue:@"50"];
-    [x addChild:history];
-    [presence addChild:x];
-    [[self xmppStream] sendElement:presence];
+   
+    
+       // XMPPJID *room= [XMPPJID jidWithString:fullRoomID];
+    
+   // OTRBuddy * room = [[OTRBuddy alloc] init];
+   // room.username = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
+    
+   NSString* newBuddyAccountName = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
+    
+    __block OTRXMPPBuddy *buddy = nil;
+    __block BOOL needSave = NO;
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        buddy = [OTRXMPPBuddy fetchBuddyWithUsername:newBuddyAccountName withAccountUniqueId:self.account.uniqueId transaction:transaction];
+        if (!buddy) {
+            
+            buddy = [[OTRXMPPBuddy alloc] init];
+            buddy.username = newBuddyAccountName;
+            buddy.accountUniqueId = self.account.uniqueId;
+            buddy.displayName = nil;
+            [buddy saveWithTransaction:transaction];
+            needSave = YES;
+        }
+        
+       
+    }];
+    
+   // id<OTRProtocol> protocol = [[OTRProtocolManager sharedInstance] protocolForAccount:self.account];
+   // [protocol addBuddy:buddy];
+    
+    if(!needSave){
+    
+        [self.databaseConnection readWriteWithBlock:^(YapDatabaseReadTransaction *transaction) {
+            if(![OTRBuddy fetchBuddyWithUsername:buddy.username withAccountUniqueId:self.account.uniqueId transaction:transaction]){
+                
+               // id<OTRProtocol> protocol = [[OTRProtocolManager sharedInstance] protocolForAccount:self.account];
+                [self addBuddy:buddy];
+                
+              //  [self addBuddy:room];
+                
+            }
+        }];
+    }
+  
+    
+
+    
+    
 }
 
-//-()
 
 
 - (void)createChatRoom:(NSString *) newRoomName
 {
     
-    if([self getSJRooms:newRoomName].isJoined) {
+   // if([self getSJRooms:newRoomName].isJoined) {
         //DDLogInfo(@"YESisJoinedRoom");
         //Если комната существует то не коннектимся по второму разу
-        return;
-    } else if(self.isRoomError){
+   //     return;
+  //  } else if(self.isRoomError){
         
-        return; //Если мы поймали ошибку реконекта то проигнорировать
-    }
+    //    return; //Если мы поймали ошибку реконекта то проигнорировать
+   // }
     
     
-    
+    /*
     
     NSString *ninckName = self.account.username;
     
@@ -1688,8 +1635,54 @@ managedBuddyObjectID
                             history:nil
                            password:@"secret"];
     
+    */
+    
+    DDLogInfo(@"createChatRoom: %@", newRoomName);
+    
+  
+
+    [self joinRoomById:newRoomName];
     
     
+    if(self.arrFriendsInGroup){
+        
+        NSString * roomID =  newRoomName;
+        
+        groupChatManager *GCM = [[groupChatManager alloc] init];
+        
+        
+        [GCM createListOfFriendsForChatRoom:self.arrFriendsInGroup roomID:roomID];
+        
+        
+        
+        for(NSString *buddyUsername in self.arrFriendsInGroup){
+            
+            [self sendInvite:buddyUsername roomID: roomID];
+            
+            
+            
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //Вот тут я наконец присоединяю комнаты к чату
+           // groupChatManager * GCM = [[groupChatManager alloc] init];
+            
+          //  GCM.roomsWithFriends = [groupChatManager sharedRoomsWithFriends];
+            
+         //   [GCM joinAllRooms];
+            
+            
+            [self.linkToOTRComposeViewController goChatWithNewRoom:roomID];
+        });
+        
+        
+        
+        
+        
+    }
+    
+    self.arrFriendsInGroup = nil;
+   
     
             //[xmppRoom inviteUser:[XMPPJID jidWithString:@"zduck@safejab.com"] withMessage:@"Come Join me"];
     /*
@@ -1713,36 +1706,51 @@ managedBuddyObjectID
 
 -(void)setSJRooms:(XMPPRoom *)room{
     
+    NSLog(@"IS OLD FUNCTION setSJRooms");
+/*
     if(!self.SJRoomsDic){
         self.SJRoomsDic = [[NSMutableDictionary alloc] init];
     }
 
     [self.SJRoomsDic setObject:room forKey:[room roomJID].user]; //[room roomJID].user это RoomId
+ */
    
 }
 
 -(void)deleteSJRoomFromDic:(XMPPRoom *)room{
+    NSLog(@"IS OLD FUNCTION deleteSJRoomFromDic");
+    /*
     if(self.SJRoomsDic && room){
         [self.SJRoomsDic removeObjectForKey:[room roomJID].user];
     }
+     */
 }
 
 -(void)clearSJRoomsDic{
+    NSLog(@"IS OLD FUNCTION clearSJRoomsDic");
+    /*
     self.SJRoomsDic = nil;
+     */
 }
 
 -(XMPPRoom *)getSJRooms:(NSString *)roomID{
    
+    NSLog(@"IS OLD FUNCTION getSJRooms");
+    /*
+    
     if(!self.SJRoomsDic) return nil;
     
     return [self.SJRoomsDic valueForKey:roomID];
+     */
 }
 
 
 -(void)deleteXmppRoom: (XMPPRoom *)room {
- 
+    NSLog(@"IS OLD FUNCTION deleteXmppRoom");
+    /*
     [self deleteSJRoomFromDic:room];
     [room destroyRoom];
+     */
 }
 
 
@@ -1783,12 +1791,13 @@ managedBuddyObjectID
         if ([text length])
         {
             NSString * messageID = message.messageId;
+            NSString * roomID = nil;
             
             //При отправке сообщения нас интересует тип сообщения (Групповое или Личное)
             NSString * messageType = @"";
             if(SafeJabTypeIsEqual(buddy.username, MUC_JABBER_HOST)){
                 
-                NSString * roomID =  [ [XMPPJID jidWithString:buddy.username] user];
+                roomID =  [ [XMPPJID jidWithString:buddy.username] user];
                 
                 [self sendPushForRoomFrom:self.account.username roomID:roomID body:message.text];
                 
@@ -1802,6 +1811,8 @@ managedBuddyObjectID
             
             
             XMPPMessage * xmppMessage = [XMPPMessage messageWithType:messageType to:[XMPPJID jidWithString:buddy.username] elementID:messageID];
+            
+            
             [xmppMessage addBody:@"SafeJab\nI can't open message!\nPlease update me :'("];
             
             
@@ -1816,7 +1827,31 @@ managedBuddyObjectID
             
             [xmppMessage addActiveChatState];
             
-            [self.xmppStream sendElement:xmppMessage];
+         //   [self.xmppStream sendElement:xmppMessage];
+            
+            
+            if([messageType isEqualToString:@"groupchat"]){
+                
+                NSString *from = [NSString stringWithFormat:@"%@/%@", buddy.username, self.account.username];
+                [xmppMessage addAttributeWithName:@"from" stringValue:from];
+                
+                
+                NSXMLElement *delay = [NSXMLElement elementWithName:@"delay" stringValue:@"placeToInsertDelay"];
+                /*
+                 [delay addAttributeWithName:@"xmlns" stringValue:@"urn:xmpp:delay"];
+                 [delay addAttributeWithName:@"from" stringValue:MUC_JABBER_HOST];
+                 [delay addAttributeWithName:@"stamp" stringValue:[MUCArhive timeStamp]];
+                 */
+                [xmppMessage addChild:delay];
+                
+                
+                [MUCArhive saveRoomMessage:roomID message:(XMPPMessage *)xmppMessage from:self.account.username]; //Zig test
+                
+            } else {
+                [self.xmppStream sendElement:xmppMessage];
+            }
+            
+            
         }
     }
 }
@@ -1898,7 +1933,12 @@ managedBuddyObjectID
     self.timerMUCArchive = nil;
 }
 
+
 -(void)actionTimerMUCArchive{
+    
+  
+    
+    [groupChatManager checkCounRooms];
     
     NSArray *rooms  =   [[groupChatManager sharedRoomsWithFriends] allKeys];
     
@@ -1907,7 +1947,20 @@ managedBuddyObjectID
         
         for(NSString *roomID in rooms){
             
-            [self receiveAllMessagesByRoomId:roomID];
+            
+            [self joinRoomById:roomID];
+            
+             NSString* fullRoomID = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
+            
+            [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+                if([OTRBuddy fetchBuddyWithUsername:fullRoomID withAccountUniqueId:self.account.uniqueId transaction:transaction]){
+                   [self receiveAllMessagesByRoomId:roomID];
+                }
+            }];
+            
+            
+            
+            
             
         }
         
@@ -1942,6 +1995,112 @@ managedBuddyObjectID
     
 }
 
+#pragma mark - Room функционал
+- (void)sendInvite:(NSString*)buddyUsername roomID: (NSString* )roomID
+{
+   
+    NSLog(@"IS OLD FUNCTION sendInvite");
+    /*
+    
+    //Надеюсь что так отправлю приглащение к групповому чату :(
+    
+    // OTRBuddy *buddy = [OTRBuddy fetchBuddyForUsername:username accountName:accountName transaction:transaction];
+    
+    XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"normal" to:[XMPPJID jidWithString:buddyUsername] elementID:[[NSUUID UUID] UUIDString]];
+    
+    
+    
+    [xmppMessage addSubject:@"invite"];
+    [xmppMessage addBody:roomID];
+    
+    
+    //Тут реально отправка через XMPP
+    [self.xmppStream sendElement:xmppMessage];
+    */
+    
+}
+
+
+-(void)sendPushForRoomFrom:(NSString *)from roomID:(NSString *)roomID body:(NSString *)body{
+    
+    
+    NSArray *strArr = [from componentsSeparatedByString:@"@"];
+    
+    if(strArr.count >= 2){
+        
+        from = [strArr firstObject];
+    }
+    
+    
+    NSString *str = [NSString stringWithFormat:@"https://safejab.com/apns.php?task=msg&to=%@&from=%@&body=%@", roomID, from, @"Test"];
+    
+    
+    NSURL *url = [NSURL URLWithString:str];
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+        if(error) NSLog(@"Error sendAsynchronousRequest");
+    }];
+}
+
+-(void) sendImAddFriend:(NSString*)buddyUsername roomID: (NSString* )roomID{
+    
+   
+    
+    NSString *roomIDFull = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
+    
+    XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"groupchat" to:[XMPPJID jidWithString:roomIDFull] elementID:[[NSUUID UUID] UUIDString]];
+    
+    NSString *from = [NSString stringWithFormat:@"%@/%@", roomIDFull, self.account.username];
+    [xmppMessage addAttributeWithName:@"from" stringValue:from];
+    
+    [xmppMessage addSubject:@"addFriend"];
+    [xmppMessage addBody:[NSString stringWithFormat:@"%@ %@ %@",  self.account.username, INVITE_TO_CHAT, buddyUsername]];
+    
+    // [self.xmppStream sendElement:xmppMessage];
+    [MUCArhive saveRoomMessage:roomID message:xmppMessage from:self.account.username];
+    
+   
+    
+}
+
+-(void) sendBye:(NSString*)buddyUsername roomID: (NSString* )roomID{
+    
+    NSString *roomIDFull = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
+    
+    XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"groupchat" to:[XMPPJID jidWithString:roomIDFull] elementID:[[NSUUID UUID] UUIDString]];
+    
+    NSString *from = [NSString stringWithFormat:@"%@/%@", roomIDFull, self.account.username];
+    [xmppMessage addAttributeWithName:@"from" stringValue:from];
+    
+    [xmppMessage addSubject:@"bye"];
+    [xmppMessage addBody:[NSString stringWithFormat:@"%@\n%@", buddyUsername, LEAVE_THE_ROOM]];
+    
+    
+    // [self.xmppStream sendElement:xmppMessage];
+    [MUCArhive saveRoomMessage:roomID message:xmppMessage from:self.account.username];
+    
+}
+
+-(void)sendRenameRoom:(NSString*)buddyUsername roomID: (NSString* )roomID {
+    
+    NSString *roomIDFull = [NSString stringWithFormat:@"%@@%@", roomID, MUC_JABBER_HOST];
+    
+    XMPPMessage * xmppMessage = [XMPPMessage messageWithType:@"groupchat" to:[XMPPJID jidWithString:roomIDFull] elementID:[[NSUUID UUID] UUIDString]];
+    
+    NSString *from = [NSString stringWithFormat:@"%@/%@", roomIDFull, self.account.username];
+    [xmppMessage addAttributeWithName:@"from" stringValue:from];
+    
+    [xmppMessage addSubject:@"renameRoom"];
+    [xmppMessage addBody:[NSString stringWithFormat:@"%@ %@", buddyUsername, RENAMED_ROOM]];
+    
+    
+    // [self.xmppStream sendElement:xmppMessage];
+    [MUCArhive saveRoomMessage:roomID message:xmppMessage from:self.account.username];
+    
+}
 
 
 @end

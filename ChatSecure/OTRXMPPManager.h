@@ -80,7 +80,7 @@ extern NSString *const OTRXMPPRegisterFailedNotificationName;
 - (void)failedToConnect:(NSError *)error;
 
 - (void)createChatRoom:(NSString *) newRoomName;
-- (void)createOrEnterRoom:(NSString *)roomName;
+
 
 - (void) sendInvite:(NSString*)buddyUsername roomID: (NSString* )roomID;
 -(void) sendBye:(NSString*)buddyUsername roomID: (NSString* )roomID;
@@ -110,5 +110,6 @@ extern NSString *const OTRXMPPRegisterFailedNotificationName;
 //Групповые сообщения из моего архива
 @property (nonatomic, strong) NSTimer *timerMUCArchive;
 -(void)receiveMessageForRoom:(NSString *)xmppMessage;
+-(void)joinRoomById:(NSString *)roomID;
 
 @end

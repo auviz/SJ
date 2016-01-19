@@ -15,10 +15,8 @@
 
 @implementation MUCArhive
 
-+(void)saveRoomMessage:(NSString*)RoomId message:(XMPPMessage *)message from:(NSString *)from {
-    
-    
-    NSString *post =  [NSString stringWithFormat:@"option=newMessage&idRoom=%@&message=%@&messageFrom=%@", RoomId, message, from];
+
++(NSMutableURLRequest *)genRequest:(NSString *)post{
     
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     
@@ -31,13 +29,17 @@
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
     
+    return request;
+}
+
++(void)saveRoomMessage:(NSString*)RoomId message:(XMPPMessage *)message from:(NSString *)from {
     
     
-    
+    NSString *post =  [NSString stringWithFormat:@"option=newMessage&idRoom=%@&message=%@&messageFrom=%@&messageID=%@", RoomId, message, from, message.elementID];
     
     
     [NSURLConnection
-     sendAsynchronousRequest:request
+     sendAsynchronousRequest:[self genRequest:post]
      queue:[[NSOperationQueue alloc] init]
      completionHandler:^(NSURLResponse *response,
                          NSData *data,
@@ -85,26 +87,12 @@
 
 +(void)getRoomMessages:(NSString *)roomID toAccount:(NSString *)toAccount{
     
+    
+    
     NSString *post =  [NSString stringWithFormat:@"option=getMessages&idRoom=%@&toAccount=%@", roomID, toAccount];
     
-    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-    
-    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/mucArchive.php"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    
-    
-    
-    
-    
-    
     [NSURLConnection
-     sendAsynchronousRequest:request
+     sendAsynchronousRequest:[self genRequest:post]
      queue:[[NSOperationQueue alloc] init]
      completionHandler:^(NSURLResponse *response,
                          NSData *data,
@@ -113,6 +101,7 @@
          
          if ([data length] >0 && error == nil)
          {
+             
              
               NSString *messages = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
              
@@ -124,6 +113,9 @@
                 
                  [xmppManager receiveMessageForRoom:message];
              }
+             
+             //Тут я отсылаю сообщение о том что я прочитал сообщения
+             [self sendGroupMessagesWereReadByRoomId:roomID account:toAccount];
              
            
              
@@ -142,6 +134,54 @@
      }];
     
 }
+
+
++(void)sendGroupMessagesWereReadByRoomId:(NSString *)roomID account:(NSString *)account {
+  
+        
+        NSString *post =  [NSString stringWithFormat:@"option=theyWereRead&idRoom=%@&account=%@", roomID, account];
+        
+        [NSURLConnection
+         sendAsynchronousRequest:[self genRequest:post]
+         queue:[[NSOperationQueue alloc] init]
+         completionHandler:^(NSURLResponse *response,
+                             NSData *data,
+                             NSError *error)
+         {
+             
+             if ([data length] >0 && error == nil)
+             {
+                 
+                 NSString *messages = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                 
+                 NSArray * arrMessages =[messages componentsSeparatedByString:MUC_MESSAGES_SEPARATOR];
+                 
+                 OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:SJAccount()];
+                 
+                 for(NSString *message in arrMessages){
+                     
+                     [xmppManager receiveMessageForRoom:message];
+                 }
+                 
+                 
+                 
+                 
+                 // DO YOUR WORK HERE
+                 
+             }
+             else if ([data length] == 0 && error == nil)
+             {
+                 //  NSLog(@"Nothing was downloaded.");
+             }
+             else if (error != nil){
+                 //  DDLogInfo(@"Error = %@", error);
+             }
+             
+         }];
+        
+    
+}
+
 
 +(NSString *)timeStamp{
     NSDate* datetime = [[NSDate alloc] init];

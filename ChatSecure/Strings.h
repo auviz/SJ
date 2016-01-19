@@ -316,3 +316,4 @@
 #define MY_LOCATION [OTRLanguageManager translatedString: @"My Location"]
 #define ACCESS_LOCATION  [OTRLanguageManager translatedString: @"Please turn on the geolocation to get access to all functions!"]
 #define TAP_TO_OPEN [OTRLanguageManager translatedString: @"Tap to open"]
+#define RENAMED_ROOM [OTRLanguageManager translatedString: @"renamed room"]

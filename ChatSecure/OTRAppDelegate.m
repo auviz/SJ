@@ -280,7 +280,7 @@
 
     DDLogInfo(@"Application entered background state.");
     
-    [OTRXMPPManager clearGroupChatNotGoodAttempts]; //Очистить не удачные попытки (если их три то отключается груп чат)
+    //[OTRXMPPManager clearGroupChatNotGoodAttempts]; //Очистить не удачные попытки (если их три то отключается груп чат)
    
     
    // [self clearCount]; //Обнуляю
@@ -687,7 +687,7 @@
     NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&appname=%@&appversion=%@&deviceuid=%@&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushbadge=%@&pushalert=%@&pushsound=%@&clear=%@&development=%@", @"register", appName,appVersion, deviceUuid, self.deviceTokenString, deviceName, deviceModel, deviceSystemVersion, pushBadge, pushAlert, pushSound, @"true", development];
     
     // Register the Device Data (https?)
-    NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [[NSURL alloc] initWithScheme:@"https" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
@@ -721,7 +721,7 @@
     NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&devicetoken=%@&clear=%@", @"other", getDeviceTokenString(), @"true"];
     
     // Clear count app
-    NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [[NSURL alloc] initWithScheme:@"https" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
@@ -740,7 +740,7 @@
     NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&devicetoken=%@&development=%@", @"other",getDeviceTokenString(), option];
     
     // Clear count app
-    NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [[NSURL alloc] initWithScheme:@"https" host:JABBER_HOST path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]

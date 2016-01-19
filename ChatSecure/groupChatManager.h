@@ -5,7 +5,7 @@
 //  Created by Самсонов Александр on 20.07.15.
 //  Copyright (c) 2015 Leader Consult. All rights reserved.
 //
-
+//#import <Foundation/Foundation.h>
 #import "OTRXMPPManager.h"
 #import "OTRAccount.h"
 
@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, queryType) {
 @class OTRComposeViewController;
 
 
-@interface groupChatManager : OTRXMPPManager<NSURLConnectionDelegate> {
+@interface groupChatManager: NSObject{
     
     OTRAccount * _SJAccount;
     NSMutableData * _responseData;
@@ -68,6 +68,7 @@ typedef NS_ENUM(NSUInteger, queryType) {
 -(void)deleteUserForRoomID:(NSString*)roomID accountUsername:(NSString *)accountUsername;
 -(void)addUserForRoomID:(NSString*)roomID accountUsername:(NSString *)addFriend;
 +(void)showAlertGroupChat:(id)view;
++(void)checkCounRooms;
 
 
 @property (nonatomic, strong) NSMutableDictionary *roomsWithFriends;

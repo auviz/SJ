@@ -30,6 +30,7 @@
 #import "OTRLog.h"
 #import "OTRAccount.h"
 #import "OTRYapPushAccount.h"
+#import "SetGlobVar.h"
 
 @interface OTRAccountsManager(Private)
 - (void) refreshAccountsArray;
@@ -39,10 +40,39 @@
 
 + (void)removeAccount:(OTRAccount*)account
 {
-    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        
-        [transaction setObject:nil forKey:account.uniqueId inCollection:[OTRAccount collection]];
-    }];
+    
+    NSString *post =  [NSString stringWithFormat:@"devicetoken=%@", getDeviceTokenString()];
+    // NSString *post = @"name=val1&photo=val2";
+    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
+    [request setURL:[NSURL URLWithString:@"https://safejab.com/logOffApns.php"]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    //application/x-www-form-urlencoded multipart/form-data
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    [NSURLConnection
+     sendAsynchronousRequest:request
+     queue:[[NSOperationQueue alloc] init]
+     completionHandler:^(NSURLResponse *response,
+                         NSData *data,
+                         NSError *error)
+     {
+         
+
+         if (error == nil){
+             
+             [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                 
+                 [transaction setObject:nil forKey:account.uniqueId inCollection:[OTRAccount collection]];
+             }];
+         }
+         
+     }];
 }
 
 + (NSArray *)allAccountsAbleToAddBuddies  {
