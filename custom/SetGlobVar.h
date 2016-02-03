@@ -81,5 +81,7 @@ NSString *dateToStringWithMask(NSDate *date, NSString *mask);
 
 void deletePhotosWithPreview(NSString *unicName);
 
+UIImage * imageWithView(UIView *view);
+
 
 

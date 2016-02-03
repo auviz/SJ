@@ -237,6 +237,18 @@ void deletePhotosWithPreview(NSString *unicName){
   
 }
 
+UIImage * imageWithView(UIView *view)
+{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.0);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return img;
+}
+
 /*
 UIImage* resizedImage(UIImage *inImage, CGRect thumbRect)
 {

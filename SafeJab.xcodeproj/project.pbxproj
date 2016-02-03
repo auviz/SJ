@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60018FBB1C4E80A200FC7118 /* ShowDetailsMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 60018FBA1C4E80A200FC7118 /* ShowDetailsMessageVC.m */; };
 		600276DF1AC9994900D3885C /* OTRMessagesCollectionViewCellIncoming.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600276DB1AC9994900D3885C /* OTRMessagesCollectionViewCellIncoming.xib */; };
 		600276E01AC9994900D3885C /* OTRMessagesCollectionViewCellOutgoing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600276DD1AC9994900D3885C /* OTRMessagesCollectionViewCellOutgoing.xib */; };
 		600829AB1B8DCD1E000C6F26 /* OTRToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 600829AA1B8DCD1E000C6F26 /* OTRToolBar.m */; };
@@ -253,6 +254,8 @@
 /* Begin PBXFileReference section */
 		1F12EE516C8C46438665EB76 /* libPods-ChatSecure Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatSecure Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE8E09B5AA42CF664789D8B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		60018FB91C4E80A200FC7118 /* ShowDetailsMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowDetailsMessageVC.h; sourceTree = "<group>"; };
+		60018FBA1C4E80A200FC7118 /* ShowDetailsMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowDetailsMessageVC.m; sourceTree = "<group>"; };
 		600276DC1AC9994900D3885C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = OTRMessagesCollectionViewCellIncoming.xib; sourceTree = "<group>"; };
 		600276DE1AC9994900D3885C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = OTRMessagesCollectionViewCellOutgoing.xib; sourceTree = "<group>"; };
 		600829A91B8DCD1E000C6F26 /* OTRToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTRToolBar.h; sourceTree = "<group>"; };
@@ -875,6 +878,8 @@
 				60C3343B1BEB5B3500CD59E9 /* timePicker.m */,
 				60C3343D1BF1E8D100CD59E9 /* destroySecureMessage.h */,
 				60C3343E1BF1E8D100CD59E9 /* destroySecureMessage.m */,
+				60018FB91C4E80A200FC7118 /* ShowDetailsMessageVC.h */,
+				60018FBA1C4E80A200FC7118 /* ShowDetailsMessageVC.m */,
 			);
 			name = zigCustom;
 			sourceTree = "<group>";
@@ -1927,6 +1932,7 @@
 				6335C0E1191192A300E506E5 /* OTRTextFieldTableViewCell.m in Sources */,
 				63AC174618C7AABD00E6624C /* OTRBuddyInfoCell.m in Sources */,
 				6335C0DE19118F0B00E506E5 /* OTRPushAccountLoginViewController.m in Sources */,
+				60018FBB1C4E80A200FC7118 /* ShowDetailsMessageVC.m in Sources */,
 				63464F381889EC9200526358 /* _OTRManagedXMPPAccount.m in Sources */,
 				63A624B219DCC88000B7A0BD /* OTRNotificationPermissions.m in Sources */,
 				639C60C318CA988400CC4DF4 /* OTRSettingsGroup.m in Sources */,

@@ -29,4 +29,9 @@
 -(void)initSendLocation;
 //Mini actions
 -(void)reloadDataForCollectionView;
+
+//Detail message
+- (OTRMessage *)messageAtIndexPath:(NSIndexPath *)indexPath;
+-(UIView *)getBubbleFromCellAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)getIsGroupChat;
 @end

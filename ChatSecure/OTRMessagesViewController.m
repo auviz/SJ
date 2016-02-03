@@ -45,6 +45,8 @@
 #import "timePicker.h"
 #import "destroySecureMessage.h"
 
+#import "ShowDetailsMessageVC.h" //Детали сообщения
+
 static NSTimeInterval const kOTRMessageSentDateShowTimeInterval = 5 * 60;
 
 typedef NS_ENUM(int, OTRDropDownType) {
@@ -53,7 +55,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
     OTRDropDownTypePush          = 2
 };
 
-@interface OTRMessagesViewController () <JSQMessagesCollectionViewCellDelegate>
+@interface OTRMessagesViewController () <JSQMessagesCollectionViewCellDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) OTRAccount *account;
 
@@ -94,6 +96,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 @property NSTimer *timerWaitingConnection;
 
+//Swipe
+@property  (nonatomic, strong) UISwipeGestureRecognizer * swipeLeft;
 
 
 @end
@@ -485,7 +489,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
 {
     [super viewDidLoad];
     
-    
+    [self setupSwipe];
     
     
     
@@ -2038,6 +2042,11 @@ typedef NS_ENUM(int, OTRDropDownType) {
            //  });
         }
     
+    } else {
+     
+        
+      //  [cell.messageBubbleContainerView addGestureRecognizer:self.swipeLeft];
+      
     }
     
     //ZIGTEST
@@ -2875,5 +2884,67 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
     return timeOption;
 }
 
+#pragma mark - Детали сообщения
+
+-(void)swipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    
+    CGPoint location = [gestureRecognizer locationInView:self.collectionView];
+    NSIndexPath *swipedIndexPath = [self.collectionView indexPathForItemAtPoint:location];
+
+    
+    OTRMessage *message;
+    
+    if(swipedIndexPath){
+        message = [self messageAtIndexPath:swipedIndexPath];
+    }
+    
+    
+    //Если можно то показать детали
+    if(!message.incoming && message){
+ 
+        
+        
+        ShowDetailsMessageVC * SDM = [[ShowDetailsMessageVC alloc] initWithMessageIndexPath:swipedIndexPath messagesViewController:self];
+        
+        [self.navigationController pushViewController:SDM animated:YES];
+        
+    }
+    
+   
+}
+
+-(UIView *)getBubbleFromCellAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    
+    JSQMessagesCollectionViewCell *curCell = (JSQMessagesCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    
+   
+    
+//JSQMessagesCollectionViewCell * cell = (JSQMessagesCollectionViewCell *)[self collectionView:self.collectionView cellForItemAtIndexPath:indexPath];
+    
+  //  cell.messageBubbleContainerView.frame = curCell.messageBubbleContainerView.frame;
+    
+    //[self.co]
+    
+   // CGRect xxxDDD = cell.messageBubbleContainerView.frame;
+  
+  //  CGRect xxx = cell.messageBubbleContainerView.bounds;
+   //  NSLog(@"zxzxzxzxzx %@ %@", efsdf, adssadas);
+    
+    return curCell.messageBubbleContainerView;
+}
+
+-(void)setupSwipe{
+    self.swipeLeft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeLeft:)];
+    self.swipeLeft.direction=UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.collectionView addGestureRecognizer:self.swipeLeft];
+}
+
+-(BOOL)getIsGroupChat{
+    return  _isGroupChat;
+}
 
 @end
