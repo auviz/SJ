@@ -18,7 +18,7 @@
     BOOL * _isGroupChat;
     
 }
-
+@property (nonatomic, strong) OTRAccount *account;
 @property (nonatomic, strong) OTRBuddy *buddy;
 @property (nonatomic, weak) OTRXMPPManager *xmppManager;
 

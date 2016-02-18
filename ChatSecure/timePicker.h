@@ -40,4 +40,5 @@
 -(void)removeToView;
 -(UIButton *)getTimeButtonView;
 +(NSString *)getSyncTimeOption: (NSString *)buddyUsername;
++(NSString *)secondsToWord:(NSString *)seconds;
 @end

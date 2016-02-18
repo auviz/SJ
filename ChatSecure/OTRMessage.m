@@ -364,4 +364,26 @@ const struct OTRMessageEdges OTRMessageEdges = {
     }];
 }
 
++(OTRMessage *)OTRMessageByMessageId:(NSString *)messageId{
+    
+    __block OTRMessage *messageTemp;
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        
+        [transaction enumerateKeysAndObjectsInCollection:[OTRMessage collection] usingBlock:^(NSString *key, id object, BOOL *stop) {
+            if ([object isKindOfClass:[OTRMessage class]]) {
+                OTRMessage *message = (OTRMessage *)object;
+                if ([message.messageId isEqualToString:messageId]) {
+                    *stop = YES;
+                      messageTemp = message;
+                    
+                }
+            }
+        }];
+    }];
+    
+    return messageTemp;
+    
+}
+
 @end

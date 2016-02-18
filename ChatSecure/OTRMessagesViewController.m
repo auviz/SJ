@@ -57,8 +57,6 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 @interface OTRMessagesViewController () <JSQMessagesCollectionViewCellDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) OTRAccount *account;
-
 @property (nonatomic, strong) YapDatabaseConnection *uiDatabaseConnection;
 @property (nonatomic, strong) YapDatabaseViewMappings *messageMappings;
 @property (nonatomic, strong) YapDatabaseViewMappings *buddyMappings;

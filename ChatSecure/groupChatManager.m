@@ -68,6 +68,21 @@ static BOOL isRequestError_ = YES;
     [sharedroomsWithFriends_ removeObjectForKey:roomID];
 }
 
++(void)setNewNameSharedRoomsWithFriendsByRoomId:(NSString *)roomId newName:(NSString *)name{
+    
+    //Если нужно поменять имя комнаты без запроса к серверу
+    
+    if(!sharedroomsWithFriends_) return;
+    NSMutableArray * room =  [sharedroomsWithFriends_ objectForKey:roomId];
+    
+    [room setObject:name atIndexedSubscript:(room.count - 1)];
+    
+    [sharedroomsWithFriends_ setObject:room forKey:roomId];
+    
+  
+    
+}
+
 + (NSMutableDictionary *) sharedRoomsWithFriends
 {
     if (sharedroomsWithFriends_)
@@ -267,17 +282,17 @@ static BOOL isRequestError_ = YES;
                          NSError *error)
      {
          
-         if ([data length] >0 && error == nil)
+         if (error == nil)
          {
              
-             // DO YOUR WORK HERE
              
-         }
-         else if ([data length] == 0 && error == nil)
-         {
-           //  NSLog(@"Nothing was downloaded.");
-         }
-         else if (error != nil){
+             [groupChatManager setNewNameSharedRoomsWithFriendsByRoomId:RoomId newName:newRoomName];
+             //OTRRoom * needRenameRoom = [OTRRoom roomById:RoomId];
+           //  needRenameRoom.nameRoom = newRoomName;
+             
+             [self sendRenameRoomForRoomID:RoomId];
+  
+         } else if (error != nil){
              DDLogInfo(@"Error = %@", error);
          }
          
@@ -791,6 +806,7 @@ static BOOL isRequestError_ = YES;
      }];
     
 }
+
 
 
 

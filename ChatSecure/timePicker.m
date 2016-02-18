@@ -432,6 +432,23 @@
     return selectedOption;
 }
 
++(NSString *)secondsToWord:(NSString *)seconds{
+    
+    if(seconds.length > 0){
+    
+    timePicker * temp = [[timePicker alloc] init];
+    [temp setupData];
+    
+    int index = (int)[temp.keys indexOfObject:seconds];
+    
+    return [temp.values objectAtIndex:index];
+    }
+    
+    return nil;
+    
+}
+
+
 
 
 @end

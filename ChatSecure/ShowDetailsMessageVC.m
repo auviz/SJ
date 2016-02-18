@@ -12,6 +12,9 @@
 #import "SetGlobVar.h"
 #import "Strings.h"
 #import "OTRRoom.h"
+#import "customColor+UIColor.h"
+#import "timePicker.h"
+#import "OTRDatabaseManager.h"
 
 @implementation ZIGItemCell
 
@@ -30,8 +33,9 @@
 @property (strong, nonatomic) OTRMessage * message;
 @property (strong, nonatomic) NSIndexPath *messageIndexPath;
 @property (strong, nonatomic) UIView * jsqCell;
+@property (strong, nonatomic) NSString * lifeTimeWord;
 
-@property (strong, nonatomic) NSArray * participants;
+@property (strong, nonatomic) NSMutableArray * participants;
 @property (strong, nonatomic) NSArray *notReceivedMessage;
 
 @property BOOL isGroupChat;
@@ -41,8 +45,9 @@
 @implementation ShowDetailsMessageVC
 
 //Cell identifeters
-
 NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
+NSString *const CELL_IDENT_DELIMITER = @"CELL_IDENT_DELIMITER";
+NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
 
 //Main
 
@@ -57,9 +62,17 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
         self.jsqCell = [messagesVC getBubbleFromCellAtIndexPath:indexPath];
         self.isGroupChat = [messagesVC getIsGroupChat];
         
+        if(self.message.lifeTime){
+            self.lifeTimeWord = [timePicker secondsToWord:self.message.lifeTime];
+        }
+        
         
         if(self.isGroupChat){
-            self.participants = [OTRRoom roomById:messagesVC.buddy.username].participants;
+            
+        
+            self.participants = [[NSMutableArray alloc] initWithArray:[OTRRoom roomById:messagesVC.buddy.username].participants];
+            
+            [self.participants removeObject:messagesVC.account.username];
         }
     
         
@@ -72,6 +85,8 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = DETAILS_MESSAGE_STRING;
     
     if(!self.isGroupChat){
     [self setupItemsCollectionForChat];
@@ -161,7 +176,7 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return  10;
+    return  20;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -172,6 +187,69 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
    // return 2;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    ZIGItemCell *item = [self getItemCellAtIndexPath:indexPath];
+    
+    
+    if([item.identifier isEqualToString:CELL_IDENT_CANCEL_SENDING]){
+        
+        if( item.isDisabled ) return; //Блокировка повторного нажатия
+        
+        //Если это кнопка отмены то:
+        
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:[NSString stringWithFormat:@"%@?" ,CANCEL_SENDING_STRING]
+                                      message:nil
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:OK_STRING
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 item.isDisabled = YES;
+                                 
+                               //  [self querySendCanceledForUsers];
+                             }];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:CANCEL_STRING
+                                 style:UIAlertActionStyleDefault
+                                 handler:nil];
+        
+        
+        [alert addAction:cancel];
+        [alert addAction:ok];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }
+    
+    
+ 
+    
+    
+    
+    
+    
+    [self.tableView deselectRowAtIndexPath:(NSIndexPath *)indexPath animated:YES];
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *)indexPath
+{
+    
+    ZIGItemCell *item = [self getItemCellAtIndexPath:indexPath];
+    
+    if([item.identifier isEqualToString:CELL_IDENT_DELIMITER]){
+        return 20;
+    }
+    
+    return [super tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *)indexPath];
+
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  
@@ -179,11 +257,50 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
     ZIGItemCell *item = [self getItemCellAtIndexPath:indexPath];
     
     
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item.identifier];
     
- 
+    
+    //Cell cansel send
+    
+    if([item.identifier isEqualToString:CELL_IDENT_CANCEL_SENDING]){
+        
+        if (cell == nil){
+            
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:item.identifier];
+            
+            cell.textLabel.textColor = [UIColor redColor];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        
+    
+        }
+        cell.textLabel.text = item.titleText;
+     
+        
+        return cell;
+    }
+    
+    
+    
+    
+    //Cell delimiter
+    
+    if([item.identifier isEqualToString:CELL_IDENT_DELIMITER]){
+    
+    if (cell == nil){
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:item.identifier];
+        cell.textLabel.font = [UIFont italicSystemFontOfSize:14];
+        cell.backgroundColor = [UIColor clearColor];
+        
+    }
+        cell.textLabel.text = item.titleText;
+       
+        
+        return cell;
+    }
    
-    // Configure the cell...
+    // Configure the cell info
     
     if (cell == nil) {
          //NSLog(@"CELL_IDENT_INFO %@", CELL_IDENT_INFO);
@@ -195,7 +312,7 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
     cell.textLabel.text = item.titleText;
     cell.detailTextLabel.text = item.text;
     
-    if([item.color isEqual:[UIColor redColor]]){
+    if(item.color != nil){
         cell.detailTextLabel.textColor = item.color;
     }
     
@@ -261,6 +378,8 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
     if(self.itemsCollection){
        return [self.itemsCollection objectAtIndex:indexPath.row ];
     }
+    
+    return nil;
 }
 
 -(void)addItemToCell:(ZIGItemCell *)item{
@@ -277,11 +396,26 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
 }
 
 -(void)setupItemsCollectionForGroupChat{
+    ZIGItemCell *  item;
+    
+    
+    [self addItemDate];
+    
+    [self addItemLifetime];
+    
+   item = [[ZIGItemCell alloc] init];
+    item.identifier = CELL_IDENT_DELIMITER;
+    item.titleText = MEMBERS;
+    [self addItemToCell:item];
     
     
     for(NSString * participant in self.participants){
         
-        ZIGItemCell * item = [[ZIGItemCell alloc] init];
+        
+   
+        
+        
+        item = [[ZIGItemCell alloc] init];
         
         item.titleText = participant;
         
@@ -289,9 +423,10 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
         if(!self.notReceivedMessage ){
                item.text = @"Loading...";
         } else if([self.notReceivedMessage containsObject:participant]){
-            item.text = @"Отправлено";
+            item.text = SUBMITTED_STRING;
         } else {
             item.text = DELIVERED_STRING;
+            item.color = [UIColor darkGreen];
         }
 
         
@@ -299,6 +434,12 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
         [self addItemToCell:item];
         
     }
+    
+    //Кнопка отмены
+   if(self.notReceivedMessage.count != 0) [self addItemCancelSending];
+
+    
+    
     
 }
 
@@ -318,29 +459,31 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
         item.color = [UIColor redColor];
     }else if(self.message.delivered){
         item.text = DELIVERED_STRING;
-     //   item.color = [UIColor clearColor];
+        item.color = [UIColor darkGreen];
         
     } else if(!self.message.delivered){
-        item.text = @"Отправлено";
+        item.text = SUBMITTED_STRING;
        // item.color = [UIColor clearColor];
     }
     
-    item.titleText = @"Статус";
+    item.titleText = STATUS_STRING;
     item.identifier = CELL_IDENT_INFO;
     
     [self addItemToCell:item];
     
     //Дата доставки
     
-   item = [[ZIGItemCell alloc] init];
-    
-    item.titleText = @"Дата";
-    item.text = dateToStringWithMask(self.message.date, @"dd.MM.yyyy HH:mm:ss");
-    item.identifier = CELL_IDENT_INFO;
-  [self addItemToCell:item];
-    
+    [self addItemDate];
+
     
     //Время жизни
+    
+    [self addItemLifetime];
+    
+    
+    //Кнопка отмены
+  if(!self.message.delivered)  [self addItemCancelSending];
+
     
   //  item = [[ZIGItemCell alloc] init];
     
@@ -354,7 +497,132 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
     
 }
 
+-(void)addItemDate{
+   ZIGItemCell * item = [[ZIGItemCell alloc] init];
+    
+    item.titleText = SUBMITTED_DATE;
+    item.text = dateToStringWithMask(self.message.date, @"dd.MM.yyyy HH:mm:ss");
+    item.identifier = CELL_IDENT_INFO;
+    [self addItemToCell:item];
+    
+}
+
+-(void)addItemLifetime{
+    if (self.lifeTimeWord){
+       ZIGItemCell * item = [[ZIGItemCell alloc] init];
+        
+        item.titleText = LIFETIME_STRING;
+        item.text = self.lifeTimeWord;
+        item.color = [UIColor orangeColor];
+        item.identifier = CELL_IDENT_INFO;
+        [self addItemToCell:item];
+    }
+    
+}
+
+
+-(void)addItemCancelSending{
+    ZIGItemCell * item = [[ZIGItemCell alloc] init];
+    item.identifier = CELL_IDENT_DELIMITER;
+   // item.titleText = @"  ";
+    [self addItemToCell:item];
+    
+    
+    
+    item = [[ZIGItemCell alloc] init];
+    
+    item.titleText = CANCEL_SENDING_STRING;
+    item.identifier = CELL_IDENT_CANCEL_SENDING;
+    [self addItemToCell:item];
+}
+
+-(void)reloadTable {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [UIView transitionWithView:self.tableView
+                          duration:0.3f
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^(void) {
+                            //  dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.tableView reloadData];
+                            //    });
+                        } completion:NULL];
+        
+    });
+    
+    
+}
+
+#pragma mark - Работа с OTRMessage
+
+-(void)setMessageSendCanceledForUsers:(NSArray *)canceledForUsers {
+    
+    self.message.sendCanceledForUsers = canceledForUsers;
+    self.message.read = YES;
+    
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        [self.message saveWithTransaction:transaction];
+    } completionBlock:^{
+        
+        //Ну обновляю виев
+        
+        if(self.isGroupChat){
+            [self setupItemsCollectionForGroupChat];
+        } else {
+            [self setupItemsCollectionForChat];
+        }
+        
+        
+        [self reloadTable];
+       
+    }];
+    
+    
+}
+
+
+
 #pragma mark - Генерация запроса для групповых сообщений
+
+-(void)querySendCanceledForUsers{
+    
+    
+    
+    
+    NSString *post =  [NSString stringWithFormat:@"messageID=%@&isGroupChat=%d", self.message.messageId, self.isGroupChat];
+    
+    [NSURLConnection
+     sendAsynchronousRequest:[self genRequest:post url:@"https://safejab.com/forAll/sendCanceledForUsers.php"]
+     queue:[[NSOperationQueue alloc] init]
+     completionHandler:^(NSURLResponse *response,
+                         NSData *data,
+                         NSError *error)
+     {
+         
+         if ([data length] >0 && error == nil)
+         {
+             // DO YOUR WORK HERE
+             self.itemsCollection = nil;
+             
+             NSString *usersCanseled = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             NSArray *arrUsersCanseled = [usersCanseled componentsSeparatedByString:@"|"];
+          
+             [self setMessageSendCanceledForUsers:arrUsersCanseled];
+             
+             
+         } else if (error != nil){
+             
+           //  NSLog(@"ERROR_LIST");
+            
+             
+         }
+         
+     }];
+    
+}
+
 
 -(void)getWhoNotReceivedMessage:(NSString *)messageId{
     
@@ -363,7 +631,7 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
     NSString *post =  [NSString stringWithFormat:@"messageID=%@", messageId];
     
     [NSURLConnection
-     sendAsynchronousRequest:[self genRequest:post]
+     sendAsynchronousRequest:[self genRequest:post url:@"https://safejab.com/groupChat/recipientsWhoNotReceivedMessage.php"]
      queue:[[NSOperationQueue alloc] init]
      completionHandler:^(NSURLResponse *response,
                          NSData *data,
@@ -408,32 +676,16 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
     
 }
 
--(void)reloadTable {
-  
-    dispatch_async(dispatch_get_main_queue(), ^{
-    
-    [UIView transitionWithView:self.tableView
-                      duration:0.3f
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^(void) {
-                        //  dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.tableView reloadData];
-                           //    });
-                    } completion:NULL];
-        
-        });
-        
-   
-}
 
--(NSMutableURLRequest *)genRequest:(NSString *)post{
+
+-(NSMutableURLRequest *)genRequest:(NSString *)post url:(NSString *)url{
     
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init] ;
-    [request setURL:[NSURL URLWithString:@"https://safejab.com/groupChat/recipientsWhoNotReceivedMessage.php"]];
+    [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -441,6 +693,7 @@ NSString *const CELL_IDENT_INFO = @"CELL_IDENT_INFO";
     
     return request;
 }
+
 
 
 

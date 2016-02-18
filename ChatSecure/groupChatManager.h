@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, queryType) {
 @property NSString *needLeaveRoomWithId;
 @property NSString *roomIDForLink;
 
+
 +(BOOL)sharedIsRequestError;
 
 + (NSMutableDictionary *) sharedRoomsWithFriends;

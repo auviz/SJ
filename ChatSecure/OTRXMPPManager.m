@@ -724,8 +724,7 @@ static int groupChatNotGoodAttempts_ = 0;
     
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
-
-    
+    if([self isReceiveGroupMessageReadAll:xmppMessage]) return ; //Если приняли уведомление то нах оно
     if([self isReceiveInvite:xmppMessage]) return ; //Если это просто приглашение нах оно нам в базе )
    if([self isReciveIOpenSecurMessage:xmppMessage]) return ; //Если это сообщение о прочтении секурного сообщения то нах оно нам в базе
     
@@ -1655,13 +1654,10 @@ managedBuddyObjectID
         
         
         
-        for(NSString *buddyUsername in self.arrFriendsInGroup){
+    //    for(NSString *buddyUsername in self.arrFriendsInGroup){
+      //      [self sendInvite:buddyUsername roomID: roomID];
             
-            [self sendInvite:buddyUsername roomID: roomID];
-            
-            
-            
-        }
+      //  }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //Вот тут я наконец присоединяю комнаты к чату
@@ -1881,6 +1877,54 @@ managedBuddyObjectID
   [self.xmppStream sendElement:xmppMessage];
     
   
+}
+
+-(BOOL)isReceiveGroupMessageReadAll:(XMPPMessage *)xmppMessage{
+    
+    NSString *fromUser = [xmppMessage from].user;
+    
+    if([fromUser isEqualToString:USER_FOR_NOTIF]){
+        
+        NSString *messageId = [xmppMessage body];
+        
+        OTRMessage *tempMessage = [OTRMessage OTRMessageByMessageId:messageId];
+        
+        
+        if(tempMessage.text.length == 0) return YES; //Если сообщения не существует то проигнорировать
+        
+    __block BOOL isSecur = tempMessage.lifeTime.length > 0 ? YES : NO;
+
+       // isGroupMessageReadAll
+     
+
+        
+        
+        [self.databaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+            
+            
+            if(isSecur){
+            //Если сообщение по таймеру удалить
+                NSDate *now = [NSDate date];
+                NSDate *dateNowPlus10s = [NSDate dateWithTimeInterval:+10 sinceDate:now];
+                [OTRMessage receivedIReadExpiredMessageForMessageId:messageId experiedDate:dateNowPlus10s transaction:transaction];
+                
+            } else {
+                //Если без таймера то установить флаг что все в групп чате прочитали его
+                [OTRMessage receivedDeliveryReceiptForMessageId:messageId transaction:transaction];
+                
+            }
+        }];
+        
+        
+        return YES;
+        
+        
+    }
+    
+    return NO;
+    
+  //NSString * messageId  =  [xmppMessage body];
+    
 }
 
 -(BOOL)isReciveIOpenSecurMessage:(XMPPMessage *)xmppMessage {

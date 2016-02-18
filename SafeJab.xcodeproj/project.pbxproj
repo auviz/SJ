@@ -42,6 +42,7 @@
 		60C3343F1BF1E8D100CD59E9 /* destroySecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C3343E1BF1E8D100CD59E9 /* destroySecureMessage.m */; };
 		60C338701ADC06C50095C314 /* SavePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C3386E1ADC06C50095C314 /* SavePhoto.m */; };
 		60C338781ADD33260095C314 /* GetPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C338771ADD33260095C314 /* GetPhoto.m */; };
+		60E070D91C6363D6006465F4 /* customColor+UIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E070D81C6363D6006465F4 /* customColor+UIColor.m */; };
 		60EBB3491B908E0B009F4CC3 /* OTRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 60EBB3481B908E0B009F4CC3 /* OTRTabBar.m */; };
 		60ED96BF1B5CF8E000EBEFC7 /* groupChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 60ED96BE1B5CF8E000EBEFC7 /* groupChatManager.m */; };
 		60ED96C31B5FB0FC00EBEFC7 /* OTRRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 60ED96C21B5FB0FC00EBEFC7 /* OTRRoom.m */; };
@@ -322,6 +323,8 @@
 		60C3386F1ADC06C50095C314 /* SavePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavePhoto.h; sourceTree = "<group>"; };
 		60C338761ADD33260095C314 /* GetPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPhoto.h; sourceTree = "<group>"; };
 		60C338771ADD33260095C314 /* GetPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPhoto.m; sourceTree = "<group>"; };
+		60E070D71C6363D6006465F4 /* customColor+UIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "customColor+UIColor.h"; sourceTree = "<group>"; };
+		60E070D81C6363D6006465F4 /* customColor+UIColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "customColor+UIColor.m"; sourceTree = "<group>"; };
 		60EBB3471B908E0B009F4CC3 /* OTRTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRTabBar.h; path = custom/OTRTabBar.h; sourceTree = SOURCE_ROOT; };
 		60EBB3481B908E0B009F4CC3 /* OTRTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRTabBar.m; path = custom/OTRTabBar.m; sourceTree = SOURCE_ROOT; };
 		60ED96BD1B5CF8E000EBEFC7 /* groupChatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = groupChatManager.h; sourceTree = "<group>"; };
@@ -775,6 +778,8 @@
 				608C70401ABC591C0065E77B /* AttachPhoto.m */,
 				60EBB3471B908E0B009F4CC3 /* OTRTabBar.h */,
 				60EBB3481B908E0B009F4CC3 /* OTRTabBar.m */,
+				60E070D71C6363D6006465F4 /* customColor+UIColor.h */,
+				60E070D81C6363D6006465F4 /* customColor+UIColor.m */,
 			);
 			name = custom;
 			sourceTree = "<group>";
@@ -1752,6 +1757,7 @@
 				D90B80AF13FC7E5F006EFF3D /* OTRCodec.m in Sources */,
 				604B56251B7CD38C00BA24EC /* OTRRoomSettingsViewController.m in Sources */,
 				63110891190788AE001188BB /* OTRPushObject.m in Sources */,
+				60E070D91C6363D6006465F4 /* customColor+UIColor.m in Sources */,
 				63464F2D1889EC9200526358 /* _OTRManagedAccount.m in Sources */,
 				6397538218CA8222005D6063 /* OTRManagedFacebookAccount.m in Sources */,
 				D92B775514142F150058A789 /* OTREncryptionManager.m in Sources */,

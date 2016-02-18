@@ -48,6 +48,7 @@ extern NSString *const MARK_PHOTO;
 extern NSString *const MINI_PHOTO;
 extern NSString *const MARK_LOCATION;
 extern NSString *const MUC_MESSAGES_SEPARATOR;
+extern NSString *const USER_FOR_NOTIF;
 
 extern NSString *const XMLMS_PROTOCOL_MUC_USER;
 extern NSString *const NOTIFICATION_UPDATE_ROOM_LIST;
@@ -56,6 +57,8 @@ extern NSString *const NOTIFICATION_DID_UPDATE_LOCATION;
 extern NSString *const NOTIFICATION_DID_ERROR_GROUP_CHAT;
 extern NSString *const NOTIFICATION_XMPP_STREAM_DID_DISCONNECT;
 extern NSString *const NOTIFICATION_ADD_MUC_FRIEND;
+
+
 
 
 BOOL *SafeJabTypeIsEqual();

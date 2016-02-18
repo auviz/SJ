@@ -24,7 +24,8 @@
     @property (strong, nonatomic) NSString* titleText;
     @property (strong, nonatomic) NSString* text;
     @property (strong, nonatomic) UIColor* color;
-    
+    @property BOOL isDisabled;
+
 
 @end
 

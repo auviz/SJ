@@ -56,6 +56,7 @@ extern const struct OTRMessageEdges {
 @property (nonatomic, strong) NSString *securBody;
 @property (nonatomic, strong) NSString *lifeTime;
 @property (nonatomic, strong) NSDate * securExperiedTime;
+@property (nonatomic, strong) NSArray * sendCanceledForUsers;
 
 
 
@@ -78,10 +79,14 @@ extern const struct OTRMessageEdges {
 
 + (void)enumerateMessagesWithMessageId:(NSString *)messageId transaction:(YapDatabaseReadTransaction *)transaction usingBlock:(void (^)(OTRMessage *message,BOOL *stop))block;
 
++(OTRMessage *)OTRMessageByMessageId:(NSString *)messageId;
 
 //Secur Messages
 + (void)deleteExpiredMessage:(YapDatabaseReadWriteTransaction*)transaction;
 
 + (void)receivedIReadExpiredMessageForMessageId:(NSString *)messageId experiedDate:(NSDate *)expDate transaction:(YapDatabaseReadWriteTransaction*)transaction;
+
+
+
 
 @end

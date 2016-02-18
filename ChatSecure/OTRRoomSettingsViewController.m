@@ -284,12 +284,13 @@ const float heightFirstSection = 75;
     if([textField.text isEqualToString:self.room.nameRoom]) return nil;
     
     //Переименовать комнату Rename
+   // self.room.nameRoom = textField.text;
     
     groupChatManager *GCM = [[groupChatManager alloc] init];
     
     [GCM renameRoomById:self.room.roomId newRoomName:textField.text];
     
-    [GCM sendRenameRoomForRoomID:self.room.roomId];
+   // [GCM sendRenameRoomForRoomID:self.room.roomId];
  
     
 }

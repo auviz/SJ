@@ -55,7 +55,7 @@ NSString *const MARK_PHOTO =@"pHoToZUM_"; //Отметка фотографии
 NSString *const MARK_LOCATION = @"zEfdaTov_"; //Отметка локации
 NSString *const MINI_PHOTO =@"_mini"; //Отметка фотографии
 NSString *const MUC_MESSAGES_SEPARATOR =@"<ZIG@MUC>"; //Для разделения групповых сообщений
-
+NSString *const USER_FOR_NOTIF = @"notificationmanager";
 
 
 NSString *const XMLMS_PROTOCOL_MUC_USER =@"http://jabber.org/protocol/muc#user"; //Протокол для XMPP room
