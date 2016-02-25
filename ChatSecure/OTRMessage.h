@@ -57,6 +57,7 @@ extern const struct OTRMessageEdges {
 @property (nonatomic, strong) NSString *lifeTime;
 @property (nonatomic, strong) NSDate * securExperiedTime;
 @property (nonatomic, strong) NSArray * sendCanceledForUsers;
+@property (nonatomic, strong) NSArray * participants;
 
 
 

@@ -323,3 +323,5 @@
 #define LIFETIME_STRING [OTRLanguageManager translatedString: @"Lifetime"]
 #define DETAILS_MESSAGE_STRING [OTRLanguageManager translatedString: @"Details of message"]
 #define CANCEL_SENDING_STRING [OTRLanguageManager translatedString: @"Cancel the sending"]
+#define CANCELED_STRING [OTRLanguageManager translatedString: @"Canceled"]
+#define FAILED_TO_CANCEL_SENDING [OTRLanguageManager translatedString: @"Failed to cancel sending a message (message sent)."]

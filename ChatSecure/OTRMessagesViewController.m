@@ -1738,6 +1738,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
     message.read = YES;
     message.transportedSecurely = NO;
     message.lifeTime = [self getTimeOption];
+    message.participants = [self getParticipants];
+
   
     
     
@@ -1862,6 +1864,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
     NSString *timeOption = [self getTimeOption];
     message.lifeTime =timeOption;
+    message.participants = [self getParticipants];
     
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         [message saveWithTransaction:transaction];
@@ -1935,7 +1938,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
     message.text = text;
     message.read = YES;
     message.transportedSecurely = NO;
-   
+    message.participants = [self getParticipants];
+    
     NSString *timeOption = [self getTimeOption];
     message.lifeTime = timeOption;
     
@@ -2430,13 +2434,26 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
     NSAttributedString *attributedString = nil;
     
-    if(message.error){
+    if(message.error || message.sendCanceledForUsers.count > 0){
+        
+        
+        NSString *title = nil;
+        
+        if(message.error){
+            title = NOT_DELIVERED;
+        } else if(message.sendCanceledForUsers.count > 0 && message.sendCanceledForUsers.count != message.participants.count && message.participants.count){
+            title = [NSString stringWithFormat:@"%@ (!)", CANCELED_STRING];
+        } else if(message.sendCanceledForUsers.count > 0){
+             title = CANCELED_STRING;
+        }
+        
+ 
         
         NSMutableParagraphStyle *paragrapStyle = NSMutableParagraphStyle.new;
         paragrapStyle.alignment                = NSTextAlignmentRight;
         
         attributedString = [NSAttributedString.alloc initWithString:
-                            [NSString stringWithFormat:@"%@ %@", NOT_DELIVERED, strTime]
+                            [NSString stringWithFormat:@"%@ %@", title, strTime]
                                                          attributes: @{NSParagraphStyleAttributeName:paragrapStyle,
                                                                        NSForegroundColorAttributeName:[UIColor redColor]}];
         
@@ -2864,6 +2881,22 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 }
 
 #pragma mark - mini actions
+
+-(NSArray *)getParticipants{
+    
+    if(_isGroupChat){
+    
+        NSMutableArray * participants = [[NSMutableArray alloc] initWithArray:[OTRRoom roomById:self.buddy.username].participants];
+        [participants removeObject:self.account.username];
+        
+            if(participants.count > 0){
+              return participants;
+            }
+   
+        }
+    return nil;
+}
+
 
 -(void)reloadDataForCollectionView{
     [self.collectionView reloadData];

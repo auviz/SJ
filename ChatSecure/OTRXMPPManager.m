@@ -752,9 +752,17 @@ static int groupChatNotGoodAttempts_ = 0;
         } else {
              isGroupChatCurAccOutgoing = NO;
         }
-      
-     
         
+     //   BOOL isDB = [OTRMessage isMessageInDBForMessageId:[xmppMessage elementID] transaction:transaction];
+        
+        if([xmppMessage hasReceiptResponse] && ![xmppMessage isErrorMessage]){
+            [OTRMessage receivedDeliveryReceiptForMessageId:[xmppMessage receiptResponseID] transaction:transaction];
+            
+            //Остановить если это просто отчет о доставке
+            return ;
+        }
+      
+     /*
         if(isGroupChatCurAccOutgoing){
          //Если групповой чат то рассматривать входящие сообщения как отчет о доставке (ну если конечно сообщение с тем же id)
             
@@ -775,6 +783,7 @@ static int groupChatNotGoodAttempts_ = 0;
             if(isDB) return;
         
         }
+      */
         
         [self receiveByeRoom:xmppMessage];
         [self receiveRenameRoom:xmppMessage];
@@ -815,10 +824,11 @@ static int groupChatNotGoodAttempts_ = 0;
         
    
     
-        
+    /*
         if ([xmppMessage hasReceiptResponse] && ![xmppMessage isErrorMessage]) {
             [OTRMessage receivedDeliveryReceiptForMessageId:[xmppMessage receiptResponseID] transaction:transaction];
         }
+      */
         
         if ([xmppMessage isMessageWithBody] && ![xmppMessage isErrorMessage])
         {
@@ -1202,6 +1212,8 @@ if(!isOTRMes)
          
             
         [MUCArhive saveRoomMessage:roomID message:(XMPPMessage *)xmppMessage from:self.account.username]; //Zig test
+            
+        
        
         } else {
             [self.xmppStream sendElement:xmppMessage];

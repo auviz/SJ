@@ -51,6 +51,7 @@ const struct OTRMessageEdges OTRMessageEdges = {
         self.messageId = [[NSUUID UUID] UUIDString];
         self.delivered = NO;
         self.read = NO;
+        
     }
     return self;
 }

@@ -35,11 +35,11 @@
 @property (strong, nonatomic) UIView * jsqCell;
 @property (strong, nonatomic) NSString * lifeTimeWord;
 
-@property (strong, nonatomic) NSMutableArray * participants;
+@property (strong, nonatomic) NSArray * participants;
 @property (strong, nonatomic) NSArray *notReceivedMessage;
 
 @property BOOL isGroupChat;
-
+@property BOOL hideItemCancelSending;
 @end
 
 @implementation ShowDetailsMessageVC
@@ -57,6 +57,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
     
  
     if(self){
+        self.hideItemCancelSending = NO;
         self.messageIndexPath = indexPath;
         self.message = [messagesVC messageAtIndexPath:indexPath];
         self.jsqCell = [messagesVC getBubbleFromCellAtIndexPath:indexPath];
@@ -68,11 +69,8 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
         
         
         if(self.isGroupChat){
-            
         
-            self.participants = [[NSMutableArray alloc] initWithArray:[OTRRoom roomById:messagesVC.buddy.username].participants];
-            
-            [self.participants removeObject:messagesVC.account.username];
+            self.participants = self.message.participants;
         }
     
         
@@ -89,14 +87,19 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
     self.title = DETAILS_MESSAGE_STRING;
     
     if(!self.isGroupChat){
+    //Обычный чат
     [self setupItemsCollectionForChat];
     } else {
-        
-        [self setupItemsCollectionForGroupChat];
-        
-      //  dispatch_async(dispatch_get_main_queue(), ^{
+        //Груп чат
+       
+      // Если пришло уведомление о прочтение то не делать лишний запрос
+        if(self.message.delivered){
+            self.notReceivedMessage = [[NSArray alloc] init];
+            [self setupItemsCollectionForGroupChat];
+        } else {
+            [self setupItemsCollectionForGroupChat];
             [self getWhoNotReceivedMessage:self.message.messageId];
-      //  });
+        }
         
     }
     
@@ -210,8 +213,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
                              handler:^(UIAlertAction * action)
                              {
                                  item.isDisabled = YES;
-                                 
-                               //  [self querySendCanceledForUsers];
+                                [self querySendCanceledForUsers];
                              }];
         UIAlertAction* cancel = [UIAlertAction
                                  actionWithTitle:CANCEL_STRING
@@ -396,6 +398,9 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
 }
 
 -(void)setupItemsCollectionForGroupChat{
+    
+     self.itemsCollection = nil; //Очишаю коллекцию перед обновлением
+    
     ZIGItemCell *  item;
     
     
@@ -409,6 +414,16 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
     [self addItemToCell:item];
     
     
+    if(self.participants.count == 0){
+        
+        //Если вдруг массив оказался пустым
+        item = [[ZIGItemCell alloc] init];
+        item.titleText = @"Not Available";
+        item.identifier = CELL_IDENT_INFO;
+        [self addItemToCell:item];
+    }
+    
+    
     for(NSString * participant in self.participants){
         
         
@@ -420,7 +435,11 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
         item.titleText = participant;
         
         
-        if(!self.notReceivedMessage ){
+        if([self.message.sendCanceledForUsers containsObject: participant]){
+            item.text = CANCELED_STRING;
+            item.color = [UIColor redColor];
+            
+        } else if(!self.notReceivedMessage ){
                item.text = @"Loading...";
         } else if([self.notReceivedMessage containsObject:participant]){
             item.text = SUBMITTED_STRING;
@@ -436,7 +455,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
     }
     
     //Кнопка отмены
-   if(self.notReceivedMessage.count != 0) [self addItemCancelSending];
+    if(self.notReceivedMessage.count != 0 && self.message.sendCanceledForUsers.count == 0) [self addItemCancelSending];
 
     
     
@@ -445,7 +464,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
 
 -(void)setupItemsCollectionForChat{
     
-  
+    self.itemsCollection = nil; //Очишаю коллекцию перед обновлением
     
     //int count = [self.itemsCollection count];
     
@@ -454,7 +473,13 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
     
     //Статус доставки
     
-    if(self.message.error){
+    BOOL isCanseled = self.message.sendCanceledForUsers.count > 0 ? YES : NO;
+    
+    if(isCanseled){
+        item.text = CANCELED_STRING;
+        item.color = [UIColor redColor];
+        
+    } else if(self.message.error){
         item.text = NOT_DELIVERED;
         item.color = [UIColor redColor];
     }else if(self.message.delivered){
@@ -482,7 +507,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
     
     
     //Кнопка отмены
-  if(!self.message.delivered)  [self addItemCancelSending];
+  if(!self.message.delivered && !isCanseled)  [self addItemCancelSending];
 
     
   //  item = [[ZIGItemCell alloc] init];
@@ -522,6 +547,9 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
 
 
 -(void)addItemCancelSending{
+    
+    if(self.hideItemCancelSending) return ; //Скрываю кнопку омены
+    
     ZIGItemCell * item = [[ZIGItemCell alloc] init];
     item.identifier = CELL_IDENT_DELIMITER;
    // item.titleText = @"  ";
@@ -558,6 +586,57 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
 
 -(void)setMessageSendCanceledForUsers:(NSArray *)canceledForUsers {
     
+    
+    if([canceledForUsers containsObject:@"not"]){
+        
+     
+        
+      //  UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:FAILED_TO_CANCEL_SENDING delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+     //   [alert show];
+        
+        
+        
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:nil
+                                      message:FAILED_TO_CANCEL_SENDING
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:OK_STRING
+                             style:UIAlertActionStyleDefault
+                             handler:nil];
+
+        [alert addAction:ok];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+        //Установить как доставлено в бд
+          [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+            
+              
+                [OTRMessage receivedDeliveryReceiptForMessageId:self.message.messageId transaction:transaction];
+                
+           
+        }];
+        
+         //Для того чтоб ячейки написали доставлено
+        self.message.delivered = YES;
+        self.notReceivedMessage = self.notReceivedMessage = [[NSArray alloc] init];
+        
+        
+        if(self.isGroupChat){
+            [self setupItemsCollectionForGroupChat];
+        } else {
+            [self setupItemsCollectionForChat];
+        }
+        
+        
+        [self reloadTable];
+        
+        return ; //Если нет что отменять то стоп
+    }
+    
     self.message.sendCanceledForUsers = canceledForUsers;
     self.message.read = YES;
     
@@ -584,7 +663,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
 
 
 
-#pragma mark - Генерация запроса для групповых сообщений
+#pragma mark - Генерация запроса для групповых сообщений и обычных
 
 -(void)querySendCanceledForUsers{
     
@@ -604,7 +683,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
          if ([data length] >0 && error == nil)
          {
              // DO YOUR WORK HERE
-             self.itemsCollection = nil;
+            // self.itemsCollection = nil;
              
              NSString *usersCanseled = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
              NSArray *arrUsersCanseled = [usersCanseled componentsSeparatedByString:@"|"];
@@ -641,7 +720,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
          if ([data length] >0 && error == nil)
          {
              // DO YOUR WORK HERE
-            self.itemsCollection = nil;
+            //self.itemsCollection = nil;
              
               NSString *messages = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
              self.notReceivedMessage = [messages componentsSeparatedByString:@"|"];
@@ -654,7 +733,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
          }
          else if ([data length] == 0 && error == nil)
          {
-             self.itemsCollection = nil;
+            // self.itemsCollection = nil;
              self.notReceivedMessage = [[NSArray alloc] init];
              [self setupItemsCollectionForGroupChat];
             
