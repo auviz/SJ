@@ -628,6 +628,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 - (void)resetLayoutAndCaches {
 
+    //Эта хнрня помогает избежать ошибки при повороте
+    self.view.frame = self.view.bounds;
     
     //Если с рамерами коллекции фигня
     if(self.collectionView.frame.size.width > self.navigationController.toolbar.frame.size.width && self.collectionView.frame.size.width && self.navigationController.toolbar.frame.size.width){

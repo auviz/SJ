@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "476279163.601212"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "762"
-            endingLineNumber = "762"
+            startingLineNumber = "763"
+            endingLineNumber = "763"
             landmarkName = "-updateRoomList"
             landmarkType = "5">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478003402.127518"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1820"
-            endingLineNumber = "1820"
+            startingLineNumber = "1821"
+            endingLineNumber = "1821"
             landmarkName = "-sendUidPhoto:"
             landmarkType = "5">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478003402.127518"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1804"
-            endingLineNumber = "1804"
+            startingLineNumber = "1805"
+            endingLineNumber = "1805"
             landmarkName = "-sendUidPhoto:"
             landmarkType = "5">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478003402.127518"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1806"
-            endingLineNumber = "1806"
+            startingLineNumber = "1807"
+            endingLineNumber = "1807"
             landmarkName = "-sendUidPhoto:"
             landmarkType = "5">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478003402.127518"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1811"
-            endingLineNumber = "1811"
+            startingLineNumber = "1812"
+            endingLineNumber = "1812"
             landmarkName = "-sendUidPhoto:"
             landmarkType = "5">
          </BreakpointContent>
@@ -442,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478003402.127518"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1823"
-            endingLineNumber = "1823"
+            startingLineNumber = "1824"
+            endingLineNumber = "1824"
             landmarkName = "-sendUidPhoto:"
             landmarkType = "5">
          </BreakpointContent>
@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478003402.127518"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1817"
-            endingLineNumber = "1817"
+            startingLineNumber = "1818"
+            endingLineNumber = "1818"
             landmarkName = "-sendUidPhoto:"
             landmarkType = "5">
          </BreakpointContent>
@@ -474,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478003402.127518"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1812"
-            endingLineNumber = "1812"
+            startingLineNumber = "1813"
+            endingLineNumber = "1813"
             landmarkName = "-sendUidPhoto:"
             landmarkType = "5">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478018431.81989"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2965"
-            endingLineNumber = "2965"
+            startingLineNumber = "2966"
+            endingLineNumber = "2966"
             landmarkName = "-getBubbleFromCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -634,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478018431.81989"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2964"
-            endingLineNumber = "2964"
+            startingLineNumber = "2965"
+            endingLineNumber = "2965"
             landmarkName = "-getBubbleFromCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1146,11 +1146,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatSecure/OTRMessagesViewController.m"
-            timestampString = "478097574.539524"
+            timestampString = "478169588.506829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2445"
-            endingLineNumber = "2445"
+            startingLineNumber = "2446"
+            endingLineNumber = "2446"
             landmarkName = "-collectionView:attributedTextForCellBottomLabelAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
