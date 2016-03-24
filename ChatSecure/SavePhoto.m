@@ -213,7 +213,7 @@
     return [UIImage imageWithData:data];
 }
 
-+(UIImage *)compressImage:(UIImage *)image maxSize: (int)maxSize {
++(UIImage *)compressImage:(UIImage *)image maxSize: (float)maxSize {
     
     if(!maxSize) maxSize = 30;
     CGRect rect;

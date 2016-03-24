@@ -48,6 +48,14 @@
 #import "OTRMessage.h"
 #import "OTRLog.h"
 #import "OTRTabBar.h"
+//#import "BlurView.h"
+#import "SavePhoto.h"
+
+
+#include "XMPPvCardTemp.h"
+#include "OTRXMPPManager.h"
+//#include "ZIGMyVCard.h"
+
 
 
 #import "OTRDatabaseUnlockViewController.h"
@@ -56,11 +64,13 @@
 
 static NSString *const circleImageName = @"31-circle-plus-large.png";
 
-@interface OTRSettingsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface OTRSettingsViewController () <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) YapDatabaseViewMappings *mappings;
 @property (nonatomic, strong) YapDatabaseConnection *databaseConnection;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) MBProgressHUD * HUD;
+
 
 @property OTRTabBar *tabBar;
 
@@ -133,6 +143,24 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 {
     [super viewWillAppear:animated];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didUpdateVCardFromServer)
+                                                 name:NOTIFICATION_DID_UPDATE_VCARD_FROM_SERVER
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didErrorVCardFromServer)
+                                                 name:NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didGetMyVCard)
+                                                 name:NOTIFICATION_I_GET_MY_VCARD
+                                               object:nil];
+    
+    
+    
    
     
     [[OTRProtocolManager sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectedProtocols)) options:NSKeyValueObservingOptionNew context:NULL];
@@ -163,6 +191,10 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_DID_UPDATE_VCARD_FROM_SERVER object:nil];
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER object:nil];
+         [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_I_GET_MY_VCARD object:nil];
     
     [[OTRProtocolManager sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectedProtocols))];
     [[OTRProtocolManager sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectingProtocols))];
@@ -235,6 +267,7 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
             OTRAccountTableViewCell *accountCell = (OTRAccountTableViewCell*)[tableView dequeueReusableCellWithIdentifier:accountCellIdentifier];
             if (accountCell == nil) {
                 accountCell = [[OTRAccountTableViewCell alloc] initWithReuseIdentifier:accountCellIdentifier];
+               
             }
             
             [accountCell setAccount:account];
@@ -248,9 +281,15 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
             else {
                 [accountCell setConnectedText:OTRProtocolConnectionStatusDisconnected];
             }
+            
+            
 
             cell = accountCell;
+            
+            
+            
         }
+        
         return cell;
     }
     static NSString *cellIdentifier = @"Cell";
@@ -281,13 +320,20 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(indexPath.row == 0 && indexPath.section == 0){
+        return heightAccountTableViewCel;
+    }
+    
     return 50.0;
 }
+
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return [self.settingsManager stringForGroupInSection:section];
 }
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -325,8 +371,25 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
                     //Удаляю аккаунт
                      [OTRAccountsManager removeAccount:account];
                 }];
+                
+                RIButtonItem * chAvatarBtn = [RIButtonItem itemWithLabel:CHANGE_AVATAR_STRING action:^{
+                    //Перехожу к смене аватарки
+       
+                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                    picker.delegate = self;
+                    picker.allowsEditing = YES;
+                  
+                    
+                    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                    
+                    [self presentViewController:picker animated:YES completion:nil];
+                    
+                    
+                }];
+                
+                
 
-                UIActionSheet * logoutActionSheet = [[UIActionSheet alloc] initWithTitle:nil cancelButtonItem:cancelButtonItem destructiveButtonItem:logoutButtonItem otherButtonItems:nil];
+                UIActionSheet * logoutActionSheet = [[UIActionSheet alloc] initWithTitle:nil cancelButtonItem:cancelButtonItem destructiveButtonItem:logoutButtonItem otherButtonItems:chAvatarBtn, nil];
                 
                 [OTRAppDelegate presentActionSheet:logoutActionSheet inView:self.view];
             }
@@ -607,5 +670,208 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
     [self.tableView endUpdates];
 }
 
+#pragma mark - add Avatar
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    
+   // BlurView * bv = [[BlurView alloc] initWithView:[OTRAppDelegate appDelegate].window.rootViewController.view];
+   // [bv setupWaitView];
+    
+    
+    
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    
+    [self updateAvatar:chosenImage];
+    
+   // UIImage * newAva =  [SavePhoto compressImage:chosenImage maxSize:200];
+  //  NSData * dataNewAva =   UIImageJPEGRepresentation(newAva, 0.9);
+  
+  //  NSString *b64NewAva = [dataNewAva base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    
+    
+  
+    
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)updateAvatar:(UIImage *)avatar
+{
+    
+    //OTRvCardYapDatabaseStorage *test = [[OTRvCardYapDatabaseStorage alloc] init];
+    
+  //  [test ]
+    
+    
+    //dispatch_async(dispatch_get_main_queue(), ^{
+        
+        OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:SJAccount()];
+    
+    
+  
+        
+        
+     //   XMPPvCardTemp *vCard =[xmppManager.xmppvCardTempModule vCardTempForJID:xmppManager.xmppStream.myJID.bareJID shouldFetch:YES];
+        
+        
+      //  NSLog(@"vCard %@", vCard);
+    
+   // });
+    
+  
+    
+    
+    UIImage * newAva =  [SavePhoto compressImage:avatar maxSize:200];
+    NSData * dataNewAva =   UIImageJPEGRepresentation(newAva, 0.9);
+    NSString *b64NewAva = [dataNewAva base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    
+    
+    
+  //  NSLog(@"xmppvCardTempModule %@", xmppManager.xmppvCardTempModule);
+    
+    
+    
+  //  NSData *imageData = UIImagePNGRepresentation(newAva);
+    
+    
+    if(xmppManager.myVCard && b64NewAva.length > 10){
+        
+       
+    
+    //dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+         [self showHUD];
+      
+        
+        OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:SJAccount()];
+        
+        
+
+        NSXMLElement *vCardXML = [NSXMLElement elementWithName:@"vCard" xmlns:@"vcard-temp"];
+        
+        //[imageData1 base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
+        
+      
+        NSXMLElement *NICKNAME = [NSXMLElement elementWithName:@"NICKNAME"stringValue:xmppManager.myVCard.nickname];
+        NSXMLElement *EMAIL = [NSXMLElement elementWithName:@"EMAIL"stringValue:xmppManager.myVCard.email];
+            
+            NSXMLElement *photoXML = [NSXMLElement elementWithName:@"PHOTO"];
+            NSXMLElement *typeXML = [NSXMLElement elementWithName:@"TYPE"stringValue:@"image/jpeg"];
+            NSXMLElement *binvalXML = [NSXMLElement elementWithName:@"BINVAL" stringValue:b64NewAva];
+        
+             [vCardXML addChild:NICKNAME];
+        
+            [photoXML addChild:typeXML];
+            [photoXML addChild:binvalXML];
+            [vCardXML addChild:photoXML];
+        
+            [vCardXML addChild:EMAIL];
+        
+
+        
+        
+        XMPPvCardTemp *newvCardTemp = [XMPPvCardTemp vCardTempFromElement:vCardXML];
+        [xmppManager.xmppvCardTempModule updateMyvCardTemp:newvCardTemp];
+        
+       
+        
+       // XMPPvCardTemp *myvCardTemp = [xmppManager.xmppvCardTempModule myvCardTemp];
+        
+        
+     //   NSLog(@"ZZZZIIIFGHFGF_%@", myvCardTemp);
+        
+        /*
+        if (myvCardTemp) {
+            [myvCardTemp setPhoto:imageData1];
+            [xmppManager.xmppvCardTempModule updateMyvCardTemp
+             :myvCardTemp];
+            
+        }
+        else{
+            
+            XMPPvCardTemp *newvCardTemp = [XMPPvCardTemp vCardTempFromElement:vCardXML];
+            [xmppManager.xmppvCardTempModule updateMyvCardTemp:newvCardTemp];
+        }
+         */
+        
+    
+        
+        /*
+        XMPPvCardTempModule *vCardTempModule = xmppManager.xmppvCardTempModule;
+        XMPPvCardTemp *myVcardTemp = [vCardTempModule myvCardTemp];
+        //[myVcardTemp setName:[NSString stringWithFormat:@"%@",name.text]];
+        [myVcardTemp setPhoto:imageData];
+        [vCardTempModule updateMyvCardTemp:myVcardTemp];
+         */
+    });
+        
+    }
+     
+}
+
+- (void)showHUD
+{
+    [self.view endEditing:YES];
+    if (!self.HUD) {
+        self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:self.HUD];
+    }
+    self.HUD.mode = MBProgressHUDModeIndeterminate;
+    self.HUD.labelText = PLEASE_WAIT;
+    
+    
+    [self.HUD show:YES];
+}
+
+- (void)hideHUD {
+    if (self.HUD) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.HUD hide:YES];
+            
+        });
+        
+        
+    }
+}
+
+-(void)didUpdateVCardFromServer{
+    [self hideHUD];
+}
+
+-(void)didErrorVCardFromServer{
+    [self hideHUD];
+    
+    
+    
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:ERROR_STRING
+                                  message:@"Avatar update..."
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+
+    UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:OK_STRING
+                             style:UIAlertActionStyleDefault
+                             handler:nil];
+    
+    
+    [alert addAction:ok];
+
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)didGetMyVCard{
+    [self hideHUD];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+            [self.tableView reloadSections:[[NSIndexSet alloc] initWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        
+    });
+}
 @end

@@ -56,6 +56,7 @@ static NSString *const kDefaultCellReuseIdentifier = @"kDefaultCellReuseIdentifi
 @property (nonatomic, strong) OTRSocialButtonsView *socialButtonsView;
 @property (nonatomic, strong) NSArray *cellData;
 @property (nonatomic) BOOL hasAddedConstraints;
+@property (nonatomic, strong) UIActivityIndicatorView *waitView;
 @end
 
 @implementation OTRAboutViewController
@@ -156,14 +157,21 @@ static NSString *const kDefaultCellReuseIdentifier = @"kDefaultCellReuseIdentifi
         self.edgesForExtendedLayout = UIRectEdgeNone;
         [self.navigationController.view setBackgroundColor:[UIColor whiteColor]];
     }
+    
+    UIBarButtonItem *emailButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"18-envelope"] style:UIBarButtonItemStylePlain target:self action:@selector(emailButtonPressed)];
 
     
+    //emailButtonItem.
+
+  //  UIBarButtonItem * emailButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(emailButtonPressed)];
+    
+    self.navigationItem.rightBarButtonItem = emailButtonItem;
 
     
     //[self setupVersionLabel];
    // [self setupImageView];
     [self setupBackGround];
-    [self setupWebView];
+    //[self setupWebView];
     [self setupLabelView];
     
     //[self setupSocialView];
@@ -174,9 +182,37 @@ static NSString *const kDefaultCellReuseIdentifier = @"kDefaultCellReuseIdentifi
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+     [self setupWebView];
      self.webView.alpha= 0;
     
+    //Добавление индикатора
+    [self setupWaitView];
+    
+   
 
+}
+
+-(void)setupWaitView{
+    
+    
+    if(!self.waitView){
+    
+    self.waitView = [[UIActivityIndicatorView alloc]
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    self.waitView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+    
+    self.waitView.center = self.view.center;
+        
+        self.waitView.color = [UIColor darkGrayColor];
+        
+    [self.view addSubview:self.waitView];
+    }
+    
+    [self.waitView startAnimating];
+    
+    
 }
 
 
@@ -218,7 +254,8 @@ static NSString *const kDefaultCellReuseIdentifier = @"kDefaultCellReuseIdentifi
     [webView stringByEvaluatingJavaScriptFromString:jsStrAcc];
     [webView stringByEvaluatingJavaScriptFromString:jsStrVer];
     
-
+    //Скрываю индикатор
+    [self.waitView stopAnimating];
 
     // начинаем анимацию
     [UIView beginAnimations:nil context:nil];
@@ -261,6 +298,19 @@ static NSString *const kDefaultCellReuseIdentifier = @"kDefaultCellReuseIdentifi
     [OTRAppDelegate presentActionSheet:safariActionSheet inView:self.view];
 }
 
+-(void)emailButtonPressed{
+    
+    NSString *versionAppInDevice = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+    NSString * recipients = [NSString stringWithFormat:@"mailto:zig@lc-rus.com?subject=SafeJab v%@", versionAppInDevice];
+
+    NSString *body = @"&body=Hello Support.";
+    
+    NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+    email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
 
 #pragma - mark TTTatributedLabelDelegate Methods
 

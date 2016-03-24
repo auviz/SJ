@@ -15,6 +15,8 @@
 		604729621BCBFDE200B6F309 /* OTRMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 604729611BCBFDE200B6F309 /* OTRMapViewController.m */; };
 		6049DDDE1A69188800315166 /* SetGlobVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6049DDDD1A69188800315166 /* SetGlobVar.m */; };
 		604B56251B7CD38C00BA24EC /* OTRRoomSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 604B56241B7CD38C00BA24EC /* OTRRoomSettingsViewController.m */; };
+		605149991C8479A200C25C47 /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 605149981C8479A200C25C47 /* BlurView.m */; };
+		6051499E1C88593600C25C47 /* ZIGMyVCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6051499D1C88593500C25C47 /* ZIGMyVCard.m */; };
 		605DF1831A9E0673006A8DB9 /* pinCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 605DF1821A9E0673006A8DB9 /* pinCode.m */; };
 		605DF1861A9F4CBA006A8DB9 /* pinCodeSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 605DF1851A9F4CB9006A8DB9 /* pinCodeSetting.m */; };
 		608125271B8B24B000CA89F4 /* OTRAddFriendInGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 608125261B8B24B000CA89F4 /* OTRAddFriendInGroup.m */; };
@@ -269,6 +271,10 @@
 		6049DDDD1A69188800315166 /* SetGlobVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetGlobVar.m; path = custom/SetGlobVar.m; sourceTree = SOURCE_ROOT; };
 		604B56231B7CD38C00BA24EC /* OTRRoomSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTRRoomSettingsViewController.h; sourceTree = "<group>"; };
 		604B56241B7CD38C00BA24EC /* OTRRoomSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTRRoomSettingsViewController.m; sourceTree = "<group>"; };
+		605149971C8479A200C25C47 /* BlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlurView.h; sourceTree = "<group>"; };
+		605149981C8479A200C25C47 /* BlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlurView.m; sourceTree = "<group>"; };
+		6051499C1C88593500C25C47 /* ZIGMyVCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZIGMyVCard.h; sourceTree = "<group>"; };
+		6051499D1C88593500C25C47 /* ZIGMyVCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZIGMyVCard.m; sourceTree = "<group>"; };
 		605DF1811A9E0673006A8DB9 /* pinCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinCode.h; sourceTree = "<group>"; };
 		605DF1821A9E0673006A8DB9 /* pinCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pinCode.m; sourceTree = "<group>"; };
 		605DF1841A9F4CB9006A8DB9 /* pinCodeSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinCodeSetting.h; sourceTree = "<group>"; };
@@ -754,6 +760,8 @@
 		6015FD231AFA5AE300D48D84 /* miniActions */ = {
 			isa = PBXGroup;
 			children = (
+				605149971C8479A200C25C47 /* BlurView.h */,
+				605149981C8479A200C25C47 /* BlurView.m */,
 				6015FD241AFA5BB400D48D84 /* Resend.h */,
 				6015FD251AFA5BB400D48D84 /* Resend.m */,
 			);
@@ -763,6 +771,7 @@
 		6049DDDB1A6917A200315166 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				6051499B1C8858EE00C25C47 /* miniClasses */,
 				6015FD231AFA5AE300D48D84 /* miniActions */,
 				60C338761ADD33260095C314 /* GetPhoto.h */,
 				60C338771ADD33260095C314 /* GetPhoto.m */,
@@ -782,6 +791,15 @@
 				60E070D81C6363D6006465F4 /* customColor+UIColor.m */,
 			);
 			name = custom;
+			sourceTree = "<group>";
+		};
+		6051499B1C8858EE00C25C47 /* miniClasses */ = {
+			isa = PBXGroup;
+			children = (
+				6051499C1C88593500C25C47 /* ZIGMyVCard.h */,
+				6051499D1C88593500C25C47 /* ZIGMyVCard.m */,
+			);
+			name = miniClasses;
 			sourceTree = "<group>";
 		};
 		608C70421ABC615B0065E77B /* PhotoPicker */ = {
@@ -1765,6 +1783,7 @@
 				639C60A718CA980500CC4DF4 /* OTRBoolSetting.m in Sources */,
 				D9BBCD3F1491F8B400AF1B9F /* OTRAboutViewController.m in Sources */,
 				639752EB18CA7B23005D6063 /* OTRCertificatesViewController.m in Sources */,
+				605149991C8479A200C25C47 /* BlurView.m in Sources */,
 				D9C7463D15350F62003445ED /* OTRSettingsViewController.m in Sources */,
 				6304F4D318861C4300365824 /* OTRXMPPError.m in Sources */,
 				D9FBD71815472FA700126568 /* OTRSettingTableViewCell.m in Sources */,
@@ -1866,6 +1885,7 @@
 				6397538318CA8222005D6063 /* OTRManagedGoogleAccount.m in Sources */,
 				D9B340D519009D70006D5D0A /* OTRCertificatePinning.m in Sources */,
 				639C60C018CA988400CC4DF4 /* OTRIntSetting.m in Sources */,
+				6051499E1C88593600C25C47 /* ZIGMyVCard.m in Sources */,
 				639C60C918CA98AC00CC4DF4 /* OTRActivityItemProvider.m in Sources */,
 				6397538118CA8222005D6063 /* OTRManagedEncryptionMessage.m in Sources */,
 				608C706B1ABC62020065E77B /* VFCropAreaView.m in Sources */,

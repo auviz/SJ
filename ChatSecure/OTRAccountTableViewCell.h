@@ -11,11 +11,15 @@
 
 @class OTRAccount;
 
+const float heightAccountTableViewCel = 66;
+const float paddingAccountTableViewCel = 10;
+
 @interface OTRAccountTableViewCell : UITableViewCell
 
 - (instancetype)initWithReuseIdentifier:(NSString *)identifier;
 - (void)setAccount:(OTRAccount *)account;
 - (void)setConnectedText:(OTRProtocolConnectionStatus)connectionStatus;
+
 
 
 @end

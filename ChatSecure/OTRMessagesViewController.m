@@ -226,10 +226,10 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
     if(!isConnected){
         [self startIndicatorView];
-        [self checkСonnection];
+        [self checkConnection];
         self.timerWaitingConnection = [NSTimer scheduledTimerWithTimeInterval: 1.0
                                                                        target: self
-                                                                     selector: @selector(checkСonnection)
+                                                                     selector: @selector(checkConnection)
                                                                      userInfo: nil
                                                                       repeats: YES];
         
@@ -238,17 +238,9 @@ typedef NS_ENUM(int, OTRDropDownType) {
     
 }
 
--(void)checkСonnection {
-    
-    static int count;
+-(void)checkConnection {
     
     if([self isConnected]){
-        count = 0;
-        
-        
-         // NSLog(@"connectM");
-        
-        
         
         [self.inputToolbar toggleSendButtonEnabled];
         
@@ -257,16 +249,6 @@ typedef NS_ENUM(int, OTRDropDownType) {
         [self clearTimerWaitingConnection];
         
     } else {
-        
-        count ++;
-        
-        if(count == 10) {
-            ///Ну если совсем пиздец переподключаемся (полностью)
-            [[OTRProtocolManager sharedInstance] loginAccounts:[OTRAccountsManager allAutoLoginAccounts]];
-            count = 0;
-        }
-        
-        //  NSLog(@"NOTconnectM %d", (int)count);
         
         [self startIndicatorView];
         

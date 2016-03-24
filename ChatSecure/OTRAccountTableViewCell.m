@@ -11,6 +11,7 @@
 #import "OTRAccount.h"
 #import "Strings.h"
 #import "OTRImages.h"
+#import "SavePhoto.h"
 
 @implementation OTRAccountTableViewCell
 
@@ -26,13 +27,27 @@
         self.textLabel.text = account.displayName;
     }
     
-    self.imageView.image = [account accountImage];
+    float widthHeight = (heightAccountTableViewCel - paddingAccountTableViewCel);
     
-    if( account.accountType == OTRAccountTypeFacebook)
-    {
-        self.imageView.layer.masksToBounds = YES;
-        self.imageView.layer.cornerRadius = 10.0;
+    UIImage * accImage = [account accountImage];
+    
+    if(accImage.size.width > 60){
+        self.imageView.image = [SavePhoto compressImage:accImage maxSize:widthHeight];
+    } else {
+         self.imageView.image = [account accountImage];
     }
+    
+    
+
+
+    
+        self.imageView.layer.masksToBounds = YES;
+        self.imageView.layer.cornerRadius = widthHeight/2; //Половина от всоты ячейки c учетом отступа
+    
+    
+    
+    
+   // }
 }
 
 - (void)setConnectedText:(OTRProtocolConnectionStatus)connectionStatus {
@@ -44,7 +59,7 @@
         self.detailTextLabel.text = CONNECTING_STRING;
     }
     else {
-        self.detailTextLabel.text = nil;
+        self.detailTextLabel.text = WAITING_FOR_INTERNET_CONNECTION;
     }
 }
 

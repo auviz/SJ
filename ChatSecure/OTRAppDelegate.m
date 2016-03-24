@@ -799,7 +799,11 @@
     
    // dispatch_async(dispatch_get_main_queue(), ^{
     
+    
+    
     if(![OTRDatabaseManager sharedInstance]) return ;
+    
+    [self checkConnection]; //Эта штука нужна для реконнекта после 10 секунд
     
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         
@@ -813,6 +817,44 @@
     
     
 
+}
+
+#pragma mark - Check connection (if not connection reconnect)
+
+-(BOOL)isConnected {
+    
+    
+    
+    // self.account
+    BOOL isConnected =   [[OTRAccountsManager allAccountsAbleToAddBuddies] count] > 0 ? YES : NO;
+    
+    if(isConnected){
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+-(void)checkConnection {
+    
+    static int count;
+    
+    if([self isConnected]){
+        count = 0;
+        
+        
+    } else {
+        
+        count ++;
+        
+        if(count == 10) {
+            ///Ну если совсем пиздец переподключаемся (полностью)
+            [[OTRProtocolManager sharedInstance] loginAccounts:[OTRAccountsManager allAutoLoginAccounts]];
+            count = 0;
+        }
+        
+    }
+    
 }
 
 @end

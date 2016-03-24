@@ -10,6 +10,12 @@
 #import "OTRXMPPManager.h"
 #import "Strings.h"
 #import "OTRConstants.h"
+#import "OTRImages.h"
+#import "OTRXMPPManager.h"
+#import "OTRProtocolManager.h"
+#import "SetGlobVar.h"
+
+
 
 static NSUInteger const OTRDefaultPortNumber = 5222;
 
@@ -36,7 +42,19 @@ static NSUInteger const OTRDefaultPortNumber = 5222;
 
 - (UIImage *)accountImage
 {
-    if(self.isSecurName){ //zigzagcorp disp name
+
+    
+    
+    
+        OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:self];
+    
+
+    
+   UIImage *ava = [OTRImages avatarImageWithUniqueIdentifier:nil avatarData:xmppManager.myVCard.photoData displayName:nil username:self.username];
+    
+    if(ava){
+        return ava;
+    }else if(self.isSecurName){ //zigzagcorp disp img
          return [UIImage imageNamed:securImage];
     } else {
         return [UIImage imageNamed:OTRXMPPImageName];

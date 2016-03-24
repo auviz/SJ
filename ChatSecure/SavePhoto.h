@@ -38,7 +38,7 @@
 
 +(void)genMiniImage: (UIImage *)image unicName: (NSString *)unicName;
 
-+(UIImage *)compressImage:(UIImage *)image maxSize: (int)maxSize;
++(UIImage *)compressImage:(UIImage *)image maxSize: (float)maxSize;
 
 
 @end

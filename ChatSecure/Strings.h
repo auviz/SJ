@@ -325,3 +325,6 @@
 #define CANCEL_SENDING_STRING [OTRLanguageManager translatedString: @"Cancel the sending"]
 #define CANCELED_STRING [OTRLanguageManager translatedString: @"Canceled"]
 #define FAILED_TO_CANCEL_SENDING [OTRLanguageManager translatedString: @"Failed to cancel sending a message (message sent)."]
+#define CHANGE_AVATAR_STRING [OTRLanguageManager translatedString: @"Change avatar"]
+#define PLEASE_WAIT [OTRLanguageManager translatedString: @"Please wait..."]
+#define WAITING_FOR_INTERNET_CONNECTION [OTRLanguageManager translatedString: @"Waiting for internet connection"]

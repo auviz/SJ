@@ -75,7 +75,7 @@ NSTimeInterval const kOTRChatStatePausedTimeout   = 5;
 NSTimeInterval const kOTRChatStateInactiveTimeout = 120;
 
 
-@interface OTRXMPPManager()
+@interface OTRXMPPManager()<XMPPvCardTempModuleDelegate>
 
 @property (nonatomic, strong) OTRXMPPAccount *account;
 @property (nonatomic) OTRProtocolConnectionStatus connectionStatus;
@@ -347,12 +347,19 @@ static int groupChatNotGoodAttempts_ = 0;
 
 - (void)goOnline
 {
-    self.connectionStatus = OTRProtocolConnectionStatusConnected;
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:kOTRProtocolLoginSuccess object:self];
-	XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
-	
-	[[self xmppStream] sendElement:presence];
+   
+        
+        self.connectionStatus = OTRProtocolConnectionStatusConnected;
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:kOTRProtocolLoginSuccess object:self];
+        XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
+        
+        [[self xmppStream] sendElement:presence];
+    
+ 
+    
+    
+  
 }
 
 - (void)goOffline
@@ -643,6 +650,58 @@ static int groupChatNotGoodAttempts_ = 0;
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
 {
     
+    if([iq.fromStr isEqualToString:self.account.username] && self.account.username){
+        
+        
+       NSString * type = [iq attributeStringValueForName:@"type"];
+        NSString * iqId = [iq elementID];
+        
+        //Жду результата что обновилась моявизитка
+        if(self.xmppvCardTempModule.lastGeneratedId && [iqId isEqualToString:self.xmppvCardTempModule.lastGeneratedId]){
+            
+            if([type isEqualToString:@"result"]){
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_DID_UPDATE_VCARD_FROM_SERVER object:self];
+              
+            } else if([type isEqualToString:@"error"]){
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER object:self];
+                 
+            }
+            
+            
+            self.xmppvCardTempModule.lastGeneratedId=nil;
+            
+        }
+        
+        
+      //  <iq xmlns="jabber:client" from="test@safejab.com" to="test@safejab.com/safejab1699" id="A0C50063-79DF-45FA-918C-80CE8C020B8F" type="result"/>
+        
+        
+       NSXMLElement * vCard = [iq elementForName:@"vCard" xmlns:@"vcard-temp"];
+        
+        if(vCard){
+            
+            self.myVCard =  [[ZIGMyVCard alloc] initWithVCard:vCard];
+            
+            //Просто говорю о том что получил vCard
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_I_GET_MY_VCARD object:self];
+        
+        }
+        
+       
+        
+      
+      //  NSString * test = [delay stringValue];
+        
+     
+        
+       // if (delay)
+      ///  {
+       ///     NSString *stampValue = [delay attributeStringValueForName:@"stamp"];
+    }
+    
+  
 
     
 	DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [iq elementID]);
@@ -1176,7 +1235,7 @@ if(!isOTRMes)
             
               roomID =  [ [XMPPJID jidWithString:buddy.username] user];
             
-            [self sendPushForRoomFrom:self.account.username roomID:roomID body:message.text];
+           // [self sendPushForRoomFrom:self.account.username roomID:roomID body:message.text];
             
             messageType = @"groupchat";
            
@@ -1807,7 +1866,7 @@ managedBuddyObjectID
                 
                 roomID =  [ [XMPPJID jidWithString:buddy.username] user];
                 
-                [self sendPushForRoomFrom:self.account.username roomID:roomID body:message.text];
+               // [self sendPushForRoomFrom:self.account.username roomID:roomID body:message.text];
                 
                 messageType = @"groupchat";
                 
@@ -2157,6 +2216,8 @@ managedBuddyObjectID
     [MUCArhive saveRoomMessage:roomID message:xmppMessage from:self.account.username];
     
 }
+
+
 
 
 @end

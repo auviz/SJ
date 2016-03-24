@@ -1,23 +1,23 @@
 PODS:
-  - AFNetworking (2.6.0):
-    - AFNetworking/NSURLConnection (= 2.6.0)
-    - AFNetworking/NSURLSession (= 2.6.0)
-    - AFNetworking/Reachability (= 2.6.0)
-    - AFNetworking/Security (= 2.6.0)
-    - AFNetworking/Serialization (= 2.6.0)
-    - AFNetworking/UIKit (= 2.6.0)
-  - AFNetworking/NSURLConnection (2.6.0):
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.0):
+  - AFNetworking/NSURLSession (2.6.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.0)
-  - AFNetworking/Security (2.6.0)
-  - AFNetworking/Serialization (2.6.0)
-  - AFNetworking/UIKit (2.6.0):
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - AFOAuth2Client (0.1.2):
@@ -32,12 +32,12 @@ PODS:
   - BBlock/StoreKit (1.2.1)
   - BBlock/UIKit (1.2.1)
   - BButton (4.0.2)
-  - Bolts (1.3.0):
-    - Bolts/AppLinks (= 1.3.0)
-    - Bolts/Tasks (= 1.3.0)
-  - Bolts/AppLinks (1.3.0):
+  - Bolts (1.6.0):
+    - Bolts/AppLinks (= 1.6.0)
+    - Bolts/Tasks (= 1.6.0)
+  - Bolts/AppLinks (1.6.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.3.0)
+  - Bolts/Tasks (1.6.0)
   - CocoaAsyncSocket (7.4.1)
   - CocoaLumberjack (1.9.2):
     - CocoaLumberjack/Extensions (= 1.9.2)
@@ -55,19 +55,21 @@ PODS:
   - gtm-oauth2 (0.1.0):
     - GTMHTTPFetcher
   - GTMHTTPFetcher (1.141)
-  - HockeySDK (3.8.2):
-    - HockeySDK/AllFeaturesLib (= 3.8.2)
-  - HockeySDK/AllFeaturesLib (3.8.2)
+  - HockeySDK (3.8.5):
+    - HockeySDK/AllFeaturesLib (= 3.8.5)
+  - HockeySDK/AllFeaturesLib (3.8.5)
   - JSQMessagesViewController (7.2.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - JTTargetActionBlock (1.0.0)
   - JVFloatLabeledTextField (0.0.9)
-  - MagicalRecord (2.3.0)
-  - Mantle (1.5.5):
-    - Mantle/extobjc (= 1.5.5)
-  - Mantle/extobjc (1.5.5)
-  - MBProgressHUD (0.9.1)
+  - MagicalRecord (2.3.2):
+    - MagicalRecord/Core (= 2.3.2)
+  - MagicalRecord/Core (2.3.2)
+  - Mantle (1.5.7):
+    - Mantle/extobjc (= 1.5.7)
+  - Mantle/extobjc (1.5.7)
+  - MBProgressHUD (0.9.2)
   - MWFeedParser (1.0.1):
     - MWFeedParser/FeedParser (= 1.0.1)
     - MWFeedParser/NSDate+InternetDateTime (= 1.0.1)
@@ -91,12 +93,12 @@ PODS:
   - SQLCipher/common (3.1.0)
   - SQLCipher/fts (3.1.0):
     - SQLCipher/common
-  - SSKeychain (1.2.3)
+  - SSKeychain (1.3.1)
   - TTTAttributedLabel (1.13.4)
-  - UAProgressView (0.1.2)
+  - UAProgressView (0.1.3)
   - UIAlertView-Blocks (1.0)
-  - uservoice-iphone-sdk (3.2.3)
-  - VTAcknowledgementsViewController (0.15)
+  - uservoice-iphone-sdk (3.2.4)
+  - VTAcknowledgementsViewController (0.17)
   - XMPPFramework (3.6.4):
     - XMPPFramework/All (= 3.6.4)
   - XMPPFramework/All (3.6.4):
@@ -312,12 +314,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ChatSecure/SIAlertView.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
-  AFOAuth2Client: 80b745ea8b16da62d769935656631f8329fdd2a2
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  AFOAuth2Client: 8287a8310c2c5c721a08a2082cf89ce88515bfcd
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   BBlock: c56d7f72597ffe1634fcdc73836c5c0fed3271be
   BButton: ab0f2ed3b998ae73c5188b57d270d81e4a1eeb27
-  Bolts: 805a4a87413e49d4a0c2b7d469084cbc46b09342
+  Bolts: f52a250053bb517ca874523c3913776359ab3def
   CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
   CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   CPAProxy: d03f17b7945af3230ee259c65663e649cf603ad5
@@ -326,14 +328,14 @@ SPEC CHECKSUMS:
   FSImageViewer: 0dea92069cce74a800b75cb8777c923f2be59124
   gtm-oauth2: 77f49d717a973a4f324db20f1a93004fa5a3e65e
   GTMHTTPFetcher: b73a94e2fe250f6d4e1d8d01172d961cda401520
-  HockeySDK: 9f4ac41263acf9d8a4d59491a7f17af16529b935
+  HockeySDK: dd11a2b9da3372fd025643bee5bc10c8c613d169
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   JTTargetActionBlock: 6e9201e5fa88651deb354c91b7c9c6487a1abe55
   JVFloatLabeledTextField: 46a6adc518b128ac59f77da5e855acb29902e22f
-  MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
-  Mantle: 1b29072a707453975b200a173cf77ec1e2810b75
-  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
+  Mantle: 4af47cf9547a4d0ad145a48cd0be3b411a5ae2b8
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MWFeedParser: 2cf646014c1baf6ad1b08c480b40a08180079247
   Navajo: 5fb68239b4e3af4610f31925bae1ca8e6bab8eaa
   OpenInChrome: f1f3f9dec682216fe78a0d7fe0b5b263d6312c32
@@ -342,13 +344,13 @@ SPEC CHECKSUMS:
   PureLayout: f25f0bb904d5ccfe6e31da3cb869185259f02e0d
   RMStepsController: 195aa02c57ee5fea74483d0b9dcc30881ae7639d
   SIAlertView: 20c794b55eaf44d888773ea51647cf8907723919
-  SQLCipher: c44fcca49c31483c2489cfb79aa7a69407f3794a
-  SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
+  SQLCipher: 4684434d5791db86512cd7e02172aefba575849e
+  SSKeychain: 04c4ec40f4c3deda524e269bc76e5f30e638a174
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
-  UAProgressView: 4ef6d60b4e060884cb0315e7628256f998744247
+  UAProgressView: ce49aee47c14df6dc372f6fd57852f570ca97e6b
   UIAlertView-Blocks: 7904744fca618afbd2ec646608924f5e69d5acd1
-  uservoice-iphone-sdk: 349d9ef36d3c43939d28390b9e86bb32b65fe983
-  VTAcknowledgementsViewController: 575f5841fb47b7d9c852ccb406104ea68de07b21
+  uservoice-iphone-sdk: 2d3d700d701f6983d656ba76778fd15a971b6f98
+  VTAcknowledgementsViewController: 6056f5f5e5ed995bbf0581bed6ddd29355ca9a80
   XMPPFramework: 239fe709baff208fff5970708469b939387105ee
   YapDatabase: 814f9ff862a95c1e581d93335a4020482b69155b
 

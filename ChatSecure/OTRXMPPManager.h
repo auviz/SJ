@@ -43,6 +43,8 @@
 #import "XMPPRoom.h"
 #import "XMPPRoomMemoryStorage.h"
 
+#import "ZIGMyVCard.h"
+
 @class OTRYapDatabaseRosterStorage;
 @class OTRXMPPAccount;
 @class OTRvCardYapDatabaseStorage;
@@ -65,6 +67,9 @@ extern NSString *const OTRXMPPRegisterFailedNotificationName;
 @property (nonatomic, readonly) BOOL isXmppConnected;
 @property BOOL didSecure;
 @property (nonatomic) BOOL isRoomError;
+
+//MyVcard
+@property (nonatomic, strong) ZIGMyVCard * myVCard;
 
 
 @property NSArray * arrFriendsInGroup;

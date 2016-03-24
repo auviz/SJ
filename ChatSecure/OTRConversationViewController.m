@@ -962,10 +962,10 @@ static CGFloat kOTRConversationCellHeight = 80.0;
     
     if(!isConnected){
         [self startIndicatorView];
-        [self checkСonnection];
+        [self checkConnection];
         self.timerWaitingConnection = [NSTimer scheduledTimerWithTimeInterval: 1.0
                                                                        target: self
-                                                                     selector: @selector(checkСonnection)
+                                                                     selector: @selector(checkConnection)
                                                                      userInfo: nil
                                                                       repeats: YES];
         
@@ -990,17 +990,10 @@ static CGFloat kOTRConversationCellHeight = 80.0;
     }
 }
 
--(void)checkСonnection {
+-(void)checkConnection {
     
-    static int count;
     
     if([self isConnected]){
-        count = 0;
-        
-        
-       //    NSLog(@"connect");
-        
-        
         
         [self stopIndicatorView];
         
@@ -1008,13 +1001,6 @@ static CGFloat kOTRConversationCellHeight = 80.0;
         
     } else {
         
-        count ++;
-        
-        if(count == 10) {
-            ///Ну если совсем пиздец переподключаемся (полностью)
-            [[OTRProtocolManager sharedInstance] loginAccounts:[OTRAccountsManager allAutoLoginAccounts]];
-            count = 0;
-        }
         
       //    NSLog(@"NOTconnect %d", (int)count);
         
