@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "XMPPMessage.h"
 
+static NSMutableDictionary * MUCArhiveWaitForResponse_;
+
 @interface MUCArhive : NSObject
 
 +(void)saveRoomMessage:(NSString*)RoomId message:(XMPPMessage *)message from:(NSString *)from;
@@ -16,5 +18,7 @@
 +(void)getRoomMessages:(NSString *)roomID toAccount:(NSString *)toAccount;
 
 +(NSString *)timeStamp;
+
+
 
 @end

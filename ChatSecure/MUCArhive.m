@@ -88,6 +88,10 @@
 +(void)getRoomMessages:(NSString *)roomID toAccount:(NSString *)toAccount{
     
     
+    //Ждем запрос и не делаем других пока не завершится
+    if(!MUCArhiveWaitForResponse_) MUCArhiveWaitForResponse_ = [[NSMutableDictionary alloc] init];
+    if([[MUCArhiveWaitForResponse_ objectForKey:roomID] isEqualToString:@"YES"]) return; //Если запрос уже произошел подождать его
+    [MUCArhiveWaitForResponse_ setObject:@"YES" forKey:roomID];
     
     NSString *post =  [NSString stringWithFormat:@"option=getMessages&idRoom=%@&toAccount=%@", roomID, toAccount];
     
@@ -125,11 +129,18 @@
          }
          else if ([data length] == 0 && error == nil)
          {
+            [MUCArhiveWaitForResponse_ removeObjectForKey:roomID];
              //  NSLog(@"Nothing was downloaded.");
          }
          else if (error != nil){
+             [MUCArhiveWaitForResponse_ removeObjectForKey:roomID];
+             // MUCArhiveWaitForResponse_ = NO;
              //  DDLogInfo(@"Error = %@", error);
          }
+         
+         [MUCArhiveWaitForResponse_ removeObjectForKey:roomID];
+         
+       
          
      }];
     
@@ -148,9 +159,11 @@
                              NSData *data,
                              NSError *error)
          {
+            [MUCArhiveWaitForResponse_ removeObjectForKey:roomID];
              
-             if ([data length] >0 && error == nil)
-             {
+           //  if ([data length] >0 && error == nil)
+           //  {
+                 /*
                  
                  NSString *messages = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                  
@@ -163,19 +176,19 @@
                      [xmppManager receiveMessageForRoom:message];
                  }
                  
-                 
+               */
                  
                  
                  // DO YOUR WORK HERE
                  
-             }
-             else if ([data length] == 0 && error == nil)
-             {
+           //  }
+          //   else if ([data length] == 0 && error == nil)
+            // {
                  //  NSLog(@"Nothing was downloaded.");
-             }
-             else if (error != nil){
+            // }
+           //  else if (error != nil){
                  //  DDLogInfo(@"Error = %@", error);
-             }
+            // }
              
          }];
         

@@ -246,7 +246,7 @@ const struct OTRMessageEdges OTRMessageEdges = {
 
 + (void)showLocalNotificationForMessage:(OTRMessage *)message
 {
-    if (![[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+    if (!([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive))
     {
         
         dispatch_async(dispatch_get_main_queue(), ^{

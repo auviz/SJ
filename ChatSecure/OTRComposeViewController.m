@@ -179,6 +179,15 @@ static CGFloat addAndGroupButtonHeiht = 60.0;
      [super viewWillAppear:animated];
     
     
+    //Скрываю строку заголовка
+    if(self.searchBar.text.length > 0){
+        [[self navigationController] setNavigationBarHidden:YES animated:NO];
+        //И активирую клаву 
+          [self.searchBar becomeFirstResponder];
+     
+    }
+    
+    
     if(!self.hideTabBar){
     
     [self.tableView setContentInset:UIEdgeInsetsMake(0,0,50,0)];
@@ -222,7 +231,7 @@ static CGFloat addAndGroupButtonHeiht = 60.0;
     
     [super viewDidAppear: animated];
     
-    
+   
   
     
 }
@@ -921,9 +930,9 @@ OTRBuddyInfoCell *curCell =   (OTRBuddyInfoCell *)[tableView cellForRowAtIndexPa
     OTRMessagesViewController * messagesViewController = [[OTRAppDelegate appDelegate].conversationViewController messagesViewControllerWithBuddy:buddy];
         
         //self.navigationController.toolbarHidden = YES;
-        
+      
         [self.navigationController pushViewController:messagesViewController animated:YES];
-        
+          [[self navigationController] setNavigationBarHidden:NO animated:YES];
         
     }
 }
