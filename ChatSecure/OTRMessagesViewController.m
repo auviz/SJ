@@ -278,7 +278,8 @@ typedef NS_ENUM(int, OTRDropDownType) {
      */
     
     // self.account
-    BOOL isConnected =  [[OTRProtocolManager sharedInstance] isAccountConnected:self.account] ;
+ //   BOOL isConnected =  [[OTRProtocolManager sharedInstance] isAccountConnected:self.account] ;
+   BOOL isConnected = isConnectedSJAccount();
     
     if(isConnected){
         return YES;

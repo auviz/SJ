@@ -731,11 +731,10 @@ static int groupChatNotGoodAttempts_ = 0;
     
     if([subject isEqualToString:@"bye"]) {
         //[[NSNotificationCenter defaultCenter] postNotificationName:@"userLeaveRoom" object:self];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            groupChatManager * GCM = [[groupChatManager alloc] init];
-            [GCM getListsGroupChatWithUsername:update];
-        });
+        [groupChatManager updateRoomsWithFriends];
+        
+        
+        
         
    
     }
@@ -963,8 +962,8 @@ static int groupChatNotGoodAttempts_ = 0;
     
     //  NSLog(@"zigPresence c %hhd", isDestroy);
     
- 
-    
+ //Принимаю уведомление и обновляю список комнат
+    [self receiveUpdateRoomPresence:presence];
     
 
     
@@ -1200,6 +1199,9 @@ static int groupChatNotGoodAttempts_ = 0;
 
 - (void) sendMessage:(OTRMessage*)message
 {
+    
+   
+    
 //zigzagcorp info
     NSString *text = message.text;
   
@@ -1950,6 +1952,19 @@ managedBuddyObjectID
   
 }
 
+-(BOOL)isReceiveGroupMessageNeedUpdateRoomList:(XMPPMessage *)xmppMessage{
+    //Пока не работает думаю нужна ли
+    NSString *fromUser = [xmppMessage from].user;
+    
+    if([fromUser isEqualToString:USER_FOR_NOTIF_UPDATE_ROOM_LIST]){
+    
+        NSLog(@"USER_FOR_NOTIF_UPDATE_ROOM_LIST");
+    }
+    
+    
+}
+
+
 -(BOOL)isReceiveGroupMessageReadAll:(XMPPMessage *)xmppMessage{
     
     NSString *fromUser = [xmppMessage from].user;
@@ -2051,9 +2066,9 @@ managedBuddyObjectID
 
 -(void)actionTimerMUCArchive{
     
-  
+   
     
-    [groupChatManager checkCounRooms];
+   // [groupChatManager checkCounRooms];
     
     NSArray *rooms  =   [[groupChatManager sharedRoomsWithFriends] allKeys];
     
@@ -2217,6 +2232,46 @@ managedBuddyObjectID
     
 }
 
+#pragma mark - presence
+
+-(void)sendUpdateRoomPresence:(NSString *)roomId{
+    
+    XMPPPresence * pesence = [[XMPPPresence alloc] initWithType:@"roomPresence"];
+    
+    [pesence addAttributeWithName:@"updateRoom" stringValue:roomId];
+    
+    [self.xmppStream sendElement:pesence];
+    
+}
+
+-(void)receiveUpdateRoomPresence:(XMPPPresence *)pesence{
+    
+   // self.account
+    
+    
+    
+    //NSString *roomId = [[pesence attributeForName:@"updateRoom"] stringValue];
+    
+    NSString * from = [NSString stringWithFormat:@"%@@%@", [pesence from].user,[pesence from].domain];
+    
+    
+
+    if(from.length > 5 && ![self.account.username isEqualToString:from]){
+    
+    //NSString *fullRoomID = [NSString stringWithFormat:@"%@@%@", roomId, MUC_JABBER_HOST];
+    
+    
+        
+        [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+         OTRBuddy * buddy = [OTRBuddy fetchBuddyWithUsername:from withAccountUniqueId:self.account.uniqueId transaction:transaction];
+            
+            if(buddy.username.length > 0){
+                [groupChatManager updateRoomsWithFriends];
+            }
+            
+        }];
+    }
+}
 
 
 

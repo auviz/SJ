@@ -489,10 +489,21 @@ dispatch_async(dispatch_get_main_queue(), ^{
 
 - (BOOL)canAddBuddies
 {
+    
+    return YES;
+    
+/*
+ 
+ В оригенале выглядело так но так как мне не нужно скрывать кнопки я их показываю всегда
+ 
     if([OTRAccountsManager allAccountsAbleToAddBuddies]) {
         return YES;
     }
-    return NO;
+ 
+ return NO;
+  */
+    
+    
 }
 
 - (OTRBuddy *)buddyAtIndexPath:(NSIndexPath *)indexPath
@@ -650,9 +661,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-  
+
     if(indexPath.section == 0 && [self canAddBuddies]) {
         
         
@@ -663,7 +672,13 @@ dispatch_async(dispatch_get_main_queue(), ^{
         // if(indexPath.section == 0 && [self canAddBuddies]) zigzagcorp old
         // add new buddy cell
         static NSString *addCellIdentifier = @"addCellIdentifier";
+            
+            
+            
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:addCellIdentifier];
+            
+            //if(cell) return cell;
+            
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:addCellIdentifier];
             
@@ -678,10 +693,13 @@ dispatch_async(dispatch_get_main_queue(), ^{
             
         } else if (indexPath.row == 1){
             
-            static NSString *addCellIdentifier = @"groupCellIdentifier";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:addCellIdentifier];
+            static NSString *groupCellIdentifier = @"groupCellIdentifier";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:groupCellIdentifier];
+            
+            //if(cell) return cell;
+            
             if (!cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:addCellIdentifier];
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:groupCellIdentifier];
             }
             cell.textLabel.text = GROUP_CHAT;
            // UIImageView * vvv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"aim"]];
@@ -699,6 +717,8 @@ dispatch_async(dispatch_get_main_queue(), ^{
       
         
         OTRBuddyInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:[OTRBuddyInfoCell reuseIdentifier] forIndexPath:indexPath];
+       
+        
         OTRBuddy * buddy = [self buddyAtIndexPath:indexPath];
         
        // cellForRowAtIndexPath
@@ -708,6 +728,8 @@ dispatch_async(dispatch_get_main_queue(), ^{
         [[OTRDatabaseManager sharedInstance].mainThreadReadOnlyDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
             buddyAccountName = [OTRAccount fetchObjectWithUniqueID:buddy.accountUniqueId transaction:transaction].username;
         }];
+        
+   
         
        // DDLogInfo(@"Account: %@", buddyAccountName);
        
@@ -731,7 +753,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
         
        // [cell setSelected:YES animated:NO];
       //  }
-        
+
        
         return cell;
         

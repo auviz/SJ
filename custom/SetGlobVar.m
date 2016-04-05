@@ -8,6 +8,7 @@
 //
 
 #import "SetGlobVar.h"
+#import "OTRProtocolManager.h"
 
 @implementation SetGlobVar
 
@@ -56,6 +57,7 @@ NSString *const MARK_LOCATION = @"zEfdaTov_"; //Отметка локации
 NSString *const MINI_PHOTO =@"_mini"; //Отметка фотографии
 NSString *const MUC_MESSAGES_SEPARATOR =@"<ZIG@MUC>"; //Для разделения групповых сообщений
 NSString *const USER_FOR_NOTIF = @"notificationmanager";
+NSString *const USER_FOR_NOTIF_UPDATE_ROOM_LIST = @"notificationmanagerUpdateRoomList";
 
 
 NSString *const XMLMS_PROTOCOL_MUC_USER =@"http://jabber.org/protocol/muc#user"; //Протокол для XMPP room
@@ -174,21 +176,34 @@ BOOL *isMarkLocation(NSString *message){
     
 }
 
+static OTRAccount * SJAccount_;
+
 OTRAccount * SJAccount(){
+    
+    
+    if(SJAccount_) return SJAccount_; //Если мы его получили то и хорошо вернуть
+    
+    
     NSArray *accounts = [OTRAccountsManager allAccountsAbleToAddBuddies];
-    OTRAccount * SJAccount = nil;
     
     for(OTRAccount *acc in accounts){
         
         
         if(SafeJabTypeIsEqual(acc.username, JABBER_HOST)){
             //Ищем аккаунт SJ
-            SJAccount = acc;
+            SJAccount_ = acc;
             
         }
         
     }
-    return SJAccount;
+    return SJAccount_;
+}
+
+BOOL isConnectedSJAccount(){
+    
+    if(!SJAccount()) return NO;
+    
+  return [[OTRProtocolManager sharedInstance] isAccountConnected:SJAccount()];
 }
 
 

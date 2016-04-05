@@ -235,7 +235,7 @@ NSString *const CELL_IDENT_CANCEL_SENDING = @"CELL_IDENT_CANCEL_SENDING";
     
     
     
-    [self.tableView deselectRowAtIndexPath:(NSIndexPath *)indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:(NSIndexPath *)indexPath animated:YES];
 }
 
 

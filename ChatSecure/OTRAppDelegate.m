@@ -826,7 +826,8 @@
     
     
     // self.account
-    BOOL isConnected =   [[OTRAccountsManager allAccountsAbleToAddBuddies] count] > 0 ? YES : NO;
+  //  BOOL isConnected =   [[OTRAccountsManager allAccountsAbleToAddBuddies] count] > 0 ? YES : NO;
+    BOOL isConnected = isConnectedSJAccount();
     
     if(isConnected){
         return YES;

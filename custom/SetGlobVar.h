@@ -49,6 +49,7 @@ extern NSString *const MINI_PHOTO;
 extern NSString *const MARK_LOCATION;
 extern NSString *const MUC_MESSAGES_SEPARATOR;
 extern NSString *const USER_FOR_NOTIF;
+extern NSString *const USER_FOR_NOTIF_UPDATE_ROOM_LIST;
 
 extern NSString *const XMLMS_PROTOCOL_MUC_USER;
 extern NSString *const NOTIFICATION_UPDATE_ROOM_LIST;
@@ -87,6 +88,8 @@ NSString *dateToStringWithMask(NSDate *date, NSString *mask);
 void deletePhotosWithPreview(NSString *unicName);
 
 UIImage * imageWithView(UIView *view);
+
+BOOL isConnectedSJAccount();
 
 
 

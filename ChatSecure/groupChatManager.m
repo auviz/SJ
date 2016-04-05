@@ -14,6 +14,7 @@
 #import "OTRRoom.h"
 #import "Strings.h"
 
+static NSOperationQueue * queueCheckCounRooms_;
 
 
 @implementation groupChatManager
@@ -99,6 +100,12 @@ static BOOL isRequestError_ = YES;
     
 }
 
+-(void)sendUpdateRoomPresence:(NSString *)roomId{
+    
+    OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:_SJAccount];
+    [xmppManager sendUpdateRoomPresence:roomId];
+    
+}
 -(void)sendByeForRoomID:(NSString*)RoomId{
      OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:_SJAccount];
     [xmppManager sendBye:_SJAccount.username roomID:RoomId];
@@ -164,6 +171,7 @@ static BOOL isRequestError_ = YES;
            
              //[xmppManager sendInvite:addFriend roomID:roomID];
              [xmppManager sendImAddFriend:addFriend roomID:roomID];
+             [self sendUpdateRoomPresence:roomID];
              
           
                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ADD_MUC_FRIEND object:self];
@@ -224,7 +232,7 @@ static BOOL isRequestError_ = YES;
              
              OTRXMPPManager *xmppManager = (OTRXMPPManager *)[[OTRProtocolManager sharedInstance] protocolForAccount:_SJAccount];
              [xmppManager sendBye:deleteFriend roomID:roomID];
-             
+             [self sendUpdateRoomPresence:roomID];
          
               [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_UPDATE_ROOM_LIST object:self];
               /*
@@ -569,7 +577,7 @@ static BOOL isRequestError_ = YES;
             
         }
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_UPDATE_ROOM_LIST object:self];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_UPDATE_ROOM_LIST object:self];
     }
     
     
@@ -591,8 +599,11 @@ static BOOL isRequestError_ = YES;
     
     [self parseData:_responseData];
     
+    if(self.typeQuery == createList){
     
-    if(self.typeQuery == update){
+        [self sendUpdateRoomPresence:@"createNewRoom"];
+    
+    } else if(self.typeQuery == update){
         //Если обновился лист комнат то послать уведомление
          [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_UPDATE_ROOM_LIST object:self];
         
@@ -604,12 +615,15 @@ static BOOL isRequestError_ = YES;
  
         
         [self deleteRoomByRoomId:self.needDestroyRoomWithId];
+        [self sendUpdateRoomPresence:self.needDestroyRoomWithId];
         self.needDestroyRoomWithId = nil;
         
         
     } else if (self.typeQuery == deleteOrLeaveTheRoom && self.needLeaveRoomWithId){ //Если выходим из комнаты
         
         [self leaveRoomById:self.needLeaveRoomWithId];
+        [self sendByeForRoomID:self.needLeaveRoomWithId];
+      //  [self sendUpdateRoomPresence:self.needLeaveRoomWithId];
         self.needLeaveRoomWithId = nil;
         
     }  else if(self.typeQuery == getAndJoin){
@@ -752,7 +766,11 @@ static BOOL isRequestError_ = YES;
 }
 
 
+
 +(void)checkCounRooms{
+    
+    
+    if(!queueCheckCounRooms_)  queueCheckCounRooms_ =[[NSOperationQueue alloc] init];
     
     NSString *post =  [NSString stringWithFormat:@"accountUsername=%@", SJAccount().username];
     // NSString *post = @"name=val1&photo=val2";
@@ -770,11 +788,13 @@ static BOOL isRequestError_ = YES;
     
     [NSURLConnection
      sendAsynchronousRequest:request
-     queue:[[NSOperationQueue alloc] init]
+     queue:queueCheckCounRooms_
      completionHandler:^(NSURLResponse *response,
                          NSData *data,
                          NSError *error)
      {
+         
+        
          
          if ([data length] >0 && error == nil)
          {
@@ -784,10 +804,12 @@ static BOOL isRequestError_ = YES;
             
              int countNow = (int)[groupChatManager sharedRoomsWithFriends].count;
              
+             
+   
            //  NSLog(@"Counts_ZZrooms_%d_%d", countInt, countNow);
              
              if(countInt != countNow){
-                
+               
                  [groupChatManager updateRoomsWithFriends];
              }
              
@@ -796,10 +818,11 @@ static BOOL isRequestError_ = YES;
          }
          else if ([data length] == 0 && error == nil)
          {
+        
              //  NSLog(@"Nothing was downloaded.");
          }
          else if (error != nil){
-        
+   
              //DDLogInfo(@"Error = %@", error);
          }
          

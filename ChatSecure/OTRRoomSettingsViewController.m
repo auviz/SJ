@@ -284,7 +284,7 @@ const float heightFirstSection = 75;
     if([textField.text isEqualToString:self.room.nameRoom]) return nil;
     
     //Переименовать комнату Rename
-   // self.room.nameRoom = textField.text;
+    self.room.nameRoom = textField.text;
     
     groupChatManager *GCM = [[groupChatManager alloc] init];
     
@@ -514,7 +514,7 @@ const float heightFirstSection = 75;
                                  
                              } else {
                                  //Или просто покинуть комнату
-                                 [GCM sendByeForRoomID:self.room.roomId];
+                                // [GCM sendByeForRoomID:self.room.roomId];
                                  [GCM deleteOrLeaveTheRoom:self.room.roomId];
                                  GCM.needLeaveRoomWithId = self.room.roomId;
                              }

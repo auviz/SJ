@@ -116,5 +116,7 @@ extern NSString *const OTRXMPPRegisterFailedNotificationName;
 @property (nonatomic, strong) NSTimer *timerMUCArchive;
 -(void)receiveMessageForRoom:(NSString *)xmppMessage;
 -(void)joinRoomById:(NSString *)roomID;
+//Презенсы для группы
+-(void)sendUpdateRoomPresence:(NSString *)roomId;
 
 @end

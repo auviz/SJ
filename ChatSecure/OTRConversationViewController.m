@@ -738,7 +738,7 @@ static CGFloat kOTRConversationCellHeight = 80.0;
  
     } else {
         //Или просто покинуть комнату
-        [GCM sendByeForRoomID:room.roomId];
+        //[GCM sendByeForRoomID:room.roomId];
         [GCM deleteOrLeaveTheRoom:room.roomId];
         GCM.needLeaveRoomWithId = room.roomId;
     }
@@ -981,7 +981,9 @@ static CGFloat kOTRConversationCellHeight = 80.0;
 
     
     // self.account
-    BOOL isConnected =   [[OTRAccountsManager allAccountsAbleToAddBuddies] count] > 0 ? YES : NO;
+   // BOOL isConnected =   [[OTRAccountsManager allAccountsAbleToAddBuddies] count] > 0 ? YES : NO;
+    BOOL isConnected = isConnectedSJAccount();
+    
     
     if(isConnected){
         return YES;
