@@ -25,6 +25,7 @@
 #import "OTRViewSetting.h"
 #import "OTRDoubleSetting.h"
 #import "OTRIntSetting.h"
+#import "OTRKeepHistorySetting.h"
 
 @implementation OTRSettingTableViewCell
 @synthesize otrSetting;
@@ -79,6 +80,17 @@
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
         valueLabel.backgroundColor = [UIColor clearColor];
         valueLabel.text = intSetting.stringValue;
+        accessoryView = valueLabel;
+    }  else if ([setting isKindOfClass:[OTRKeepHistorySetting class]])
+    {
+        
+         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+        valueLabel.textColor = [UIColor grayColor];
+        
+        OTRKeepHistorySetting * KHSetting = (OTRKeepHistorySetting *)setting;
+        
+        valueLabel.text = KHSetting.option;
+        [valueLabel sizeToFit];
         accessoryView = valueLabel;
     }
     self.accessoryView = accessoryView;

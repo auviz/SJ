@@ -81,6 +81,9 @@ NSString *const NOTIFICATION_DID_UPDATE_VCARD_FROM_SERVER = @"NOTIFICATION_DID_U
 NSString *const NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER = @"NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER";
 
 
+NSString *const NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER=@"NOTIFICATION_DID_SET_HISTORY_OPTION_ON_SERVER";
+NSString *const NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER=@"NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER";
+
 
 
 static NSString *deviceTokenString;
@@ -178,6 +181,10 @@ BOOL *isMarkLocation(NSString *message){
 
 static OTRAccount * SJAccount_;
 
+void clearSJAccount(){
+    SJAccount_ = nil;
+}
+
 OTRAccount * SJAccount(){
     
     
@@ -270,6 +277,65 @@ UIImage * imageWithView(UIView *view)
     UIGraphicsEndImageContext();
     
     return img;
+}
+
+UIColor * stringToColor(NSString * string) {
+    NSString * zs = string;
+    
+    int xxx2 = 0;
+    int xxx = 0;
+    int maxRgb = 255;
+    
+    float newR = 0.7;
+    float newG = 0.7;
+    float newB = 0.7;
+    
+    if(zs.length >= 2){
+        xxx = [zs characterAtIndex:0];
+        xxx2 = [zs characterAtIndex:1];
+    } else {
+        xxx = [zs characterAtIndex:0];
+    }
+    
+    int full = xxx + xxx2;
+    
+    newR = (full % 9);
+    newG = (full % 5);
+    newB = (full % 7);
+    
+    newR = (full*newR) /2;
+    newG = (full*newG) /2;
+    newB= (full*newB) /2;
+    
+    newR = newR > maxRgb ? maxRgb/newR : newR/maxRgb;
+    newG = newG > maxRgb ? maxRgb/newG : newG/maxRgb;
+    newB = newB > maxRgb ? maxRgb/newB : newB/maxRgb;
+    
+ //   if(newR < 0.3){
+   //     newR = newR + 0.5;
+   // } else
+        
+       // if(newR < 0.5) newR = newR + 0.3;
+        
+       // if(newG < 0.3){
+      //      newG = newG + 0.5;
+       // } else
+         //   if(newG < 0.5) newG = newG + 0.3;
+            
+           // if(newB < 0.3){
+           //     newB = newB + 0.5;
+           // } else
+                
+             //   if(newB < 0.5) newB = newB + 0.3;
+    
+            UIColor * color =  [[UIColor alloc] initWithRed:newR green:newG blue:newB alpha:1];
+                
+                
+                
+              ///  NSLog(@"%f_%f_%f", newR, newG,  newB);
+                
+
+                return color;
 }
 
 /*

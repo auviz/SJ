@@ -40,6 +40,7 @@
 #import "OTRPushViewSetting.h"
 #import "OTRChangeDatabasePassphraseViewController.h"
 #import "OTRDeleteAllChats.h"
+#import "OTRKeepHistorySetting.h"
 
 #import "pinCodeSetting.h"
 
@@ -99,6 +100,17 @@
     showDisconnectionWarning.defaultValue = @(NO);
     [newSettingsDictionary setObject:showDisconnectionWarning forKey:kOTRSettingKeyShowDisconnectionWarning];
     
+    
+    
+    
+    OTRKeepHistorySetting *historyOnServerBtn = [[OTRKeepHistorySetting alloc] initWithTitle:KEEP_HISTORY_STRING
+                                                                         description:STORING_HISTORI_STRING
+                                                ];
+
+    
+   // [newSettingsDictionary setObject:historyOnServerBtn forKey:kOTRSettingKeyHistoryOnServer];
+    
+    
     OTRBoolSetting *opportunisticOtrSetting = [[OTRBoolSetting alloc] initWithTitle:OPPORTUNISTIC_OTR_SETTING_TITLE
                                                                         description:OPPORTUNISTIC_OTR_SETTING_DESCRIPTION
                                                                         settingsKey:kOTRSettingKeyOpportunisticOtr];
@@ -135,11 +147,11 @@
     NSArray *chatSettings;
     NSArray * securitySettings;
     
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        chatSettings = [NSArray arrayWithObjects:fontSizeSetting,deletedDisconnectedConversations, showDisconnectionWarning, nil];
-    } else {
-        chatSettings = [NSArray arrayWithObjects:deletedDisconnectedConversations, showDisconnectionWarning, nil];
-    }
+   // if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+   //     chatSettings = [NSArray arrayWithObjects:fontSizeSetting,deletedDisconnectedConversations, showDisconnectionWarning, nil];
+  //  } else {
+        chatSettings = [NSArray arrayWithObjects:deletedDisconnectedConversations, showDisconnectionWarning, historyOnServerBtn, nil];
+   // }
     OTRSettingsGroup *chatSettingsGroup = [[OTRSettingsGroup alloc] initWithTitle:CHAT_STRING settings:chatSettings];
     [settingsGroups addObject:chatSettingsGroup];
     

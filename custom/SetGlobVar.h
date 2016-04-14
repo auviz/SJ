@@ -61,8 +61,8 @@ extern NSString *const NOTIFICATION_ADD_MUC_FRIEND;
 extern NSString *const NOTIFICATION_I_GET_MY_VCARD;
 extern NSString *const NOTIFICATION_DID_UPDATE_VCARD_FROM_SERVER;
 extern NSString *const NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER;
-
-
+extern NSString *const NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER;
+extern NSString *const NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER;
 
 BOOL *SafeJabTypeIsEqual();
 
@@ -91,5 +91,6 @@ UIImage * imageWithView(UIView *view);
 
 BOOL isConnectedSJAccount();
 
+void clearSJAccount();
 
-
+UIColor * stringToColor(NSString * string);

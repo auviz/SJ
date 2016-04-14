@@ -65,6 +65,7 @@
 
 #import "OTRComposeViewController.h"
 #import "MUCArhive.h"
+#import "historyManager.h"
 
 NSString *const OTRXMPPRegisterSucceededNotificationName = @"OTRXMPPRegisterSucceededNotificationName";
 NSString *const OTRXMPPRegisterFailedNotificationName    = @"OTRXMPPRegisterFailedNotificationName";
@@ -97,7 +98,7 @@ NSTimeInterval const kOTRChatStateInactiveTimeout = 120;
 @property (nonatomic) BOOL isRegisteringNewAccount;
 @property (nonatomic, strong) OTRLocation *location;
 
-
+@property (nonatomic, strong) historyManager * historyManager;
 
 
 
@@ -629,10 +630,10 @@ static int groupChatNotGoodAttempts_ = 0;
     
   
         
-
+//Нужен для истории
     
-    
-    
+  if(!self.historyManager)  self.historyManager =  [[historyManager alloc] init];
+    [self.historyManager getHistoryOptionFromServer];
   
     
     
@@ -1090,6 +1091,7 @@ static int groupChatNotGoodAttempts_ = 0;
     }
     self.isXmppConnected = NO;
     [self clearTimerMUCArchive];
+    clearSJAccount(); //На всякий
      [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_XMPP_STREAM_DID_DISCONNECT object:self];
 }
 

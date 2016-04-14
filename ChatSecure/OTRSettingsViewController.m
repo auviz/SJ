@@ -54,8 +54,9 @@
 
 #include "XMPPvCardTemp.h"
 #include "OTRXMPPManager.h"
+#import "historyPicker.h"
 //#include "ZIGMyVCard.h"
-
+#import "historyManager.h"
 
 
 #import "OTRDatabaseUnlockViewController.h"
@@ -64,13 +65,16 @@
 
 static NSString *const circleImageName = @"31-circle-plus-large.png";
 
-@interface OTRSettingsViewController () <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface OTRSettingsViewController () <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, historyPickerDelegate>
 
 @property (nonatomic, strong) YapDatabaseViewMappings *mappings;
 @property (nonatomic, strong) YapDatabaseConnection *databaseConnection;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MBProgressHUD * HUD;
+@property (nonatomic, strong) historyPicker * HP;
+@property (nonatomic, strong) historyManager * historyManager;
 
+@property (nonatomic, strong) OTRKeepHistorySetting * keepHistorySetting;
 
 @property OTRTabBar *tabBar;
 
@@ -159,7 +163,10 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
                                                  name:NOTIFICATION_I_GET_MY_VCARD
                                                object:nil];
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadHistoryCell:)
+                                                 name:NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER
+                                               object:nil];
     
    
     
@@ -195,6 +202,7 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_DID_UPDATE_VCARD_FROM_SERVER object:nil];
      [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER object:nil];
          [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_I_GET_MY_VCARD object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER object:nil];
     
     [[OTRProtocolManager sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectedProtocols))];
     [[OTRProtocolManager sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectingProtocols))];
@@ -299,8 +307,19 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 		cell = [[OTRSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
 	}
     OTRSetting *setting = [self.settingsManager settingAtIndexPath:indexPath];
+    
+    //Получаю доступ к кнопке для последующего ее обнавления
+    if(!self.keepHistorySetting && [setting.title isEqualToString:KEEP_HISTORY_STRING]){
+        self.keepHistorySetting = (OTRKeepHistorySetting*) setting;
+    }
+    
+    
     setting.delegate = self;
     cell.otrSetting = setting;
+    
+    
+    
+    //NSLog(@"%@", setting);
     
     return cell;
 }
@@ -600,6 +619,70 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
     RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:CANCEL_STRING];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@?", CLEAR_ALL_HISTORY] cancelButtonItem:cancelItem destructiveButtonItem:nil otherButtonItems:deleteAllChatsItem, nil];
     [OTRAppDelegate presentActionSheet:actionSheet inView:self.view];
+}
+
+- (void)setKeepHistory:(OTRKeepHistorySetting*)setting{
+    
+   
+    
+    if(!self.HP ) {
+        self.HP  = [[historyPicker alloc] initWithView:self.view];
+        self.HP.myDelegate = self;
+        self.HP.setting = setting;
+    }
+    
+    
+    
+    [self.HP show];
+    
+   // [self.tableView reloadData];
+
+ //   NSLog(@"CLICK");
+
+}
+#pragma mark - Get NOTIFICATION
+
+-(void)reloadHistoryCell:(NSNotification *)sender {
+  //from historyManager
+    NSString * key = [sender.userInfo objectForKey:@"key"];
+    
+    self.keepHistorySetting.option = [historyPicker valueFromKey:key];
+    
+//[self.settingsManager settingAtIndexPath:inde
+    
+  //
+    
+  //  self.HP.setting.option = [historyPicker valueFromKey:key];
+    //dispatch_async(dispatch_get_main_queue(), ^{
+    
+    
+ //   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //Добавляем отображение таймера
+   //     NSLog(@"READY");
+        [self.tableView reloadData];
+  //  });
+    
+  
+    
+   // });
+    
+
+}
+
+#pragma mark historyPickerDelegate
+
+-(void) setHistoryOption:(NSString *)option{
+   
+    //NSLog(@"%@", option);
+    
+    if(!self.historyManager){
+        self.historyManager = [[historyManager alloc] init];
+    }
+    
+    [self.historyManager setHistoryOptionOnServer:option];
+    
+   //  self.HP.setting.option = option;
+   // [self.tableView reloadData];
 }
 
 

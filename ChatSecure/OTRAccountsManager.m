@@ -71,7 +71,8 @@
                  [transaction setObject:nil forKey:account.uniqueId inCollection:[OTRAccount collection]];
              }];
          }
-         
+         //Ну делаю его nil
+         clearSJAccount();
      }];
 }
 

@@ -328,3 +328,5 @@
 #define CHANGE_AVATAR_STRING [OTRLanguageManager translatedString: @"Change avatar"]
 #define PLEASE_WAIT [OTRLanguageManager translatedString: @"Please wait..."]
 #define WAITING_FOR_INTERNET_CONNECTION [OTRLanguageManager translatedString: @"Waiting for internet connection"]
+#define KEEP_HISTORY_STRING [OTRLanguageManager translatedString: @"Keep a history"]
+#define STORING_HISTORI_STRING [OTRLanguageManager translatedString: @"Storing the history on the server"]

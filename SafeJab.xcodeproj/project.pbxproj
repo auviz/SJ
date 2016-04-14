@@ -39,11 +39,15 @@
 		60A69F4D1A8CEBBD0041BCED /* OTRDeleteAllChats.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A69F4C1A8CEBBD0041BCED /* OTRDeleteAllChats.m */; };
 		60AE4E001AE900CA007D1C7D /* OTRFSImageViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60AE4DFE1AE900CA007D1C7D /* OTRFSImageViewerViewController.m */; };
 		60AE7C361A6EB55700F01682 /* safejab.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 60AE7C351A6EB55700F01682 /* safejab.com.cer */; };
+		60B60D681CB7C3F600EE12F6 /* OTRKeepHistorySetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B60D671CB7C3F500EE12F6 /* OTRKeepHistorySetting.m */; };
+		60B60D6B1CBBA72700EE12F6 /* historyPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B60D6A1CBBA72700EE12F6 /* historyPicker.m */; };
 		60BE8EB91BA310740051E205 /* OTRLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BE8EB81BA310740051E205 /* OTRLocation.m */; };
 		60C3343C1BEB5B3500CD59E9 /* timePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C3343B1BEB5B3500CD59E9 /* timePicker.m */; };
 		60C3343F1BF1E8D100CD59E9 /* destroySecureMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C3343E1BF1E8D100CD59E9 /* destroySecureMessage.m */; };
 		60C338701ADC06C50095C314 /* SavePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C3386E1ADC06C50095C314 /* SavePhoto.m */; };
 		60C338781ADD33260095C314 /* GetPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C338771ADD33260095C314 /* GetPhoto.m */; };
+		60DC68DF1CBE877800B5F376 /* dbHistoryOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 60DC68DE1CBE877800B5F376 /* dbHistoryOption.m */; };
+		60DC68E21CBE933200B5F376 /* historyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 60DC68E11CBE933200B5F376 /* historyManager.m */; };
 		60E070D91C6363D6006465F4 /* customColor+UIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E070D81C6363D6006465F4 /* customColor+UIColor.m */; };
 		60EBB3491B908E0B009F4CC3 /* OTRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 60EBB3481B908E0B009F4CC3 /* OTRTabBar.m */; };
 		60ED96BF1B5CF8E000EBEFC7 /* groupChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 60ED96BE1B5CF8E000EBEFC7 /* groupChatManager.m */; };
@@ -319,6 +323,10 @@
 		60AE4DFD1AE900CA007D1C7D /* OTRFSImageViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTRFSImageViewerViewController.h; sourceTree = "<group>"; };
 		60AE4DFE1AE900CA007D1C7D /* OTRFSImageViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTRFSImageViewerViewController.m; sourceTree = "<group>"; };
 		60AE7C351A6EB55700F01682 /* safejab.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = safejab.com.cer; sourceTree = "<group>"; };
+		60B60D661CB7C3F500EE12F6 /* OTRKeepHistorySetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRKeepHistorySetting.h; path = Model/OTRKeepHistorySetting.h; sourceTree = "<group>"; };
+		60B60D671CB7C3F500EE12F6 /* OTRKeepHistorySetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRKeepHistorySetting.m; path = Model/OTRKeepHistorySetting.m; sourceTree = "<group>"; };
+		60B60D691CBBA72700EE12F6 /* historyPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = historyPicker.h; sourceTree = "<group>"; };
+		60B60D6A1CBBA72700EE12F6 /* historyPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = historyPicker.m; sourceTree = "<group>"; };
 		60BE8EB71BA310740051E205 /* OTRLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTRLocation.h; sourceTree = "<group>"; };
 		60BE8EB81BA310740051E205 /* OTRLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTRLocation.m; sourceTree = "<group>"; };
 		60C3343A1BEB5B3400CD59E9 /* timePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timePicker.h; sourceTree = "<group>"; };
@@ -329,6 +337,10 @@
 		60C3386F1ADC06C50095C314 /* SavePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavePhoto.h; sourceTree = "<group>"; };
 		60C338761ADD33260095C314 /* GetPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPhoto.h; sourceTree = "<group>"; };
 		60C338771ADD33260095C314 /* GetPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPhoto.m; sourceTree = "<group>"; };
+		60DC68DD1CBE877800B5F376 /* dbHistoryOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbHistoryOption.h; sourceTree = "<group>"; };
+		60DC68DE1CBE877800B5F376 /* dbHistoryOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dbHistoryOption.m; sourceTree = "<group>"; };
+		60DC68E01CBE933200B5F376 /* historyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = historyManager.h; sourceTree = "<group>"; };
+		60DC68E11CBE933200B5F376 /* historyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = historyManager.m; sourceTree = "<group>"; };
 		60E070D71C6363D6006465F4 /* customColor+UIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "customColor+UIColor.h"; sourceTree = "<group>"; };
 		60E070D81C6363D6006465F4 /* customColor+UIColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "customColor+UIColor.m"; sourceTree = "<group>"; };
 		60EBB3471B908E0B009F4CC3 /* OTRTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRTabBar.h; path = custom/OTRTabBar.h; sourceTree = SOURCE_ROOT; };
@@ -798,6 +810,8 @@
 			children = (
 				6051499C1C88593500C25C47 /* ZIGMyVCard.h */,
 				6051499D1C88593500C25C47 /* ZIGMyVCard.m */,
+				60DC68DD1CBE877800B5F376 /* dbHistoryOption.h */,
+				60DC68DE1CBE877800B5F376 /* dbHistoryOption.m */,
 			);
 			name = miniClasses;
 			sourceTree = "<group>";
@@ -899,6 +913,8 @@
 			children = (
 				60C3343A1BEB5B3400CD59E9 /* timePicker.h */,
 				60C3343B1BEB5B3500CD59E9 /* timePicker.m */,
+				60B60D691CBBA72700EE12F6 /* historyPicker.h */,
+				60B60D6A1CBBA72700EE12F6 /* historyPicker.m */,
 				60C3343D1BF1E8D100CD59E9 /* destroySecureMessage.h */,
 				60C3343E1BF1E8D100CD59E9 /* destroySecureMessage.m */,
 				60018FB91C4E80A200FC7118 /* ShowDetailsMessageVC.h */,
@@ -1108,6 +1124,8 @@
 				60A69F4C1A8CEBBD0041BCED /* OTRDeleteAllChats.m */,
 				605DF1841A9F4CB9006A8DB9 /* pinCodeSetting.h */,
 				605DF1851A9F4CB9006A8DB9 /* pinCodeSetting.m */,
+				60B60D661CB7C3F500EE12F6 /* OTRKeepHistorySetting.h */,
+				60B60D671CB7C3F500EE12F6 /* OTRKeepHistorySetting.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1449,6 +1467,8 @@
 			children = (
 				60ED96BD1B5CF8E000EBEFC7 /* groupChatManager.h */,
 				60ED96BE1B5CF8E000EBEFC7 /* groupChatManager.m */,
+				60DC68E01CBE933200B5F376 /* historyManager.h */,
+				60DC68E11CBE933200B5F376 /* historyManager.m */,
 				D94877DC19DF88060098CC06 /* OTRTorManager.h */,
 				D94877DD19DF88060098CC06 /* OTRTorManager.m */,
 				639753A318CA84B8005D6063 /* OTRProtocol.h */,
@@ -1790,6 +1810,7 @@
 				D91DAE8615473EB5009D0B74 /* OTRSettingDetailViewController.m in Sources */,
 				634FF44C18D8EA2400022993 /* OTRComposeViewController.m in Sources */,
 				D91DAE89154740CE009D0B74 /* OTRDoubleSettingViewController.m in Sources */,
+				60DC68E21CBE933200B5F376 /* historyManager.m in Sources */,
 				D9FC986C15588E300039518D /* OTRQRCodeViewController.m in Sources */,
 				608C70411ABC591C0065E77B /* AttachPhoto.m in Sources */,
 				608C70681ABC62020065E77B /* VFInteractiveFrameView.m in Sources */,
@@ -1805,6 +1826,7 @@
 				60ED96BF1B5CF8E000EBEFC7 /* groupChatManager.m in Sources */,
 				636FE4C0161B7C68002B28EF /* OTRInLineTextEditTableViewCell.m in Sources */,
 				D987BAE01901A6CF005B2382 /* OTRPushManager.m in Sources */,
+				60B60D681CB7C3F600EE12F6 /* OTRKeepHistorySetting.m in Sources */,
 				639FDE4716334FA500387666 /* OTRJabberLoginViewController.m in Sources */,
 				6334063C1652C33300A54C52 /* OTRListSettingViewController.m in Sources */,
 				605DF1831A9E0673006A8DB9 /* pinCode.m in Sources */,
@@ -1839,6 +1861,7 @@
 				6311089C190788D4001188BB /* OTRYapPushAccount.m in Sources */,
 				639C60F018CA9A2000CC4DF4 /* _OTRManagedXMPPTorAccount.m in Sources */,
 				63464F331889EC9200526358 /* _OTRManagedGroup.m in Sources */,
+				60B60D6B1CBBA72700EE12F6 /* historyPicker.m in Sources */,
 				6015FD261AFA5BB400D48D84 /* Resend.m in Sources */,
 				608C70631ABC62020065E77B /* VFPhotoActionSheet.m in Sources */,
 				63464F3A1889EC9200526358 /* _OTRvCard.m in Sources */,
@@ -1873,6 +1896,7 @@
 				631FE8851720951400AEA107 /* OTRStatusMessageCell.m in Sources */,
 				60EBB3491B908E0B009F4CC3 /* OTRTabBar.m in Sources */,
 				6311088F190788AE001188BB /* OTRPushDevice.m in Sources */,
+				60DC68DF1CBE877800B5F376 /* dbHistoryOption.m in Sources */,
 				608C70691ABC62020065E77B /* VFPanTouchArea.m in Sources */,
 				6350796A1935365A002C8A69 /* OTRYapPushTokenOwned.m in Sources */,
 				63CAF8FE18FF277200C3337E /* OTRLockButton.m in Sources */,
