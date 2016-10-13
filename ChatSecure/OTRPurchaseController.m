@@ -65,13 +65,13 @@
 
 - (void) requestProductIdentifiers {
     // Code to request product identifiers here
-    NSURL *requestURL = [NSURL URLWithString:REQUEST_PRODUCT_IDENTIFIERS relativeToURL:[OTRPushAPIClient sharedClient].baseURL];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:requestURL.absoluteString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self fetchProductsWithIdentifiers:[NSSet setWithArray:[responseObject objectForKey:PRODUCT_IDENTIFIERS_KEY]]];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        DDLogInfo(@"Error loading product identifiers: %@%@", [error localizedDescription], [error userInfo]);
-    }];
+   // NSURL *requestURL = [NSURL URLWithString:REQUEST_PRODUCT_IDENTIFIERS relativeToURL:[OTRPushAPIClient sharedClient].baseURL];
+   // AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+   // [manager GET:requestURL.absoluteString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    //    [self fetchProductsWithIdentifiers:[NSSet setWithArray:[responseObject objectForKey:PRODUCT_IDENTIFIERS_KEY]]];
+  //  } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    //    DDLogInfo(@"Error loading product identifiers: %@%@", [error localizedDescription], [error userInfo]);
+  //  }];
 }
 
 - (void) fetchProductsWithIdentifiers:(NSSet*)identifiers {

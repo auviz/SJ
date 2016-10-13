@@ -12,15 +12,7 @@
 
 @implementation SetGlobVar
 
-+(void)SetConst: (NSString *)val{
-  //NSString *testDev = val;
-    
-    //static let testDev = val;
-}
 
-+(NSString *)GetConst{
-    //return NSString *testDev;
-}
 
 
 //zigzagcorp color
@@ -84,6 +76,7 @@ NSString *const NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER = @"NOTIFICATION_ERR
 NSString *const NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER=@"NOTIFICATION_DID_SET_HISTORY_OPTION_ON_SERVER";
 NSString *const NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER=@"NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER";
 
+NSString *const NOTIFICATION_ERROR_FOR_ALL_WITH_DICT=@"NOTIFICATION_ERROR_FOR_ALL_WITH_DICT";
 
 
 static NSString *deviceTokenString;
@@ -119,7 +112,7 @@ NSString *getzzzTest(){
     // return DevTest;
 }
 
-BOOL *SafeJabTypeIsEqual(NSString *curAcc,  NSString *withHost){
+BOOL SafeJabTypeIsEqual(NSString *curAcc,  NSString *withHost){
     
 
     NSRange range_safeJab = [curAcc rangeOfString:withHost];
@@ -153,7 +146,7 @@ BOOL *getChangePin(){
     // return DevTest;
 }
 
-BOOL *isMarkPhoto(NSString *message){
+BOOL isMarkPhoto(NSString *message){
     
     if([message length] < 9) return NO;
         
@@ -166,7 +159,7 @@ BOOL *isMarkPhoto(NSString *message){
     
 }
 
-BOOL *isMarkLocation(NSString *message){
+BOOL isMarkLocation(NSString *message){
     
     if([message length] < 9) return NO;
     
@@ -183,15 +176,17 @@ static OTRAccount * SJAccount_;
 
 void clearSJAccount(){
     SJAccount_ = nil;
+  
 }
 
 OTRAccount * SJAccount(){
     
+    //NSLog(@"savedAccounts_ %@", savedAccounts_);
     
     if(SJAccount_) return SJAccount_; //Если мы его получили то и хорошо вернуть
     
+    NSArray *accounts = [OTRAccountsManager allAccounts];
     
-    NSArray *accounts = [OTRAccountsManager allAccountsAbleToAddBuddies];
     
     for(OTRAccount *acc in accounts){
         
@@ -207,7 +202,7 @@ OTRAccount * SJAccount(){
 }
 
 BOOL isConnectedSJAccount(){
-    
+  
     if(!SJAccount()) return NO;
     
   return [[OTRProtocolManager sharedInstance] isAccountConnected:SJAccount()];
@@ -377,3 +372,13 @@ UIImage* resizedImage(UIImage *inImage, CGRect thumbRect)
     return result;
 }
 */
+
+NSString * base64StrToString(NSString * string){
+    
+    NSData *data = [[NSData alloc] initWithBase64EncodedString:string
+                                                       options:kNilOptions];
+    
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    
+}

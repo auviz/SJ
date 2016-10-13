@@ -318,7 +318,7 @@ static OTRMessagesViewController *MVC_;
 
 +(void)deleteDSMessageById:(NSString *)messageId{
    
-    if(!dicDSMessages_) return nil;
+    if(!dicDSMessages_) return ;
     
     destroySecureMessage * DSM = [dicDSMessages_ objectForKey:messageId] ;
     

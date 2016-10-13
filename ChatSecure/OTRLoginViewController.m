@@ -28,8 +28,8 @@
 
 #import "OTRXMPPLoginViewController.h"
 #import "OTRJabberLoginViewController.h"
-#import "OTRFacebookLoginViewController.h"
-#import "OTRGoogleTalkLoginViewController.h"
+//#import "OTRFacebookLoginViewController.h"
+//#import "OTRGoogleTalkLoginViewController.h"
 #import "OTRInLineTextEditTableViewCell.h"
 #import "OTRManagedXMPPTorAccount.h"
 #import "OTRUtilities.h"
@@ -207,10 +207,10 @@ NSString *const KCellTypeHelp           = @"KCellTypeHelp";
     self.navigationItem.rightBarButtonItem = self.loginButton;
     
     if (!self.isNewAccount) {
-        self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_STRING style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
+        self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_STRING style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed:)];
         self.navigationItem.leftBarButtonItem = self.cancelButton;
     } else {
-        self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:CREATE_STRING style:UIBarButtonItemStyleBordered target:self action:@selector(goToURLSafejab)];
+        self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:CREATE_STRING style:UIBarButtonItemStylePlain target:self action:@selector(goToURLSafejab)];
         self.navigationItem.leftBarButtonItem = self.cancelButton;
         
     }
@@ -677,10 +677,10 @@ NSString *const KCellTypeHelp           = @"KCellTypeHelp";
         case OTRAccountTypeXMPPTor:
         case OTRAccountTypeJabber:
             return [[OTRJabberLoginViewController alloc] initWithAccount:account];
-        case OTRAccountTypeFacebook:
-            return [[OTRFacebookLoginViewController alloc] initWithAccount:account];
-        case OTRAccountTypeGoogleTalk:
-            return [[OTRGoogleTalkLoginViewController alloc] initWithAccount:account];
+      //  case OTRAccountTypeFacebook:
+      //      return [[OTRFacebookLoginViewController alloc] initWithAccount:account];
+       // case OTRAccountTypeGoogleTalk:
+      //      return [[OTRGoogleTalkLoginViewController alloc] initWithAccount:account];
         default:
             return nil;
     }

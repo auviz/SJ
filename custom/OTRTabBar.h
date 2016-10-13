@@ -4,10 +4,11 @@
 //
 //  Created by Самсонов Александр on 01.09.15.
 //  Copyright (c) 2015 LC. All rights reserved.
-//
+// СИНГЛИТОН
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
 
 #import "OTRComposeViewController.h"
 #import "OTRConversationViewController.h"
@@ -20,14 +21,15 @@ typedef NS_ENUM(NSUInteger, activeStateBar) {
     right
 };
 
-@interface OTRTabBar : NSObject<UITabBarDelegate>
+@interface OTRTabBar : UITabBar<UITabBarDelegate>
 
 
-
--(void)addTabBar:(UIView *)view;
+//-(void)addTabBar:(UIView *)view;
 -(void)setTBFrame:(CGRect)frame;
 +(void)setState:(activeStateBar)state;
 +(void)setBadgeChats:(NSInteger *)count;
 +(void)showConversationViewControllerWithAnimation:(UIView *)view;
++(OTRTabBar *)getTabBar;
+
 
 @end

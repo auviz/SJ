@@ -13,7 +13,7 @@
     NSString * newPinSecondAttempt;
 }
 
-@property (nonatomic) BOOL * isChangePin;
+@property (nonatomic) BOOL isChangePin;
 
 -(id)initChangePin;
 -(id)initWithView:(UIViewController *)view;

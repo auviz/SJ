@@ -27,7 +27,7 @@
 #import "OTRFacebookOAuthXMPPAccount.h"
 #import "OTRManagedXMPPTorAccount.h"
 #import "OTRAccount.h"
-#import "MagicalRecord.h"
+#import "MagicalRecord/MagicalRecord.h"
 #import "OTRMessage.h"
 
 NSString *const OTRUIDatabaseConnectionDidUpdateNotification = @"OTRUIDatabaseConnectionDidUpdateNotification";
@@ -190,6 +190,8 @@ NSString *const OTRYapDatabseMessageIdSecondaryIndexExtension = @"OTRYapDatabseM
         
         account.password = password;
     }
+    
+    return nil;
 }
 
 - (OTRAccountType)accountTypeWithCoreDataClass:(NSString *)coreDataClass

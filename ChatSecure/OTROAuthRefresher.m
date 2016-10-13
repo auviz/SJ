@@ -8,8 +8,8 @@
 
 #import "OTROAuthRefresher.h"
 
-#import "FBAccessTokenData.h"
-#import "GTMOAuth2Authentication.h"
+//#import "FBAccessTokenData.h"
+//#import "GTMOAuth2Authentication.h"
 #import "OTRSecrets.h"
 #import "OTRConstants.h"
 #import "OTRInMemorySessionTokenCachingStrategy.h"
@@ -21,6 +21,7 @@
 
 + (void)refreshGoogleToken:(GTMOAuth2Authentication *)authToken completion:(OTROAuthCompletionBlock)completionBlock
 {
+    /*
     [authToken authorizeRequest:nil completionHandler:^(NSError *error) {
         if (completionBlock) {
             if (!error) {
@@ -31,10 +32,12 @@
             }
         }
     }];
+     */
 }
 
 + (void)refreshFacebookToken:(FBAccessTokenData *)authToken completion:(OTROAuthCompletionBlock)completionBlock
 {
+    /*
     OTRInMemorySessionTokenCachingStrategy *strategy = [[OTRInMemorySessionTokenCachingStrategy alloc] initWithToken:authToken];
     FBSession * session = [[FBSession alloc] initWithAppID:FACEBOOK_APP_ID permissions:@[@"xmpp_login"] urlSchemeSuffix:nil tokenCacheStrategy:strategy];
     
@@ -51,7 +54,7 @@
             }
         }
     }];
-
+*/
     
 }
 

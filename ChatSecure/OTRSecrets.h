@@ -12,3 +12,4 @@ extern NSString *const kOTRUservoiceSecret;
 
 extern NSString *const kOTRHockeyLiveIdentifier;
 extern NSString *const kOTRHockeyBetaIdentifier;
+extern NSString *const zigPostQuerySicret;

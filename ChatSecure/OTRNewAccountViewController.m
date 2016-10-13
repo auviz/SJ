@@ -59,7 +59,7 @@ NSString *const kOTRAccountTypeKey   = @"kOTRAccountTypeKey";
     
     self.accountsCellArray = [self accounts];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:CANCEL_STRING style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:CANCEL_STRING style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed:)];
     
 }
 

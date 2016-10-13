@@ -57,6 +57,7 @@
 #import "historyPicker.h"
 //#include "ZIGMyVCard.h"
 #import "historyManager.h"
+#import "dbHistoryOption.h"
 
 
 #import "OTRDatabaseUnlockViewController.h"
@@ -74,9 +75,10 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 @property (nonatomic, strong) historyPicker * HP;
 @property (nonatomic, strong) historyManager * historyManager;
 
-@property (nonatomic, strong) OTRKeepHistorySetting * keepHistorySetting;
 
-@property OTRTabBar *tabBar;
+//@property (nonatomic, strong) OTRKeepHistorySetting * keepHistorySetting;
+
+@property (nonatomic, strong) OTRTabBar *tabBar;
 
 
 
@@ -147,6 +149,10 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 {
     [super viewWillAppear:animated];
     
+ 
+    //Для нормального отображения опции истории
+    self.settingsManager.keepHistorySetting.option = [historyPicker valueFromKey:[dbHistoryOption get]];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didUpdateVCardFromServer)
@@ -168,6 +174,12 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
                                                  name:NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadHistoryCell:)
+                                                 name:NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER
+                                               object:nil];
+    
+    
    
     
     [[OTRProtocolManager sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectedProtocols)) options:NSKeyValueObservingOptionNew context:NULL];
@@ -177,10 +189,21 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
     self.tableView.frame = self.view.bounds;
     [self.tableView reloadData];
     
+
     
-    self.tabBar = [[OTRTabBar alloc] init];
+    if(!self.tabBar) self.tabBar = [OTRTabBar getTabBar];
+        
     
-    [self.tabBar addTabBar:self.view];
+    
+    if(![self.tabBar isDescendantOfView:self.view]) {
+    
+        [self.view addSubview:self.tabBar];
+        
+        //Исправляет ошибку перекрытия
+        [self.view insertSubview:self.tabBar belowSubview:self.HP];
+        
+       // [self.view sendSubviewToBack:self.tabBar];
+    }
     
     [self.tabBar setTBFrame:CGRectMake(0, (self.view.frame.size.height -50), self.view.frame.size.width, 50)];
     
@@ -203,6 +226,10 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
      [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER object:nil];
          [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_I_GET_MY_VCARD object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER object:nil];
+    
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER object:nil];
+    
+    
     
     [[OTRProtocolManager sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectedProtocols))];
     [[OTRProtocolManager sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(numberOfConnectingProtocols))];
@@ -309,9 +336,9 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
     OTRSetting *setting = [self.settingsManager settingAtIndexPath:indexPath];
     
     //Получаю доступ к кнопке для последующего ее обнавления
-    if(!self.keepHistorySetting && [setting.title isEqualToString:KEEP_HISTORY_STRING]){
-        self.keepHistorySetting = (OTRKeepHistorySetting*) setting;
-    }
+   // if(!self.keepHistorySetting && [setting.title isEqualToString:KEEP_HISTORY_STRING]){
+   //     self.keepHistorySetting = (OTRKeepHistorySetting*) setting;
+  //  }
     
     
     setting.delegate = self;
@@ -340,7 +367,7 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == 0 && indexPath.section == 0){
-        return heightAccountTableViewCel;
+        return heightAccountTableViewCelAcc;
     }
     
     return 50.0;
@@ -596,6 +623,7 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
         
         DDLogInfo(@"Clear All %@", uid);
      
+        
    
         
         [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
@@ -623,7 +651,8 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 
 - (void)setKeepHistory:(OTRKeepHistorySetting*)setting{
     
-   
+    //Если нет связи с сервером ничего не делать
+    if(!isConnectedSJAccount()) return;
     
     if(!self.HP ) {
         self.HP  = [[historyPicker alloc] initWithView:self.view];
@@ -644,9 +673,13 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 
 -(void)reloadHistoryCell:(NSNotification *)sender {
   //from historyManager
-    NSString * key = [sender.userInfo objectForKey:@"key"];
     
-    self.keepHistorySetting.option = [historyPicker valueFromKey:key];
+    
+   dispatch_async(dispatch_get_main_queue(), ^{
+    
+       NSString * key = [sender.userInfo objectForKey:@"key"];
+     self.settingsManager.keepHistorySetting.option = [historyPicker valueFromKey:key];
+    
     
 //[self.settingsManager settingAtIndexPath:inde
     
@@ -658,8 +691,9 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
     
  //   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         //Добавляем отображение таймера
-   //     NSLog(@"READY");
+        //NSLog(@"READY");
         [self.tableView reloadData];
+   });
   //  });
     
   
@@ -673,7 +707,12 @@ static NSString *const circleImageName = @"31-circle-plus-large.png";
 
 -(void) setHistoryOption:(NSString *)option{
    
+    
+    
+    
     //NSLog(@"%@", option);
+    self.settingsManager.keepHistorySetting.option = @"Applying...";
+    [self.tableView reloadData];
     
     if(!self.historyManager){
         self.historyManager = [[historyManager alloc] init];

@@ -81,7 +81,7 @@
         
       
         
-        int selectedRow = nil;
+        int selectedRow = 0;
         
        self.selectedOption = [self getTimeOption];
         

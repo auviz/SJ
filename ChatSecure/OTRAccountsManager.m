@@ -76,13 +76,22 @@
      }];
 }
 
-+ (NSArray *)allAccountsAbleToAddBuddies  {
-    
++ (NSArray *)allAccounts {
     
     __block NSArray *accounts = nil;
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         accounts = [OTRAccount allAccountsWithTransaction:transaction];
     }];
+    
+    return accounts;
+    
+}
+
++ (NSArray *)allAccountsAbleToAddBuddies  {
+    
+    
+    NSArray *accounts = [OTRAccountsManager allAccounts];
+   
     
     
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {

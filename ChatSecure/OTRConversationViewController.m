@@ -13,7 +13,7 @@
 #import "OTRSubscriptionRequestsViewController.h"
 
 #import "OTRConversationCell.h"
-#import "OTRNotificationPermissions.h"
+//#import "OTRNotificationPermissions.h"
 #import "OTRAccount.h"
 #import "OTRBuddy.h"
 #import "OTRMessage.h"
@@ -32,6 +32,7 @@
 #import "groupChatManager.h"
 #import "OTRRoom.h"
 #import "OTRTabBar.h"
+#import "historyManager.h"
 
 
 
@@ -217,18 +218,13 @@ static CGFloat kOTRConversationCellHeight = 80.0;
     
     
   
-    if(!self.tabBar){
+    if(!self.tabBar)  self.tabBar = [OTRTabBar getTabBar];
     
-    self.tabBar = [[OTRTabBar alloc] init];
-    
-    [self.tabBar addTabBar:self.view];
-        
-    } else {
-        [self.tabBar addTabBar:self.view];
+    if(![self.tabBar isDescendantOfView:self.view]) {
+        [self.view addSubview:self.tabBar];
     }
-  
-    [self.tabBar setTBFrame:CGRectMake(0, (self.view.frame.size.height -50), self.view.frame.size.width, 50)];
     
+    [self.tabBar setTBFrame:CGRectMake(0, (self.view.frame.size.height -50), self.view.frame.size.width, 50)];
     
     
     [self.cellUpdateTimer invalidate];
@@ -326,7 +322,7 @@ static CGFloat kOTRConversationCellHeight = 80.0;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [OTRNotificationPermissions checkPermissions];
+  //  [OTRNotificationPermissions checkPermissions];
     [self ifNotAccountGoToLogin];
     
     
@@ -604,7 +600,7 @@ static CGFloat kOTRConversationCellHeight = 80.0;
      });
     
     
-    return YES;
+   // return YES;
 }
 
 - (OTRBuddy *)buddyForIndexPath:(NSIndexPath *)indexPath
@@ -689,7 +685,8 @@ static CGFloat kOTRConversationCellHeight = 80.0;
 - (void)updateTitle
 {
     NSUInteger numberUnreadMessages = [self.unreadMessagesMappings numberOfItemsInAllGroups];
-    [OTRTabBar setBadgeChats:numberUnreadMessages];
+ 
+    [OTRTabBar setBadgeChats:(NSInteger *)numberUnreadMessages];
     
     if (numberUnreadMessages > 99) {
         self.title = [NSString stringWithFormat:@"%@ (99+)",CHATS_STRING];
@@ -757,6 +754,7 @@ static CGFloat kOTRConversationCellHeight = 80.0;
         
          BOOL isGroupChat = SafeJabTypeIsEqual(cellBuddy.username, MUC_JABBER_HOST);
         
+     
         
         if(isGroupChat){
             
@@ -768,6 +766,9 @@ static CGFloat kOTRConversationCellHeight = 80.0;
         [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
             [OTRMessage deleteAllMessagesForBuddyId:cellBuddy.uniqueId transaction:transaction];
         }];
+            
+            //Удаление сообщений из истории (для приятеля)
+            [historyManager deleteAllMessagesForUser:SJAccount().username withBuddy:cellBuddy.username];
             
         }
     }

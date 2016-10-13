@@ -51,7 +51,7 @@ static CGFloat const textLeftFieldBuffer = 100;
     
     self.textLabel.text = name;
     
-    
+    return self;
 }
 
 -(void)setTextField:(UITextField *)newTextField

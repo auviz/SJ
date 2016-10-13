@@ -11,8 +11,8 @@
 
 @class OTRAccount;
 
-const float heightAccountTableViewCel = 66;
-const float paddingAccountTableViewCel = 10;
+static float heightAccountTableViewCelAcc = 66;
+static float paddingAccountTableViewCelAcc = 10;
 
 @interface OTRAccountTableViewCell : UITableViewCell
 

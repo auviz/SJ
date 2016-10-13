@@ -5,7 +5,7 @@
 //  Created by Christopher Ballinger on 5/26/13.
 //  Copyright (c) 2013 Chris Ballinger. All rights reserved.
 //
-
+ /*
 #import "OTRPushManager.h"
 #import "OTRConstants.h"
 #import "OTRPushAPIClient.h"
@@ -35,6 +35,7 @@
 
 - (void)createNewAccountWithUsername:(NSString *)username password:(NSString *)password emial:(NSString *)email completion:(OTRPushCompletionBlock)completion
 {
+   
     [[OTRPushAPIClient sharedClient] createNewAccountWithUsername:username password:password email:email completion:^(OTRPushAccount *account, NSError *error) {
         
         BOOL success = NO;
@@ -52,10 +53,12 @@
             completion(success,error);
         }
     }];
+ 
 }
 
 - (void)refreshCurrentAccount:(OTRPushCompletionBlock)completion
 {
+    
     [[OTRPushAPIClient sharedClient] fetchCurrentAccount:^(OTRPushAccount *account, NSError *error) {
         
         BOOL success = NO;
@@ -73,6 +76,7 @@
         }
         
     }];
+   
 }
 
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password completion:(OTRPushCompletionBlock)completionBlock
@@ -239,3 +243,4 @@
 
 
 @end
+  */

@@ -14,4 +14,8 @@
 
 -(void)getHistoryOptionFromServer;
 
++(void)deleteMessageForUser:(NSString *)user withMessageId:(NSString *)messageId;
++(void)deleteAllMessagesForUser:(NSString *)user withBuddy:(NSString *)buddy;
++(void)deleteAllMessagesForUser:(NSString *)user;
+
 @end

@@ -116,6 +116,7 @@
     
     return [[self alloc] initWithHeaderLabel:headerLabel];
      */
+    return nil;
 }
 
 @end

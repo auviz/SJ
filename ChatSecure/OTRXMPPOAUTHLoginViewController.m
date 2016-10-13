@@ -43,6 +43,8 @@
     if (section == 0) {
         return 55;
     }
+    
+    return 0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section

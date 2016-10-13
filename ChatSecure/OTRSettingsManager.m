@@ -106,6 +106,8 @@
     OTRKeepHistorySetting *historyOnServerBtn = [[OTRKeepHistorySetting alloc] initWithTitle:KEEP_HISTORY_STRING
                                                                          description:STORING_HISTORI_STRING
                                                 ];
+    
+    self.keepHistorySetting = historyOnServerBtn;
 
     
    // [newSettingsDictionary setObject:historyOnServerBtn forKey:kOTRSettingKeyHistoryOnServer];

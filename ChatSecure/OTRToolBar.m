@@ -29,7 +29,7 @@ static id OTRConversationViewController_;
         
         if(state == left){
             
-             self.leftButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconContacts_Highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleBordered target: nil action:nil];
+             self.leftButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconContacts_Highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target: nil action:nil];
             
             
             
@@ -38,33 +38,33 @@ static id OTRConversationViewController_;
     
         
             
-            self.centerButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconMessages_Highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleBordered target: nil action:nil];
+            self.centerButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconMessages_Highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target: nil action:nil];
       
           
             
             
         } else if(state == right){
             
-            self.rightButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconSettings_Highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleBordered target: nil action:nil];
+            self.rightButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconSettings_Highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target: nil action:nil];
             
         }
         
         
         if(!self.leftButton){
             
-               self.leftButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconContacts"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleBordered target:self action:@selector(leftButtonPressed)];
+               self.leftButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconContacts"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(leftButtonPressed)];
             
         }
         
         if(!self.centerButton){
             
-               self.centerButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconMessages"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleBordered target:self action:@selector(centerButtonPressed)];
+               self.centerButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconMessages"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(centerButtonPressed)];
             
         }
         
         if(!self.rightButton){
             
-               self.rightButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconSettings"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleBordered target:self action:@selector(rightButtonPressed)];
+               self.rightButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"TabIconSettings"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(rightButtonPressed)];
             
         }
     
@@ -83,7 +83,7 @@ static id OTRConversationViewController_;
     }
     
  
-    
+    return nil;
 }
 
 

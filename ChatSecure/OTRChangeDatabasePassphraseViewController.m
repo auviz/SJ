@@ -73,6 +73,10 @@
     [self.oldPasswordTextField becomeFirstResponder];
 }
 
+-(void)changePasswordButtonPressed:(id)sender{
+    NSLog(@"changePasswordButtonPressed");
+}
+
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];

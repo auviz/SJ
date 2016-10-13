@@ -58,6 +58,7 @@ static BOOL isRequestError_ = YES;
         
         return self;
     }
+    return nil;
 }
 
 -(NSURLConnection *)getConnection {

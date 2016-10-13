@@ -12,6 +12,7 @@
 #import "YapDatabaseTransaction.h"
 #import "MTLModel+NSCoding.h"
 
+
 @interface OTRYapDatabaseObject : MTLModel
 
 @property (nonatomic, readonly) NSString *uniqueId;
@@ -20,6 +21,7 @@
 
 - (void)saveWithTransaction:(YapDatabaseReadWriteTransaction *)transaction;
 - (void)removeWithTransaction:(YapDatabaseReadWriteTransaction *)transaction;
+-(void)setUniqueId:(NSString *)uniqueId;
 
 + (NSString *)collection;
 

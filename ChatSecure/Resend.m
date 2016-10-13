@@ -18,6 +18,7 @@
         return self;
     }
     
+    return nil;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

@@ -9,6 +9,7 @@
 #import "OTRYapDatabaseObject.h"
 #import "JSQMessageMediaData.h"
 
+
 @class OTRBuddy,YapDatabaseReadTransaction;
 
 extern const struct OTRMessageAttributes {
@@ -58,6 +59,7 @@ extern const struct OTRMessageEdges {
 @property (nonatomic, strong) NSDate * securExperiedTime;
 @property (nonatomic, strong) NSArray * sendCanceledForUsers;
 @property (nonatomic, strong) NSArray * participants;
+@property BOOL isSorted;
 
 
 
@@ -82,12 +84,18 @@ extern const struct OTRMessageEdges {
 
 +(OTRMessage *)OTRMessageByMessageId:(NSString *)messageId;
 
++(BOOL)isOTRMessageForKey:(NSString *)key;
+
 //Secur Messages
 + (void)deleteExpiredMessage:(YapDatabaseReadWriteTransaction*)transaction;
 
 + (void)receivedIReadExpiredMessageForMessageId:(NSString *)messageId experiedDate:(NSDate *)expDate transaction:(YapDatabaseReadWriteTransaction*)transaction;
 
++(void)setBlockYapNotification:(BOOL)value;
 
++(BOOL)getIsBlockYapNotification;
+
++(void)deleteOTRMessageForMessageId:(NSString *)messageId;
 
 
 @end

@@ -43,7 +43,8 @@
          return self;
         
     }
-   
+    
+    return nil;
 }
 
 -(id)initWithView:(UIViewController *)view
@@ -59,6 +60,7 @@
         return self;
         
     }
+    return nil;
     
 }
 - (void)viewDidLoad
@@ -155,7 +157,7 @@
     [self.view addConstraint:self.bottomConstraint];
     
     
-    self.textFieldCenterXConstraint = [NSLayoutConstraint constraintWithItem:self.passphraseTextField attribute:NSLayoutAttributeCenterX relatedBy:self.view toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
+    self.textFieldCenterXConstraint = [NSLayoutConstraint constraintWithItem:self.passphraseTextField attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
     [self.view addConstraint:self.textFieldCenterXConstraint];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.passphraseTextField attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.unlockButton attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0]];

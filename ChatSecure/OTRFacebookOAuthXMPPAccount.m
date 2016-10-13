@@ -6,35 +6,42 @@
 //  Copyright (c) 2014 Chris Ballinger. All rights reserved.
 //
 
-#import "OTRFacebookOAuthXMPPAccount.h"
-#import "OTRImages.h"
-#import "Strings.h"
-#import "FBAccessTokenData.h"
-#import "OTRConstants.h"
+//#import "OTRFacebookOAuthXMPPAccount.h"
+//#import "OTRImages.h"
+//#import "Strings.h"
+//#import "FBAccessTokenData.h"
+//#import "OTRConstants.h"
 
 
-@implementation OTRFacebookOAuthXMPPAccount
-
+//@implementation OTRFacebookOAuthXMPPAccount
+  /*
 - (id)init
 {
+  
     if (self = [super init]) {
         self.domain = kOTRFacebookDomain;
     }
     return self;
+     
 }
+   */
 
-- (UIImage *)accountImage
-{
+//- (UIImage *)accountImage
+//{
   //  return [OTRImages facebookImage];
-}
+//}
 
-- (NSString *)accountDisplayName
-{
-    return FACEBOOK_STRING;
-}
+//- (NSString *)accountDisplayName
+//{
+//    return FACEBOOK_STRING;
+//}
+
+/*
 
 -(NSString *)accessTokenString {
     return [self authToken].accessToken;
+     
+    return nil;
 }
 
 -(FBAccessTokenData *)authToken
@@ -65,5 +72,5 @@
 {
     return NSStringFromClass([OTRAccount class]);
 }
-
-@end
+*/
+//@end

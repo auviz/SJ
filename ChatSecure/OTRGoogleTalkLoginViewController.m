@@ -22,7 +22,7 @@
 
 #import "OTRGoogleTalkLoginViewController.h"
 #import "Strings.h"
-#import "GTMOAuth2ViewControllerTouch.h"
+//#import "GTMOAuth2ViewControllerTouch.h"
 #import "OTRGoogleOAuthXMPPAccount.h"
 #import "OTRSecrets.h"
 #import "OTRDatabaseManager.h"
@@ -68,6 +68,7 @@
 
 -(void)connectAccount:(id)sender
 {
+    /*
     GTMOAuth2ViewControllerTouch * oauthViewController = [GTMOAuth2ViewControllerTouch controllerWithScope:GOOGLE_APP_SCOPE clientID:GOOGLE_APP_ID clientSecret:kOTRGoogleAppSecret keychainItemName:nil completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
         //[viewController dismissModalViewControllerAnimated:YES];
         if (!error) {
@@ -90,6 +91,7 @@
         }
     }];
     [self.navigationController pushViewController:oauthViewController animated:YES];
+     */
 }
 
 @end

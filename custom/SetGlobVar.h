@@ -21,9 +21,6 @@
 @property (strong) NSString *deviceTokenString;
 //@property (strong) NSString *testDev;
 
-+(void)SetConst: (NSString *)val;
-+(NSString *)GetConst;
-
 
 //zigzagcorp color
 + (UIColor *)messageBubbleZigGreenColor;
@@ -63,11 +60,12 @@ extern NSString *const NOTIFICATION_DID_UPDATE_VCARD_FROM_SERVER;
 extern NSString *const NOTIFICATION_ERROR_UPDATE_VCARD_FROM_SERVER;
 extern NSString *const NOTIFICATION_DID_HISTORY_OPTION_ON_SERVER;
 extern NSString *const NOTIFICATION_ERROR_SET_HISTORY_OPTION_ON_SERVER;
+extern NSString *const NOTIFICATION_ERROR_FOR_ALL_WITH_DICT;
 
-BOOL *SafeJabTypeIsEqual();
+BOOL SafeJabTypeIsEqual();
 
-BOOL *isMarkPhoto(NSString *message);
-BOOL *isMarkLocation(NSString *message);
+BOOL isMarkPhoto(NSString *message);
+BOOL isMarkLocation(NSString *message);
 
 
 void setDeviceTokenString();
@@ -94,3 +92,5 @@ BOOL isConnectedSJAccount();
 void clearSJAccount();
 
 UIColor * stringToColor(NSString * string);
+
+NSString * base64StrToString(NSString * string);

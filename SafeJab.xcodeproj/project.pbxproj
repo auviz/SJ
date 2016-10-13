@@ -11,6 +11,7 @@
 		600276DF1AC9994900D3885C /* OTRMessagesCollectionViewCellIncoming.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600276DB1AC9994900D3885C /* OTRMessagesCollectionViewCellIncoming.xib */; };
 		600276E01AC9994900D3885C /* OTRMessagesCollectionViewCellOutgoing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600276DD1AC9994900D3885C /* OTRMessagesCollectionViewCellOutgoing.xib */; };
 		600829AB1B8DCD1E000C6F26 /* OTRToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 600829AA1B8DCD1E000C6F26 /* OTRToolBar.m */; };
+		600CF0711DAD1D79001053A3 /* OTRAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 638286DF1846911C00F127C2 /* OTRAccountTableViewCell.m */; };
 		6015FD261AFA5BB400D48D84 /* Resend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6015FD251AFA5BB400D48D84 /* Resend.m */; };
 		604729621BCBFDE200B6F309 /* OTRMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 604729611BCBFDE200B6F309 /* OTRMapViewController.m */; };
 		6049DDDE1A69188800315166 /* SetGlobVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6049DDDD1A69188800315166 /* SetGlobVar.m */; };
@@ -125,7 +126,6 @@
 		636FE4C0161B7C68002B28EF /* OTRInLineTextEditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 636FE4BF161B7C68002B28EF /* OTRInLineTextEditTableViewCell.m */; };
 		6370C976185FC58C00CB6786 /* OTRTitleSubtitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6370C975185FC58C00CB6786 /* OTRTitleSubtitleView.m */; };
 		637BC43018985BAC006EC18C /* OTRColorFadingDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BC42F18985BAC006EC18C /* OTRColorFadingDotView.m */; };
-		638286E01846911C00F127C2 /* OTRAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 638286DF1846911C00F127C2 /* OTRAccountTableViewCell.m */; };
 		6383196818EB938300862B25 /* OTRManagedAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 6397535D18CA8221005D6063 /* OTRManagedAccount.m */; };
 		639752EB18CA7B23005D6063 /* OTRCertificatesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639752EA18CA7B23005D6063 /* OTRCertificatesViewController.m */; };
 		6397530A18CA7CB0005D6063 /* OTRProtocolManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6397530918CA7CB0005D6063 /* OTRProtocolManager.m */; };
@@ -269,6 +269,7 @@
 		600829AA1B8DCD1E000C6F26 /* OTRToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTRToolBar.m; sourceTree = "<group>"; };
 		6015FD241AFA5BB400D48D84 /* Resend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resend.h; sourceTree = "<group>"; };
 		6015FD251AFA5BB400D48D84 /* Resend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Resend.m; sourceTree = "<group>"; };
+		603B897F1DAE54C800DF38AF /* SafeJab.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SafeJab.entitlements; sourceTree = "<group>"; };
 		604729601BCBFDE200B6F309 /* OTRMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTRMapViewController.h; sourceTree = "<group>"; };
 		604729611BCBFDE200B6F309 /* OTRMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTRMapViewController.m; sourceTree = "<group>"; };
 		6049DDDC1A69188700315166 /* SetGlobVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetGlobVar.h; path = custom/SetGlobVar.h; sourceTree = SOURCE_ROOT; };
@@ -1529,6 +1530,7 @@
 		D9F9376D13F44BD3009A3D84 = {
 			isa = PBXGroup;
 			children = (
+				603B897F1DAE54C800DF38AF /* SafeJab.entitlements */,
 				D9F9378013F44BD3009A3D84 /* ChatSecure */,
 				D9F9377B13F44BD3009A3D84 /* Frameworks */,
 				D9F9377913F44BD3009A3D84 /* Products */,
@@ -1648,6 +1650,7 @@
 				D9F9377513F44BD3009A3D84 /* Frameworks */,
 				D9F9377613F44BD3009A3D84 /* Resources */,
 				2B8A95E4BC5948D49757E0E4 /* Copy Pods Resources */,
+				159720E1435BA5115F061499 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1664,11 +1667,17 @@
 		D9F9376F13F44BD3009A3D84 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Leader Consult";
 				TargetAttributes = {
 					D9F9377713F44BD3009A3D84 = {
 						DevelopmentTeam = UD7C239W43;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1736,6 +1745,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		159720E1435BA5115F061499 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2B8A95E4BC5948D49757E0E4 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1786,6 +1810,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				600CF0711DAD1D79001053A3 /* OTRAccountTableViewCell.m in Sources */,
 				D9B340DB19009D8D006D5D0A /* OTRYapDatabaseRosterStorage.m in Sources */,
 				639753E318CA89E1005D6063 /* OTRXMPPTorManager.m in Sources */,
 				D9F9378713F44BD3009A3D84 /* main.m in Sources */,
@@ -1870,7 +1895,6 @@
 				6397538818CA8222005D6063 /* OTRManagedStatusMessage.m in Sources */,
 				6311089F190788D4001188BB /* OTRYapPushToken.m in Sources */,
 				D9ADF9E518109D420096B07A /* OTRDatabaseManager.m in Sources */,
-				638286E01846911C00F127C2 /* OTRAccountTableViewCell.m in Sources */,
 				63464F351889EC9200526358 /* _OTRManagedOAuthAccount.m in Sources */,
 				608C706F1ABC62020065E77B /* VFImageCropViewController.m in Sources */,
 				6335C0E719119B1F00E506E5 /* OTRPushViewSetting.m in Sources */,
@@ -2050,13 +2074,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -2064,8 +2100,13 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -2075,15 +2116,32 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -2098,11 +2156,14 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = SafeJab.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = UD7C239W43;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ChatSecure/SafeJab-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2122,16 +2183,16 @@
 					"$(SRCROOT)/Submodules/OTRKit/dependencies/include",
 				);
 				INFOPLIST_FILE = "ChatSecure/SafeJab-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SRCROOT)/Submodules/XMPPFramework/Vendor/libidn",
+					"$(inherited)",
 				);
 				OTHER_CFLAGS = (
 					"-DSQLITE_HAS_CODEC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lc-rus.push.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lc-rus.push.SafeJab";
 				PRODUCT_NAME = SafeJab;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2147,11 +2208,14 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = SafeJab.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = UD7C239W43;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ChatSecure/SafeJab-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2171,16 +2235,16 @@
 					"$(SRCROOT)/Submodules/OTRKit/dependencies/include",
 				);
 				INFOPLIST_FILE = "ChatSecure/SafeJab-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SRCROOT)/Submodules/XMPPFramework/Vendor/libidn",
+					"$(inherited)",
 				);
 				OTHER_CFLAGS = (
 					"-DSQLITE_HAS_CODEC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lc-rus.push.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lc-rus.push.SafeJab";
 				PRODUCT_NAME = SafeJab;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

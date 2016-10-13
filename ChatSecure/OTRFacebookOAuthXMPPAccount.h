@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Chris Ballinger. All rights reserved.
 //
 
-#import "OTROAuthXMPPAccount.h"
+//#import "OTROAuthXMPPAccount.h"
 
-@interface OTRFacebookOAuthXMPPAccount : OTROAuthXMPPAccount
+//@interface OTRFacebookOAuthXMPPAccount : OTROAuthXMPPAccount
 
-@end
+//@end

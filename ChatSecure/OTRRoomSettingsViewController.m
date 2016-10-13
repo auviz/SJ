@@ -18,6 +18,7 @@
 #import "OTRProtocolManager.h"
 #import "OTRAppDelegate.h"
 #import "OTRTabBar.h"
+#import "historyManager.h"
 
 const float heightFirstSection = 75;
 
@@ -253,6 +254,9 @@ const float heightFirstSection = 75;
   
         return 4;
     }
+    
+    return 0;
+    
     //return [self.certificateDomains count];
 }
 
@@ -281,7 +285,7 @@ const float heightFirstSection = 75;
 {
     [textField resignFirstResponder];
     
-    if([textField.text isEqualToString:self.room.nameRoom]) return nil;
+    if([textField.text isEqualToString:self.room.nameRoom]) return NO;
     
     //Переименовать комнату Rename
     self.room.nameRoom = textField.text;
@@ -292,6 +296,7 @@ const float heightFirstSection = 75;
     
    // [GCM sendRenameRoomForRoomID:self.room.roomId];
  
+    return NO;
     
 }
 
@@ -462,6 +467,9 @@ const float heightFirstSection = 75;
                                      
                                      
                                  }];
+                                 
+                                 //Удаление сообщений из истории (для приятеля)
+                                 [historyManager deleteAllMessagesForUser:SJAccount().username withBuddy:self.buddy.username];
                                  
                                  //[alert dismissViewControllerAnimated:YES completion:nil];
                                  

@@ -24,10 +24,13 @@
 #import "OTRSetting.h"
 #import "OTRConstants.h"
 
+@class OTRKeepHistorySetting;
+
 @interface OTRSettingsManager : NSObject
 
 @property (nonatomic, strong, readonly) NSMutableArray *settingsGroups;
 @property (nonatomic, strong, readonly) NSDictionary *settingsDictionary;
+@property (nonatomic, strong) OTRKeepHistorySetting * keepHistorySetting;
 
 - (OTRSetting*) settingAtIndexPath:(NSIndexPath*)indexPath;
 - (NSString*) stringForGroupInSection:(NSUInteger)section;

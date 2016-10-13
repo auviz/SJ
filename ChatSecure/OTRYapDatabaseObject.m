@@ -7,6 +7,7 @@
 //
 
 #import "OTRYapDatabaseObject.h"
+#import "OTRMessage.h"
 
 @interface OTRYapDatabaseObject ()
 
@@ -33,8 +34,28 @@
     return self;
 }
 
+-(void)setOTRMessageUniqueId{
+    
+   
+    
+    if([self isKindOfClass:[OTRMessage class]]){
+        
+        OTRMessage * message = (OTRMessage *) self;
+        
+        if(message.messageId.length > 0){
+            self.uniqueId = message.messageId;
+        }
+        
+        
+    }
+    
+}
+
 - (void)saveWithTransaction:(YapDatabaseReadWriteTransaction *)transaction
 {
+    //Мое катомное дермо (для того чтоб идентификатор в совподал с id сообщения)
+    [self setOTRMessageUniqueId];
+    
     [transaction setObject:self forKey:self.uniqueId inCollection:[[self class] collection]];
 }
 
@@ -49,6 +70,7 @@
 {
     return NSStringFromClass([self class]);
 }
+
 
 + (instancetype) fetchObjectWithUniqueID:(NSString *)uniqueID transaction:(YapDatabaseReadTransaction *)transaction {
     return [transaction objectForKey:uniqueID inCollection:[self collection]];

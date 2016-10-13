@@ -5,7 +5,7 @@
 //  Created by Christopher Ballinger on 9/29/12.
 //  Copyright (c) 2012 Chris Ballinger. All rights reserved.
 //
-
+/*
 #import "AFNetworking.h"
 
 @class OTRPushAccount;
@@ -57,3 +57,4 @@
 + (NSString *)hexStringValueWithData:(NSData *)data;
 
 @end
+ */

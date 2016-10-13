@@ -150,15 +150,15 @@ NSString *const securImage = @"secur";
     else if (accountType == OTRAccountTypeSecurName) {
        account = [[OTRXMPPAccount alloc] initWithAccountTypeSecurName:OTRAccountTypeJabber]; //zigzagcorp secur name
     }
-    else if (accountType == OTRAccountTypeXMPPTor) {
-        account = [[OTRXMPPTorAccount alloc] initWithAccountType:accountType];
-    }
-    else if (accountType == OTRAccountTypeGoogleTalk) {
-        account = [[OTRGoogleOAuthXMPPAccount alloc] initWithAccountType:accountType];
-    }
-    else if (accountType == OTRAccountTypeFacebook) {
-        account = [[OTRFacebookOAuthXMPPAccount alloc] initWithAccountType:accountType];
-    }
+    //  else if (accountType == OTRAccountTypeXMPPTor) {
+    //    account = [[OTRXMPPTorAccount alloc] initWithAccountType:accountType];
+    // }
+    //  else if (accountType == OTRAccountTypeGoogleTalk) {
+    //      account = [[OTRGoogleOAuthXMPPAccount alloc] initWithAccountType:accountType];
+    //  }
+    //else if (accountType == OTRAccountTypeFacebook) {
+    //   account = [[OTRFacebookOAuthXMPPAccount alloc] initWithAccountType:accountType];
+   // }
     
     return account;
 }

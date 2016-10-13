@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Chris Ballinger. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+//#import <Foundation/Foundation.h>
 
-@interface OTRNotificationPermissions : NSObject
+//@interface OTRNotificationPermissions : NSObject
 
-+ (void)checkPermissions;
-+ (bool)canSendNotifications;
+//+ (void)checkPermissions;
+//+ (bool)canSendNotifications;
 
-@end
+//@end

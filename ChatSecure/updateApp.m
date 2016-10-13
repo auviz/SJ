@@ -72,7 +72,7 @@
     
      NSString *versionAppInDevice = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     
-    BOOL *isEqual= [versionAppOnServer isEqualToString:versionAppInDevice];
+    BOOL isEqual= [versionAppOnServer isEqualToString:versionAppInDevice];
     
    
     

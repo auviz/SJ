@@ -23,6 +23,7 @@
 #import "OTRAppDelegate.h"
 
 #import "OTRConversationViewController.h"
+#import "OTRComposeViewController.h"
 
 #import "OTRMessagesViewController.h"
 #import "Strings.h"
@@ -34,7 +35,7 @@
 #import "OTRLanguageManager.h"
 #import "OTRUtilities.h"
 #import "OTRAccountsManager.h"
-#import "FacebookSDK.h"
+//#import "FacebookSDK.h"
 //#import "OTRAppVersionManager.h"
 #import "OTRSettingsManager.h"
 #import "OTRSecrets.h"
@@ -137,7 +138,7 @@
     self.settingsViewController = [[OTRSettingsViewController alloc] init];
     self.conversationViewController = [[OTRConversationViewController alloc] init];
     self.messagesViewController = [OTRMessagesViewController messagesViewController];
-    
+    self.composeViewController = [[OTRComposeViewController alloc] init];
     
     
     if ([OTRDatabaseManager existsYapDatabase] && ![[OTRDatabaseManager sharedInstance] hasPassphrase]) {
@@ -608,6 +609,7 @@
 
 
 # pragma mark - Push Notifications
+
 
 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     

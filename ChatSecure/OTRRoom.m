@@ -110,7 +110,7 @@ static NSDictionary *sharedRoomsFromDb_ = nil;
      tempRoom.roomId  = [room objectAtIndex:0];
      tempRoom.roomAdmin  = [room objectAtIndex:1];
      tempRoom.participants = [room subarrayWithRange:NSMakeRange(1, (room.count -2))];
-     tempRoom.countInRoom = tempRoom.participants.count;
+     tempRoom.countInRoom = (NSInteger *)tempRoom.participants.count;
      tempRoom.nameRoom = [room lastObject];
         
   
@@ -127,10 +127,6 @@ static NSDictionary *sharedRoomsFromDb_ = nil;
     
 }
 
--(BOOL)isEqualRoomsFromServerWithRoomsApp{
-    
-    
-}
 
 +(BOOL)isRoomInServer:(NSString *)roomID{
     

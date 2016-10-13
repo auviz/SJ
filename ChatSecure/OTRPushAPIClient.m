@@ -5,7 +5,7 @@
 //  Created by Christopher Ballinger on 9/29/12.
 //  Copyright (c) 2012 Chris Ballinger. All rights reserved.
 //
-
+/*
 #import "OTRPushAPIClient.h"
 #import "OTRPushAccount.h"
 #import "OTRPushToken.h"
@@ -57,7 +57,7 @@ static OTRPushAPIClient *_sharedClient = nil;
         _sharedClient = [[OTRPushAPIClient alloc] initWithBaseURL:baseURL clientID:clientID clientSecret:clientSecret];
     });
     
-    return _sharedClient;
+    //return _sharedClient;
 }
 
 + (void)setupWithCientID:(NSString*)clientID clientSecret:(NSString*)clientSecret;
@@ -486,3 +486,4 @@ static OTRPushAPIClient *_sharedClient = nil;
 
 
 @end
+ */

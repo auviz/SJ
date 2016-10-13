@@ -21,10 +21,11 @@
 //  along with ChatSecure.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
-#import "HockeySDK.h"
+//#import "HockeySDK.h"
 #import "SetGlobVar.h"
 #import "updateApp.h" //zigzagcorp class
 #import "OTRLocation.h"
+
 
 #define MyLog if(0); else DDLogInfo;
 
@@ -32,13 +33,16 @@
 @class OTRSettingsViewController;
 @class OTRMessagesViewController;
 @class OTRConversationViewController;
+@class OTRComposeViewController;
 
-@interface OTRAppDelegate : UIResponder <UIApplicationDelegate, BITHockeyManagerDelegate>
+@interface OTRAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) OTRSettingsViewController *settingsViewController;
 @property (nonatomic, strong) OTRMessagesViewController *messagesViewController;
 @property (nonatomic, strong) OTRConversationViewController *conversationViewController;
+@property (nonatomic, strong) OTRComposeViewController * composeViewController;
+
 
 @property (nonatomic, strong) NSTimer *backgroundTimer;
 

@@ -29,6 +29,7 @@
 @interface OTRAccountsManager : NSObject
 
 + (void)removeAccount:(OTRAccount*)account;
++ (NSArray *)allAccounts;
 + (NSArray *)allAccountsAbleToAddBuddies;
 + (OTRAccount *)accountWithUsername:(NSString *)username;
 

@@ -469,7 +469,7 @@ static int groupChatNotGoodAttempts_ = 0;
     NSString * domainString = [self accountDomainWithError:error];
     if (error) {
         [self failedToConnect:error];
-        return;
+        return NO;
     }
     if ([domainString length]) {
         [self.xmppStream setHostName:domainString];
@@ -916,9 +916,12 @@ static int groupChatNotGoodAttempts_ = 0;
             message.buddyUniqueId = messageBuddy.uniqueId;
             if (date) {
                 message.date = date;
+            } else {
+                message.isSorted = YES;
             }
             
             message.messageId = [xmppMessage elementID];
+            
             
             [[OTRKit sharedInstance] decodeMessage:message.text username:messageBuddy.username accountName:self.account.username protocol:kOTRProtocolTypeXMPP tag:message];
             
@@ -1301,8 +1304,10 @@ if(!isOTRMes)
 
 -(void)connectWithPassword:(NSString *)myPassword
 {
-    
-    [self connectWithJID:self.account.username password:myPassword];
+
+         [self connectWithJID:self.account.username password:myPassword];
+ 
+   
 }
 
 -(void)sendChatState:(OTRChatState)chatState withBuddyID:(NSString *)buddyUniqueId
@@ -1813,6 +1818,7 @@ managedBuddyObjectID
     
     return [self.SJRoomsDic valueForKey:roomID];
      */
+    return nil;
 }
 
 
@@ -1963,7 +1969,7 @@ managedBuddyObjectID
         NSLog(@"USER_FOR_NOTIF_UPDATE_ROOM_LIST");
     }
     
-    
+    return nil;
 }
 
 

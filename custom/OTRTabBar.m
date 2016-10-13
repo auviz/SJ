@@ -12,17 +12,35 @@
 
 @implementation OTRTabBar
 
-static UITabBar *zigTB;
+//static OTRComposeViewController * composeViewController_;
+
+static OTRTabBar *zigTB;
 
 
 static activeStateBar curState;
 
+/*
 -(void)addTabBar:(UIView *)view{
     [self tabBarr];
     
     
-    
     [view addSubview:zigTB];
+}
+ */
+
+
++(OTRTabBar *)getTabBar{
+    
+    if(zigTB) return zigTB;
+    
+    
+    
+    OTRTabBar * tabBar = [[OTRTabBar alloc] init];
+    
+    [tabBar tabBarr];
+    
+    return zigTB;
+    
 }
 
 - (void)tabBarr
@@ -31,10 +49,9 @@ static activeStateBar curState;
     
     if(!zigTB){
         
-        UITabBar *myTabBar = [[UITabBar alloc] init];
-        myTabBar.delegate=self;   //here you need import the protocol <UITabBarDelegate>
+       // UITabBar *myTabBar = [[UITabBar alloc] init];
+        self.delegate=self;   //here you need import the protocol <UITabBarDelegate>
         //[view addSubview:myTabBar];
-        
         
         NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
         
@@ -54,13 +71,14 @@ static activeStateBar curState;
         [tabBarItems addObject:centerButton];
         [tabBarItems addObject:rightButton];
         
-        myTabBar.items = tabBarItems;
-        myTabBar.selectedItem = [tabBarItems objectAtIndex:1];
+        self.items = tabBarItems;
+        self.selectedItem = [tabBarItems objectAtIndex:1];
         curState = center;
         
         
-        zigTB = myTabBar;
+        zigTB = self;
     }
+    
     
 }
 
@@ -103,9 +121,14 @@ static activeStateBar curState;
              curState=left;
   
         
+      //  if(!composeViewController_){
         
-        OTRComposeViewController * composeViewController = [[OTRComposeViewController alloc] init];
-        UINavigationController * navComposeViewController = [[UINavigationController alloc] initWithRootViewController:composeViewController];
+        //OTRComposeViewController * composeViewController = [[OTRComposeViewController alloc] init];
+            
+        //    composeViewController_ = [[OTRComposeViewController alloc] init];
+       // }
+        
+        UINavigationController * navComposeViewController = [[UINavigationController alloc] initWithRootViewController:[OTRAppDelegate appDelegate].composeViewController];
         //modalNavigationController.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         
         
@@ -128,9 +151,11 @@ static activeStateBar curState;
         if(curState == right) return;
         curState = right;
 
-          
-            OTRSettingsViewController * settingsViewController = [[OTRSettingsViewController alloc] init];
-            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+        
+        //[OTRAppDelegate appDelegate].settingsViewController.tabBar = self;
+        
+            //OTRSettingsViewController * settingsViewController = [[OTRSettingsViewController alloc] init];
+            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:[OTRAppDelegate appDelegate].settingsViewController];
             nc.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
        
         

@@ -33,8 +33,7 @@
 #import "OTRConversationViewController.h"
 #import "OTRAppDelegate.h"
 #import "OTRTabBar.h"
-
-
+#import "historyManager.h"
 
 
 
@@ -55,7 +54,7 @@ static CGFloat addAndGroupButtonHeiht = 60.0;
 @property (nonatomic, strong) UIBarButtonItem * cancelBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem * backBarButtonItem;
 @property dispatch_queue_t myQueue;
-@property OTRTabBar * tabBar;
+@property (nonatomic, strong) OTRTabBar * tabBar;
 @property (nonatomic, strong) UIButton *overlayButton;
 @property (nonatomic, strong) UIView *overlayButtonlineView;
 
@@ -159,7 +158,8 @@ static CGFloat addAndGroupButtonHeiht = 60.0;
                                                  name:OTRUIDatabaseConnectionDidUpdateNotification
                                                object:nil];
     
-
+    //Отступ снизу
+    [self.tableView setContentInset:UIEdgeInsetsMake(0,0,50,0)];
 }
 
 -(void)viewWillLayoutSubviews {
@@ -190,13 +190,13 @@ static CGFloat addAndGroupButtonHeiht = 60.0;
     
     if(!self.hideTabBar){
     
-    [self.tableView setContentInset:UIEdgeInsetsMake(0,0,50,0)];
-    
-    self.tabBar = [[OTRTabBar alloc] init];
-    
-    [self.tabBar addTabBar:self.view];
-    
-    [self.tabBar setTBFrame:CGRectMake(0, (self.view.frame.size.height -50), self.view.frame.size.width, 50)];
+        if(!self.tabBar)  self.tabBar = [OTRTabBar getTabBar];
+        
+        if(![self.tabBar isDescendantOfView:self.view]) {
+            [self.view addSubview:self.tabBar];
+        }
+        
+        [self.tabBar setTBFrame:CGRectMake(0, (self.view.frame.size.height -50), self.view.frame.size.width, 50)];
     }
     
    // [self.tableView setEditing: YES animated: YES];
@@ -241,7 +241,13 @@ static CGFloat addAndGroupButtonHeiht = 60.0;
 {
     [super viewWillDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+  
+    
+  //  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)customSetEditing:(BOOL)editing animated:(BOOL)animated
@@ -320,6 +326,10 @@ dispatch_async(dispatch_get_main_queue(), ^{
     
     
     [GCM createGroupChatWidhFriends : [_selectedItems allValues]]; //Ну вот мы и отдаем друзей на растерзание групповому чату
+    
+    //Перерисовываю контакт лист
+    [OTRAppDelegate appDelegate].composeViewController = [[OTRComposeViewController alloc] init];
+    
      });
     
   //  DDLogCInfo(@"doneButtonPressed %@", [groupChatManager sharedRoomsWithFriends]);
@@ -759,7 +769,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
         
     }
     
-    
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -875,7 +885,7 @@ OTRBuddyInfoCell *curCell =   (OTRBuddyInfoCell *)[tableView cellForRowAtIndexPa
     
     if(indexPath.section == 0)
     {
-        if(![accounts count]) return nil; //zigzagcorp if если нет активных Аккаунтов спровоцировать ошибку
+        if(![accounts count]) return ; //zigzagcorp if если нет активных Аккаунтов спровоцировать ошибку
         
         if(indexPath.row == 0){
         //add buddy cell
@@ -975,16 +985,19 @@ OTRBuddyInfoCell *curCell =   (OTRBuddyInfoCell *)[tableView cellForRowAtIndexPa
         
     //    OTRBuddy *cellBuddy = [[self buddyAtIndexPath:indexPath] copy];
         
-       
+     /*
         
         __block OTRAccount *buddyAccount = nil;
         [[OTRDatabaseManager sharedInstance].mainThreadReadOnlyDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
             buddyAccount = [OTRAccount fetchObjectWithUniqueID:curCell.welfBody.accountUniqueId transaction:transaction];
         }];
+       */
         
-        
-        [[[OTRProtocolManager sharedInstance] protocolForAccount:buddyAccount] removeBuddies:@[curCell.welfBody]];
+        [[[OTRProtocolManager sharedInstance] protocolForAccount:SJAccount()] removeBuddies:@[curCell.welfBody]];
     
+        
+        //Удаление сообщений из истории
+        [historyManager deleteAllMessagesForUser:SJAccount().username withBuddy:curCell.welfBody.username];
     
     }
     

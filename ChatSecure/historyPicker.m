@@ -18,8 +18,18 @@
     [self setupData];
     
     
+    self.selectedOption = 0;
+
     
- self.selectedOption = (int)[self.keys indexOfObject:[dbHistoryOption get]];
+    for(NSString * keyFromArr in [self keys] ){
+        if([[dbHistoryOption get] isEqualToString:keyFromArr]) {
+            
+            self.selectedOption = (int)[self.keys indexOfObject:[dbHistoryOption get]];
+            break;
+            
+        }
+    }
+    
     
     
     self = [super init];
@@ -83,10 +93,29 @@
 }
 
 +(NSString *)valueFromKey:(NSString *)key{
+    
+    
+    BOOL isNormalKey = NO;
+ 
+    for(NSString * keyFromArr in [self keys] ){
+        if([key isEqualToString:keyFromArr]) {
+        
+            isNormalKey = YES;
+            break;
+        
+        }
+    }
+    
+    int index;
+    
+    if(isNormalKey){
+        index = (int)[[self keys] indexOfObject:key];
+    } else {
+        index = 0;
+    }
 
-  int index =  (int)[[self keys] indexOfObject:key];
-   
-    if(index < 0) index = 0;
+
+  //  if(index < 0) index = 0;
     
    // return @"rsfe";
     

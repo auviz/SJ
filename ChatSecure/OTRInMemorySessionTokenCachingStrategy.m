@@ -16,12 +16,12 @@
 
 @implementation OTRInMemorySessionTokenCachingStrategy
 
-- (instancetype)initWithToken:(FBAccessTokenData *)token
+- (instancetype)initWithToken:(NSString *)token
 {
-    if (self = [self init]) {
-        self.tokenDictionary = [token dictionary];
-    }
-    return self;
+   // if (self = [self init]) {
+    //    self.tokenDictionary = [token dictionary];
+   // }
+    return nil;
 }
 
 - (void)cacheTokenInformation:(NSDictionary *)tokenInformation

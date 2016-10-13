@@ -20,7 +20,7 @@
 @end
 
 @interface OTRComposeViewController : UIViewController {
-    BOOL *  _isEditing;
+    BOOL _isEditing;
     
     NSMutableDictionary * _selectedItems;
 }

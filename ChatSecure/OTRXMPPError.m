@@ -68,12 +68,15 @@ NSString *const OTRXMPPSSLHostnameKey             = @"OTRXMPPSSLHostnameKey";
 {
     switch (resultType) {
         case kSecTrustResultInvalid: return @"Error evaluating certificate";
+        case kSecTrustResultProceed: return @"kSecTrustResultProceed";
+        case kSecTrustResultConfirm: return @"kSecTrustResultConfirm";
         case kSecTrustResultDeny: return @"User specified to deny trust";
         case kSecTrustResultUnspecified: return @"Rejected Certificate";
         case kSecTrustResultRecoverableTrustFailure : return @"Rejected Certificate";
         case kSecTrustResultFatalTrustFailure :return @"Bad Certificate";
         case kSecTrustResultOtherError: return @"Error evaluating certificate";
     }
+    return nil;
 }
 
 + (NSString *)errorStringWithSSLStatus:(OSStatus)status {
@@ -131,6 +134,7 @@ NSString *const OTRXMPPSSLHostnameKey             = @"OTRXMPPSSLHostnameKey";
         case errSSLBadConfiguration : return errSSLBadConfigurationString;
         case errSSLUnexpectedRecord : return errSSLUnexpectedRecordString;
     }
+    return nil;
 }
 
 @end

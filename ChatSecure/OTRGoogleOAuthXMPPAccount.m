@@ -9,8 +9,8 @@
 #import "OTRGoogleOAuthXMPPAccount.h"
 #import "OTRConstants.h"
 #import "Strings.h"
-#import "GTMOAuth2Authentication.h"
-#import "GTMOAuth2SignIn.h"
+//#import "GTMOAuth2Authentication.h"
+//#import "GTMOAuth2SignIn.h"
 #import "OTRSecrets.h"
 #import "OTRConstants.h"
 
@@ -39,7 +39,8 @@ NSString *const kOTRExpiresInKey      = @"expires_in";
 }
 
 -(NSString *)accessTokenString {
-    return [self authToken].accessToken;
+    //return [self authToken].accessToken;
+    return nil;
 }
 
 -(void)setOAuthTokenDictionary:(NSDictionary *)oAuthTokenDictionary
@@ -72,7 +73,7 @@ NSString *const kOTRExpiresInKey      = @"expires_in";
     mutableTokenDictionary[kOTRExpiresInKey] = @(timeInterval);
     return mutableTokenDictionary;
 }
-
+/*
 -(GTMOAuth2Authentication *)authToken
 {
     GTMOAuth2Authentication * auth = nil;
@@ -87,18 +88,22 @@ NSString *const kOTRExpiresInKey      = @"expires_in";
     auth.tokenURL = [GTMOAuth2SignIn googleTokenURL];
     return auth;
 }
-
+*/
+/*
 - (id)accountSpecificToken
 {
     return [self authToken];
 }
+ */
 
 - (void)setAccountSpecificToken:(id)accountSpecificToken
 {
+    /*
     if ([accountSpecificToken isKindOfClass:[GTMOAuth2Authentication class]]) {
         GTMOAuth2Authentication *token = (GTMOAuth2Authentication *)accountSpecificToken;
         [self setOAuthTokenDictionary:token.parameters];
     }
+     */
 }
 
 #pragma - mark Class Methods 

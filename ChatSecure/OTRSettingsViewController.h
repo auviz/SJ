@@ -29,6 +29,7 @@
 #import "OTRDeleteAllChats.h"
 #import "OTRKeepHistorySetting.h"
 
+
 @interface OTRSettingsViewController : UIViewController <OTRSettingDelegate, MFMailComposeViewControllerDelegate, OTRDonateSettingDelegate>
 
 @property (nonatomic, retain) OTRSettingsManager *settingsManager;

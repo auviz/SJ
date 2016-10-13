@@ -128,7 +128,7 @@
     
    // [self.link setPhoto:photo];
     
-    BOOL *isPostOk= [@"ok" isEqualToString:status];
+    BOOL isPostOk= [@"ok" isEqualToString:status];
     
      DDLogInfo(@"GET DATA: %@ ", status);
     

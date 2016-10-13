@@ -20,6 +20,9 @@
 #import "SetGlobVar.h"
 #import "destroySecureMessage.h"
 #import "OTRLog.h"
+#import "historyManager.h"
+
+static BOOL isBlockYapNotification_ = NO;
 
 const struct OTRMessageAttributes OTRMessageAttributes = {
 	.date = @"date",
@@ -55,6 +58,10 @@ const struct OTRMessageEdges OTRMessageEdges = {
     }
     return self;
 }
+
+
+
+//initWithUniqueId
 
 - (OTRBuddy *)buddyWithTransaction:(YapDatabaseReadTransaction *)readTransaction
 {
@@ -172,9 +179,13 @@ const struct OTRMessageEdges OTRMessageEdges = {
 
 + (void)zigDeleteAllMessagesForAccountId:(NSString *)uniqueAccountId transaction:(YapDatabaseReadWriteTransaction*)transaction
 {
+    [OTRMessage setBlockYapNotification:YES];
+    
     NSMutableArray *keys =[[NSMutableArray alloc] init];
     
     [[transaction ext:OTRYapDatabaseRelationshipName] enumerateEdgesWithName:OTRBuddyEdges.account destinationKey:uniqueAccountId collection:[OTRAccount collection] usingBlock:^(YapDatabaseRelationshipEdge *edge, BOOL *stop) {
+        
+      
         
        // OTRMessage *message = [[OTRMessage alloc] init];
       //  message.text = @"";
@@ -196,12 +207,22 @@ const struct OTRMessageEdges OTRMessageEdges = {
         
     }];
     
+  
+    
     for(NSString *BuddyId in keys){
+        
+        
         [OTRMessage deleteAllMessagesForBuddyId:BuddyId transaction:transaction];
+        
 
     }
     
+    //Удаление истории с сервера (Всех сообщений)
+    [historyManager deleteAllMessagesForUser:SJAccount().username];
+    
     keys = nil;
+    
+ //[OTRMessage setBlockYapNotification:NO];
     
  //[OTRMessage deleteAllMessagesForBuddyId:@"1AACC56F-12C4-43A7-9BE9-C30807C0ECEA" transaction:transaction];
     
@@ -365,10 +386,29 @@ const struct OTRMessageEdges OTRMessageEdges = {
     }];
 }
 
++(void)deleteOTRMessageForMessageId:(NSString *)messageId{
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        
+        [transaction removeObjectForKey:messageId inCollection:[OTRMessage collection]];
+        
+    }];
+    
+}
+
+
 +(OTRMessage *)OTRMessageByMessageId:(NSString *)messageId{
     
     __block OTRMessage *messageTemp;
     
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        
+        messageTemp = [transaction objectForKey:messageId inCollection:[OTRMessage collection]];
+        
+    }];
+    
+    
+    /*
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         
         [transaction enumerateKeysAndObjectsInCollection:[OTRMessage collection] usingBlock:^(NSString *key, id object, BOOL *stop) {
@@ -382,9 +422,33 @@ const struct OTRMessageEdges OTRMessageEdges = {
             }
         }];
     }];
+     */
     
     return messageTemp;
     
+}
+
++(BOOL)isOTRMessageForKey:(NSString *)key {
+    
+    __block BOOL hasMessage;
+    
+    [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        
+       hasMessage = [transaction hasObjectForKey:key inCollection:[OTRMessage collection]];
+        
+    }];
+    
+    return hasMessage;
+
+}
+
++(void)setBlockYapNotification:(BOOL)value{
+    
+    isBlockYapNotification_ = value;
+}
+
++(BOOL)getIsBlockYapNotification{
+    return isBlockYapNotification_ ;
 }
 
 @end

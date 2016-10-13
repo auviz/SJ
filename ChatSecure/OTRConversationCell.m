@@ -138,7 +138,7 @@
     
     __block OTRAccount *account = nil;
     __block OTRMessage *lastMessage = nil;
-        __block NSInteger* notReadCount = 0;
+        __block NSInteger notReadCount = 0;
     
     [[OTRDatabaseManager sharedInstance].mainThreadReadOnlyDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         account = [transaction objectForKey:buddy.accountUniqueId inCollection:[OTRAccount collection]];

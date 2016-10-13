@@ -27,7 +27,7 @@
         self.textLabel.text = account.displayName;
     }
     
-    float widthHeight = (heightAccountTableViewCel - paddingAccountTableViewCel);
+    float widthHeight = (heightAccountTableViewCelAcc - paddingAccountTableViewCelAcc);
     
     UIImage * accImage = [account accountImage];
     

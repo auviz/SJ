@@ -74,7 +74,7 @@
     {
         int portNumber = [self.portTextField.text intValue];
         if (portNumber > 0 && portNumber <= 65535) {
-            self.account.port = @(portNumber);
+            self.account.port = portNumber;
         } else {
             self.account.port = [OTRXMPPAccount defaultPort];
         }

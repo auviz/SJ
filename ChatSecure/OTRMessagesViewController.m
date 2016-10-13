@@ -46,6 +46,7 @@
 #import "destroySecureMessage.h"
 
 #import "ShowDetailsMessageVC.h" //Детали сообщения
+#import "historyManager.h"
 
 static NSTimeInterval const kOTRMessageSentDateShowTimeInterval = 5 * 60;
 
@@ -191,7 +192,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
 }
 
 -(void)delPhotoLoading:(NSIndexPath *)IndexPath{
-    if(!self.isPhotosLoading) return nil;
+    if(!self.isPhotosLoading) return ;
     
     [self.isPhotosLoading removeObjectForKey:[NSString stringWithFormat:@"%ld_%ld", (long)IndexPath.row, (long)IndexPath.section]];
     
@@ -501,7 +502,9 @@ typedef NS_ENUM(int, OTRDropDownType) {
     //self.collectionView.frame = self.view.bounds;
     
     
+  //  self.collectionView.frame = self.view.frame;
     
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
     self.automaticallyScrollsToMostRecentMessage = YES;
     
@@ -679,6 +682,12 @@ typedef NS_ENUM(int, OTRDropDownType) {
      }];
      */
     
+    if([OTRMessage getIsBlockYapNotification]){
+        _uiDatabaseConnection = nil;
+        [OTRMessage setBlockYapNotification:NO];
+    }
+    
+   
     [self.uiDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         [weakSelf.messageMappings updateWithTransaction:transaction];
         [weakSelf.buddyMappings updateWithTransaction:transaction];
@@ -928,6 +937,7 @@ typedef NS_ENUM(int, OTRDropDownType) {
 
 - (void)setBuddy:(OTRBuddy *)buddy
 {
+    
     OTRBuddy *originalBuddy = self.buddy;
     
     
@@ -1376,6 +1386,9 @@ typedef NS_ENUM(int, OTRDropDownType) {
         
     }];
     
+    //Удаление сообщений из истории (для приятеля)
+    [historyManager deleteAllMessagesForUser:SJAccount().username withBuddy:self.buddy.username];
+    
     self.allMessagesCach = nil;
     self.isPhotosLoading = nil;
     
@@ -1550,6 +1563,10 @@ typedef NS_ENUM(int, OTRDropDownType) {
         NSUInteger section = indexPath.section;
         
         NSAssert(row < [self.messageMappings numberOfItemsInSection:section], @"Cannot fetch message because row %d is >= numberOfItemsInSection %d", (int)row, (int)[self.messageMappings numberOfItemsInSection:section]);
+        
+       // YapDatabaseViewMappings * test = self.messageMappings;
+        
+       // NSLog(@"Test_%@", test);
         
         message = [viewTransaction objectAtRow:row inSection:section withMappings:self.messageMappings];
         NSParameterAssert(message != nil);
@@ -2641,13 +2658,22 @@ heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
     
     
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        [message removeWithTransaction:transaction];
+        
+        //Удаление сообщения по id из Истории
+        [historyManager deleteMessageForUser:SJAccount().username withMessageId:message.messageId];
+        
         deletePhotosWithPreview(message.unicPhotoName);
+        
+        [message removeWithTransaction:transaction];
+        
         
         //Update Last message date for sorting and grouping
         [self.buddy updateLastMessageDateWithTransaction:transaction];
         [self.buddy saveWithTransaction:transaction];
     }];
+    
+    
+   
 }
 
 -(void)deleteMessage: (OTRMessage *)message {
@@ -2655,6 +2681,10 @@ heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
     // __block OTRMessage *message;
     
     [[OTRDatabaseManager sharedInstance].readWriteDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        
+        
+       
+        
         [message removeWithTransaction:transaction];
         
         deletePhotosWithPreview(message.unicPhotoName);
@@ -2663,6 +2693,9 @@ heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
         [self.buddy updateLastMessageDateWithTransaction:transaction];
         [self.buddy saveWithTransaction:transaction];
     }];
+    
+    
+    
     
 }
 
@@ -2721,6 +2754,9 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)yapDatabaseModified:(NSNotification *)notification
 {
+    
+    if([OTRMessage getIsBlockYapNotification]) return; //Фикс ошибки при удалении
+    
     // Process the notification(s),
     // and get the change-set(s) as applies to my view and mappings configuration.
     NSArray *notifications = [self.uiDatabaseConnection beginLongLivedReadTransaction];
@@ -2961,6 +2997,29 @@ heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 
 -(BOOL)getIsGroupChat{
     return  _isGroupChat;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    
+    [UIView transitionWithView:self.view
+                      duration:0.5
+                       options:UIViewAnimationOptionCurveLinear
+                    animations:^{
+                        
+                        //Сбросить их нах Пузыри И Их Фреим
+                        JSQMessagesCollectionViewFlowLayoutInvalidationContext *context = [JSQMessagesCollectionViewFlowLayoutInvalidationContext context];
+                        context.invalidateFlowLayoutMessagesCache = YES;
+                        [self.collectionView.collectionViewLayout invalidateLayoutWithContext:context];
+                        // [self resetLayoutAndCaches];
+                        
+                        //Вызов супер метода
+                        [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+                        
+                    } completion:nil];
+    
+ 
+ 
 }
 
 @end
