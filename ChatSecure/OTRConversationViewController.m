@@ -368,6 +368,7 @@ static CGFloat kOTRConversationCellHeight = 80.0;
 - (void)composeButtonPressed:(id)sender
 {
   //  /*
+    
 
     OTRComposeViewController * composeViewController = [[OTRComposeViewController alloc] initWithHidenTabBar];
     composeViewController.delegate = self;

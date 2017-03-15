@@ -210,7 +210,7 @@
     return nil;
     
     //Иначе сгенертровать миниатюру
-    
+    /*
     NSString* pathBigPhoto = [documentsDirectory stringByAppendingPathComponent:
                       [NSString stringWithFormat:@"%@.jpg", unicName]];
     
@@ -223,7 +223,7 @@
         
     } else return nil;
         
-    
+    */
 
     
 }

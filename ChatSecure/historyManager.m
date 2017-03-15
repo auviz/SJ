@@ -328,7 +328,7 @@
     
   //  NSLog(@"DeliveredXXX_%d", message.delivered);
     
-    message.delivered = nil;
+    message.delivered = NO;
     
     if (!message.incoming){
         message.delivered = isDelivered;

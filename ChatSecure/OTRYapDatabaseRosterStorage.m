@@ -152,6 +152,7 @@
 
 - (void)handleRosterItem:(NSXMLElement *)item xmppStream:(XMPPStream *)stream
 {
+   
     NSString *jidStr = [item attributeStringValueForName:@"jid"];
     XMPPJID *jid = [[XMPPJID jidWithString:jidStr] bareJID];
     

@@ -15,7 +15,7 @@
 
 @interface OTRMessagesViewController : JSQMessagesViewController <UISplitViewControllerDelegate> {
     
-    BOOL * _isGroupChat;
+    BOOL _isGroupChat;
     
 }
 @property (nonatomic, strong) OTRAccount *account;

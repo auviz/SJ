@@ -508,7 +508,7 @@ static int groupChatNotGoodAttempts_ = 0;
     //[self leaveAllRooms];
     [self goOffline];
     [self.xmppStream disconnect];
-    [self clearSJRoomsDic];
+   // [self clearSJRoomsDic];
    // [self.xmppStream disconnect]; //zigzagcorp
 
     
@@ -600,7 +600,9 @@ static int groupChatNotGoodAttempts_ = 0;
     self.connectionStatus = OTRProtocolConnectionStatusConnected;
     [groupChatManager willJoinAllRooms];
     //[groupChatManager updateRoomsWithFriends];
+   
 	[self goOnline];
+
     
     //TEST BLOCK ZIGZAGCORP BEGIN
     /*
@@ -650,6 +652,7 @@ static int groupChatNotGoodAttempts_ = 0;
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
 {
+    
     
     if([iq.fromStr isEqualToString:self.account.username] && self.account.username){
         
@@ -782,6 +785,7 @@ static int groupChatNotGoodAttempts_ = 0;
 {
     
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+    
     
     if([self isReceiveGroupMessageReadAll:xmppMessage]) return ; //Если приняли уведомление то нах оно
     if([self isReceiveInvite:xmppMessage]) return ; //Если это просто приглашение нах оно нам в базе )
@@ -935,6 +939,7 @@ static int groupChatNotGoodAttempts_ = 0;
 }
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
+ 
     
    //    NSXMLElement *x = [presence elementForName:@"x" xmlns:XMLMS_PROTOCOL_MUC_USER];
     
@@ -1102,9 +1107,11 @@ static int groupChatNotGoodAttempts_ = 0;
 #pragma mark XMPPRosterDelegate
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 -(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence
 {
   
+
     
     DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
@@ -1969,11 +1976,14 @@ managedBuddyObjectID
         NSLog(@"USER_FOR_NOTIF_UPDATE_ROOM_LIST");
     }
     
-    return nil;
+    return NO;
 }
 
 
 -(BOOL)isReceiveGroupMessageReadAll:(XMPPMessage *)xmppMessage{
+    
+    
+    //NSLog(@"isReceiveGroupMessageReadAll %@", xmppMessage);
     
     NSString *fromUser = [xmppMessage from].user;
     
@@ -2241,6 +2251,15 @@ managedBuddyObjectID
 }
 
 #pragma mark - presence
+
+-(void)sendSubscribedToJid:(NSString *)jid{
+    
+    XMPPPresence * pesence = [[XMPPPresence alloc] initWithType:@"subscribed" to:[XMPPJID jidWithString:jid]];
+
+    
+    [self.xmppStream sendElement:pesence];
+    
+}
 
 -(void)sendUpdateRoomPresence:(NSString *)roomId{
     

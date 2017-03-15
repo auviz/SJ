@@ -149,6 +149,7 @@
 
 +(void)sendGroupMessagesWereReadByRoomId:(NSString *)roomID account:(NSString *)account {
   
+    
         
         NSString *post =  [NSString stringWithFormat:@"option=theyWereRead&idRoom=%@&account=%@", roomID, account];
         

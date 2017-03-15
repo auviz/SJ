@@ -26,6 +26,7 @@ static NSUInteger const OTRDefaultPortNumber = 5222;
     if (self = [super init]) {
         self.port = [OTRXMPPAccount defaultPort];
         self.resource = [OTRXMPPAccount newResource];
+      
     }
     return self;
 }
@@ -104,6 +105,8 @@ static NSUInteger const OTRDefaultPortNumber = 5222;
 }
 
 + (NSDictionary*) encodingBehaviorsByPropertyKey {
+    
+    
     NSMutableDictionary *encodingBehaviors = [NSMutableDictionary dictionaryWithDictionary:[super encodingBehaviorsByPropertyKey]];
     [encodingBehaviors setObject:@(MTLModelEncodingBehaviorExcluded) forKey:NSStringFromSelector(@selector(accountSpecificToken))];
     [encodingBehaviors setObject:@(MTLModelEncodingBehaviorExcluded) forKey:NSStringFromSelector(@selector(oAuthTokenDictionary))];

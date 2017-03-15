@@ -90,7 +90,6 @@ extern NSString *const OTRXMPPRegisterFailedNotificationName;
 - (void) sendInvite:(NSString*)buddyUsername roomID: (NSString* )roomID;
 -(void) sendBye:(NSString*)buddyUsername roomID: (NSString* )roomID;
 
-
 //Chat State
 - (void)sendChatState:(OTRChatState)chatState withBuddyID:(NSString *)buddyUniqueId;
 - (void)restartPausedChatStateTimerForBuddyObjectID:(NSString *)buddyUniqueId;
@@ -118,5 +117,7 @@ extern NSString *const OTRXMPPRegisterFailedNotificationName;
 -(void)joinRoomById:(NSString *)roomID;
 //Презенсы для группы
 -(void)sendUpdateRoomPresence:(NSString *)roomId;
+
+-(void)sendSubscribedToJid:(NSString *)jid;
 
 @end
